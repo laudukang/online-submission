@@ -1,0 +1,18 @@
+*.class
+
+#folders#
+/target
+/neoDb*
+/data
+/src/main/webapp/WEB-INF/classes
+*/META-INF/*
+
+# IntelliJ
+/out
+
+# Packaged files #
+*.jar
+*.war
+*.ear
+
+persistence-mysql.properties
