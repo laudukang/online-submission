@@ -3,6 +3,7 @@ package me.laudukang.spring.config;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -13,7 +14,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -28,10 +28,11 @@ import java.util.Properties;
  */
 
 @Configuration
-@EnableTransactionManagement
 @PropertySource({"classpath:persistence-mysql.properties"})
-@EnableJpaRepositories(basePackages = "org.baeldung.persistence.dao")
-//@ComponentScan({"me.laudukang.persistence"})
+@EnableJpaRepositories(basePackages = "me.laudukang.persistence.repository")
+@ComponentScan({"me.laudukang.persistence.repository", "me.laudukang.persistence.service"})
+//@EnableTransactionManagement
+//@EnableJpaAuditing
 public class PersistenceJPAConfig {
 
     @Autowired
@@ -51,7 +52,7 @@ public class PersistenceJPAConfig {
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(hibernateProperties());
+        em.setJpaProperties(jpaProperties());
 
         return em;
     }
@@ -79,16 +80,15 @@ public class PersistenceJPAConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    final Properties hibernateProperties() {
+    final Properties jpaProperties() {
         final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-
         hibernateProperties.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         hibernateProperties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-        // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
 
-        //System.out.println("hibernate.format_sql=" + env.getProperty("hibernate.format_sql"));
+        // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
+        // hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        // System.out.println("hibernate.format_sql=" + env.getProperty("hibernate.format_sql"));
 
         return hibernateProperties;
     }

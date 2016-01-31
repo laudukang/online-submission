@@ -1,6 +1,6 @@
-package me.laudukang.persistence.dao;
+package me.laudukang.persistence.repository;
 
-import me.laudukang.persistence.model.OsAuthor;
+import me.laudukang.persistence.model.OsChat;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Time: 23:37
  * Version: 1.0
  */
-public interface AuthorRepository extends JpaRepository<OsAuthor, Integer> {
+public interface ChatRepository extends JpaRepository<OsChat, Integer> {
 }

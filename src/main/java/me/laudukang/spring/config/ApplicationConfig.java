@@ -2,6 +2,7 @@ package me.laudukang.spring.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -12,11 +13,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Version: 1.0
  */
 @Configuration
+
 @EnableTransactionManagement
+@EnableSpringDataWebSupport
 //@EnableWebMvc
 //@ComponentScan(basePackages = "me.laudukang.spring.controller", excludeFilters = {
 //        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class})
 //})
-@ComponentScan(basePackages = {"me.laudukang.persistence", "me.laudukang.spring.config"})
+@ComponentScan(basePackages = {"me.laudukang.spring.config"})//"me.laudukang.persistence",
 public class ApplicationConfig {
 }

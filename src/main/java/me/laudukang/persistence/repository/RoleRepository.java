@@ -1,4 +1,4 @@
-package me.laudukang.persistence.dao;
+package me.laudukang.persistence.repository;
 
 import me.laudukang.persistence.model.OsRole;
 import org.springframework.data.jpa.repository.JpaRepository;

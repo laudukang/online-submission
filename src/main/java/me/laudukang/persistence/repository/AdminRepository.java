@@ -1,4 +1,4 @@
-package me.laudukang.persistence.dao;
+package me.laudukang.persistence.repository;
 
 import me.laudukang.persistence.model.OsAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Time: 23:33
  * Version: 1.0
  */
-public interface AdminRepository extends JpaRepository<OsAdmin, Integer> {
+public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminRepositoryCustom {
 }

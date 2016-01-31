@@ -1,5 +1,7 @@
 package me.laudukang.persistence.model;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -10,6 +12,7 @@ import java.sql.Timestamp;
  * Time: 22:45
  * Version: 1.0
  */
+//@EntityListeners({AuditingEntityListener.class})
 @Entity
 @Table(name = "os_log", schema = "online_submission")
 public class OsLog {
@@ -50,6 +53,7 @@ public class OsLog {
         this.userOrAdminName = userOrAdminName;
     }
 
+    @CreatedDate
     @Basic
     @Column(name = "time", nullable = true)
     public Timestamp getTime() {
