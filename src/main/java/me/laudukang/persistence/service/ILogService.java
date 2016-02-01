@@ -2,6 +2,8 @@ package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsLog;
 
+import java.util.List;
+
 /**
  * Created with IDEA
  * Author: laudukang
@@ -11,4 +13,12 @@ import me.laudukang.persistence.model.OsLog;
  */
 public interface ILogService {
     void save(OsLog log);
+
+    void saveEM(OsLog osLog);
+
+    List<OsLog> findByContent(String content);
+
+    List<OsLog> findAll();
+
+    List<OsLog> findByUserOrAdminName(String userOrAdminName);
 }
