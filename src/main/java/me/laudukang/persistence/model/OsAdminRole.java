@@ -1,5 +1,8 @@
 package me.laudukang.persistence.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 
 /**
@@ -53,5 +56,10 @@ public class OsAdminRole {
         int result = adminId;
         result = 31 * result + roleId;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }

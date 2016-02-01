@@ -1,5 +1,8 @@
 package me.laudukang.persistence.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -80,5 +83,10 @@ public class OsDocAdmin {
         result = 31 * result + (reviewResult != null ? reviewResult.hashCode() : 0);
         result = 31 * result + (reviewTime != null ? reviewTime.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }

@@ -1,5 +1,8 @@
 package me.laudukang.persistence.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -197,5 +200,10 @@ public class OsUser {
         result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
         result = 31 * result + (remark != null ? remark.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }

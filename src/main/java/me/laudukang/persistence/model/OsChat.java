@@ -1,5 +1,8 @@
 package me.laudukang.persistence.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -106,5 +109,10 @@ public class OsChat {
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (adminId != null ? adminId.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }

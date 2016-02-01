@@ -1,5 +1,7 @@
 package me.laudukang.persistence.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -98,5 +100,10 @@ public class OsLog {
         result = 31 * result + (time != null ? time.hashCode() : 0);
         result = 31 * result + (ip != null ? ip.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }

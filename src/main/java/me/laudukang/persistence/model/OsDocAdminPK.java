@@ -1,5 +1,8 @@
 package me.laudukang.persistence.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -52,5 +55,10 @@ public class OsDocAdminPK implements Serializable {
         int result = docId;
         result = 31 * result + adminId;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }
