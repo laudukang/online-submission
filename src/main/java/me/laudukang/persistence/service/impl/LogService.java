@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -45,12 +46,29 @@ public class LogService implements ILogService {
         return logRepository.findByContentEquals(content);
     }
 
+    @Override
     public List<OsLog> findAll() {
         return logRepository.findAll();
     }
 
+    @Override
     public List<OsLog> findByUserOrAdminName(String userOrAdminName) {
         return logRepository.findByUserOrAdminNameEquals(userOrAdminName);
 
+    }
+
+    @Override
+    public int updateTimeById(int id, Timestamp timestamp) {
+        return logRepository.updateTimeById(id, timestamp);
+    }
+
+    @Override
+    public void deleteById(int id) throws Exception {
+        logRepository.delete(id);
+    }
+
+    @Override
+    public void deleteByEntity(OsLog osLog) throws Exception {
+        logRepository.delete(osLog);
     }
 }

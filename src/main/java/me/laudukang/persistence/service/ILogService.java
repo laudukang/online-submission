@@ -2,6 +2,7 @@ package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsLog;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -21,4 +22,10 @@ public interface ILogService {
     List<OsLog> findAll();
 
     List<OsLog> findByUserOrAdminName(String userOrAdminName);
+
+    int updateTimeById(int id, Timestamp timestamp);
+
+    void deleteById(int id) throws Exception;
+
+    void deleteByEntity(OsLog osLog) throws Exception;
 }

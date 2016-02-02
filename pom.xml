@@ -80,7 +80,7 @@
             <version>2.2.5</version>
         </dependency>
 
-        <!-- utils -->
+        <!-- util -->
 
         <dependency>
             <groupId>com.google.guava</groupId>

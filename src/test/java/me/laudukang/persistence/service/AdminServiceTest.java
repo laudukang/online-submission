@@ -24,12 +24,12 @@ import java.util.Date;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceJPAConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
+@Rollback(false)
 public class AdminServiceTest {
     @Autowired
     private IAdminService adminService;
 
     @Test
-    @Rollback(false)
     public void saveAdmin() {
         OsAdmin osAdmin = new OsAdmin();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

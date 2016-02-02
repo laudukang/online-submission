@@ -80,6 +80,11 @@ public class PersistenceJPAConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
+    //@Bean
+    //public HandlerExceptionResolver MyExceptionHandler(){
+    //
+    //}
+
     final Properties jpaProperties() {
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));

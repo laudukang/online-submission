@@ -24,12 +24,13 @@ import java.util.Date;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceJPAConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
+@Rollback(false)
 public class LogServiceTest {
     @Autowired
     private ILogService logService;
 
     @Test
-    @Rollback(false)
+    //@Rollback(false)
     public void saveWithJPA() {
         OsLog osLog = new OsLog();
         osLog.setTime(new Timestamp(new Date().getTime()));
@@ -38,7 +39,7 @@ public class LogServiceTest {
     }
 
     @Test
-    @Rollback(false)
+    //@Rollback(false)
     public void saveWithEM() {
         OsLog osLog = new OsLog();
         osLog.setTime(new Timestamp(new Date().getTime()));
@@ -60,5 +61,32 @@ public class LogServiceTest {
     public void findByUserOrAdminName() {
         System.out.println("in findByUserOrAdminName");
         System.out.println(logService.findByUserOrAdminName("lau"));
+    }
+
+    @Test
+    public void updateTimeById() {
+        System.out.println(logService.updateTimeById(1, new Timestamp(new Date().getTime())));
+        System.out.println(logService.updateTimeById(21, new Timestamp(new Date().getTime())));
+    }
+
+    @Test
+    public void deleteById() {
+        //logService.deleteById(1);
+        try {
+            logService.deleteById(32);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteByEntity() {
+        OsLog osLog = new OsLog();
+        osLog.setId(33);
+        try {
+            logService.deleteByEntity(osLog);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
