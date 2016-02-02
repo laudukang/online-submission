@@ -2,9 +2,10 @@ package me.laudukang.persistence.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created with IDEA
@@ -20,7 +21,7 @@ public class OsDocAdmin {
     private int docId;
     private int adminId;
     private String reviewResult;
-    private Timestamp reviewTime;
+    private Date reviewTime;
 
     @Id
     @Column(name = "doc_id", nullable = false)
@@ -52,13 +53,15 @@ public class OsDocAdmin {
         this.reviewResult = reviewResult;
     }
 
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Basic
     @Column(name = "review_time", nullable = true)
-    public Timestamp getReviewTime() {
+    public Date getReviewTime() {
         return reviewTime;
     }
 
-    public void setReviewTime(Timestamp reviewTime) {
+    public void setReviewTime(Date reviewTime) {
         this.reviewTime = reviewTime;
     }
 

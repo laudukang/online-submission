@@ -2,9 +2,11 @@ package me.laudukang.persistence.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created with IDEA
@@ -14,12 +16,13 @@ import java.sql.Timestamp;
  * Version: 1.0
  */
 @Entity
+@EntityListeners({AuditingEntityListener.class})
 @Table(name = "os_chat", schema = "online_submission")
 public class OsChat {
     private int id;
     private String title;
     private String content;
-    private Timestamp postTime;
+    private Date postTime;
     private Integer userId;
     private Integer adminId;
 
@@ -54,13 +57,15 @@ public class OsChat {
         this.content = content;
     }
 
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Basic
     @Column(name = "post_time", nullable = true)
-    public Timestamp getPostTime() {
+    public Date getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(Timestamp postTime) {
+    public void setPostTime(Date postTime) {
         this.postTime = postTime;
     }
 

@@ -14,7 +14,7 @@ import java.sql.Timestamp;
  * Version: 1.0
  */
 @Entity
-@Table(name = "os_doc", schema = "online_submission", catalog = "")
+@Table(name = "os_doc", schema = "online_submission")
 public class OsDoc {
     private int id;
     private String zhTitle;

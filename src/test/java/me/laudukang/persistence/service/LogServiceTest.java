@@ -33,7 +33,7 @@ public class LogServiceTest {
     //@Rollback(false)
     public void saveWithJPA() {
         OsLog osLog = new OsLog();
-        osLog.setTime(new Timestamp(new Date().getTime()));
+        // osLog.setTime(new Timestamp(new Date().getTime()));
         osLog.setContent("content_" + System.currentTimeMillis());
         logService.save(osLog);
     }
@@ -42,7 +42,7 @@ public class LogServiceTest {
     //@Rollback(false)
     public void saveWithEM() {
         OsLog osLog = new OsLog();
-        osLog.setTime(new Timestamp(new Date().getTime()));
+        //osLog.setTime(new Timestamp(new Date().getTime()));
         osLog.setContent("content_" + System.currentTimeMillis());
         logService.saveEM(osLog);
     }

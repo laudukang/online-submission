@@ -3,9 +3,10 @@ package me.laudukang.persistence.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created with IDEA
@@ -14,14 +15,14 @@ import java.sql.Timestamp;
  * Time: 22:45
  * Version: 1.0
  */
-//@EntityListeners({AuditingEntityListener.class})
 @Entity
+@EntityListeners({AuditingEntityListener.class})
 @Table(name = "os_log", schema = "online_submission")
 public class OsLog {
     private int id;
     private String content;
     private String userOrAdminName;
-    private Timestamp time;
+    private Date time;
     private String ip;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,13 +57,14 @@ public class OsLog {
     }
 
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Basic
     @Column(name = "time", nullable = true)
-    public Timestamp getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
