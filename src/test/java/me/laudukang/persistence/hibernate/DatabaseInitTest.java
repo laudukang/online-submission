@@ -16,11 +16,11 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 /**
- * Created with IDEA
- * Author: laudukang
- * Date: 2016/1/31
- * Time: 16:35
- * Version: 1.0
+ * <p>Created with IDEA
+ * <p>Author: laudukang
+ * <p>Date: 2016/1/31
+ * <p>Time: 16:35
+ * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceJPAConfig.class}, loader = AnnotationConfigContextLoader.class)

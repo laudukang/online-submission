@@ -13,11 +13,11 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * Created with IDEA
- * Author: laudukang
- * Date: 2016/1/31
- * Time: 16:13
- * Version: 1.0
+ * <p>Created with IDEA
+ * <p>Author: laudukang
+ * <p>Date: 2016/1/31
+ * <p>Time: 16:13
+ * <p>Version: 1.0
  */
 @Service
 @Transactional
@@ -32,10 +32,11 @@ public class LogService implements ILogService {
     @Override
     public void save(OsLog osLog) {
         System.out.println("in LogService save");
+
         logRepository.save(osLog);
     }
 
-    public void saveEM(OsLog osLog) {
+    public void saveWithEM(OsLog osLog) {
         System.out.println("in LogService saveEM");
         entityManager.merge(osLog);
         //entityManager.flush();
@@ -43,7 +44,7 @@ public class LogService implements ILogService {
 
     public List<OsLog> findByContent(String content) {
         System.out.println("in LogService findByContent");
-        return logRepository.findByContentEquals(content);
+        return logRepository.findByContentLike(content);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class LogService implements ILogService {
 
     @Override
     public List<OsLog> findByUserOrAdminName(String userOrAdminName) {
-        return logRepository.findByUserOrAdminNameEquals(userOrAdminName);
+        return logRepository.findByUserOrAdminNameLike(userOrAdminName);
 
     }
 

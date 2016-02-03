@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsLog;
+import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +16,14 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created with IDEA
- * Author: laudukang
- * Date: 2016/1/31
- * Time: 16:50
- * Version: 1.0
+ * <p>Created with IDEA
+ * <p>Author: laudukang
+ * <p>Date: 2016/1/31
+ * <p>Time: 16:50
+ * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceJPAConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class LogServiceTest {
@@ -44,7 +45,7 @@ public class LogServiceTest {
         OsLog osLog = new OsLog();
         //osLog.setTime(new Timestamp(new Date().getTime()));
         osLog.setContent("content_" + System.currentTimeMillis());
-        logService.saveEM(osLog);
+        logService.saveWithEM(osLog);
     }
 
     @Test
@@ -60,7 +61,7 @@ public class LogServiceTest {
     @Test
     public void findByUserOrAdminName() {
         System.out.println("in findByUserOrAdminName");
-        System.out.println(logService.findByUserOrAdminName("lau"));
+        System.out.println(logService.findByUserOrAdminName("au"));
     }
 
     @Test

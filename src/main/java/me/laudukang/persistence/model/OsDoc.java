@@ -7,11 +7,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
- * Created with IDEA
- * Author: laudukang
- * Date: 2016/1/30
- * Time: 22:45
- * Version: 1.0
+ * <p>Created with IDEA
+ * <p>Author: laudukang
+ * <p>Date: 2016/1/30
+ * <p>Time: 22:45
+ * <p>Version: 1.0
  */
 @Entity
 @Table(name = "os_doc", schema = "online_submission")

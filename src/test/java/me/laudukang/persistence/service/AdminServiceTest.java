@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,19 +16,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created with IDEA
- * Author: laudukang
- * Date: 2016/2/1
- * Time: 12:11
- * Version: 1.0
+ * <p>Created with IDEA
+ * <p>Author: laudukang
+ * <p>Date: 2016/2/1
+ * <p>Time: 12:11
+ * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceJPAConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class AdminServiceTest {
     @Autowired
     private IAdminService adminService;
+
 
     @Test
     public void saveAdmin() {
