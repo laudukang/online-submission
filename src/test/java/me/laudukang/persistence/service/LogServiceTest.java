@@ -6,14 +6,18 @@ import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * <p>Created with IDEA
@@ -31,7 +35,6 @@ public class LogServiceTest {
     private ILogService logService;
 
     @Test
-    //@Rollback(false)
     public void saveWithJPA() {
         OsLog osLog = new OsLog();
         // osLog.setTime(new Timestamp(new Date().getTime()));
@@ -40,38 +43,32 @@ public class LogServiceTest {
     }
 
     @Test
-    //@Rollback(false)
-    public void saveWithEM() {
-        OsLog osLog = new OsLog();
-        //osLog.setTime(new Timestamp(new Date().getTime()));
-        osLog.setContent("content_" + System.currentTimeMillis());
-        logService.saveWithEM(osLog);
-    }
-
-    @Test
-    public void findByContentEquals() {
-        System.out.println(logService.findByContent("content_20160131174836"));
+    public void findByContent() {
+        Pageable pageable = new PageRequest(0, 10);
+        System.out.println(logService.findByContent("content_20160131174836", pageable));
     }
 
     @Test
     public void findAll() {
-        System.out.println(logService.findAll());
+        Pageable pageable = new PageRequest(0,
+                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
+        Page<OsLog> result = logService.findAll(pageable);
+        System.out.println(result.getSize());
     }
 
     @Test
     public void findByUserOrAdminName() {
-        System.out.println("in findByUserOrAdminName");
-        System.out.println(logService.findByUserOrAdminName("au"));
+        Pageable pageable = new PageRequest(0,
+                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
+
+        System.out.println(logService.findByUserOrAdminName("au", pageable));
     }
 
-    @Test
-    public void updateTimeById() {
-        System.out.println(logService.updateTimeById(1, new Timestamp(new Date().getTime())));
-        System.out.println(logService.updateTimeById(21, new Timestamp(new Date().getTime())));
-    }
 
     @Test
     public void deleteById() {
+        //Pageable pageable = new PageRequest(page, size, sort);
+
         //logService.deleteById(1);
         try {
             logService.deleteById(32);
@@ -90,4 +87,37 @@ public class LogServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void asyncMethodWithReturnType() {
+        Future<String> future = logService.asyncMethodWithReturnType();
+        while (true) {  ///这里使用了循环判断，等待获取结果信息
+            if (future.isDone()) {  //判断是否执行完毕
+                try {
+                    System.out.println("Result from asynchronous process - " + future.get());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+            System.out.println("Continue doing something else. ");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("async done");
+    }
+
+    //@Test
+    //public void saveWithEM() {
+    //    OsLog osLog = new OsLog();
+    //    //osLog.setTime(new Timestamp(new Date().getTime()));
+    //    osLog.setContent("content_" + System.currentTimeMillis());
+    //    logService.saveWithEM(osLog);
+    //}
+
 }

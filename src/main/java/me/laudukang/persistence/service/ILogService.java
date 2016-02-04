@@ -1,9 +1,10 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsLog;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * <p>Created with IDEA
@@ -15,17 +16,19 @@ import java.util.List;
 public interface ILogService {
     void save(OsLog log);
 
-    void saveWithEM(OsLog osLog);
+    //void saveWithEM(OsLog osLog);
 
-    List<OsLog> findByContent(String content);
+    Page<OsLog> findByContent(String content, Pageable pageable);
 
-    List<OsLog> findAll();
+    Page<OsLog> findAll(Pageable pageable);
 
-    List<OsLog> findByUserOrAdminName(String userOrAdminName);
-
-    int updateTimeById(int id, Timestamp timestamp);
+    Page<OsLog> findByUserOrAdminName(String userOrAdminName, Pageable pageable);
 
     void deleteById(int id) throws Exception;
 
     void deleteByEntity(OsLog osLog) throws Exception;
+
+    void asyncMethodWithVoidReturnType();
+
+    Future<String> asyncMethodWithReturnType();
 }

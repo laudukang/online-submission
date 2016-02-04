@@ -37,6 +37,11 @@ public class AdminServiceTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         osAdmin.setAccount("lau_" + sdf.format(new Date()));
         adminService.saveAdmin(osAdmin);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -22,6 +22,7 @@ public class LogEvent extends ApplicationEvent {
 
     public LogEvent(final Object source, final String content, final String userOrAdminName, final String ip) {
         super(source);
+        System.out.println("source.getClass().getName()=" + source.getClass().getName());
         this.content = content;
         this.userOrAdminName = userOrAdminName;
         this.ip = ip;

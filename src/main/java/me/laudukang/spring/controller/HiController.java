@@ -1,9 +1,11 @@
 package me.laudukang.spring.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +31,13 @@ public class HiController {
     public Map<String, Object> testJson() {
         System.out.println("in testJson");
         Map<String, Object> result = new HashMap<String, Object>();
-
+        result.put("success", true);
         return result;
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public void defaultErrorHandler(HttpServletRequest req, Exception ex) {
+        System.out.println("req.getMethod()=" + req.getMethod());
+        System.out.println("Exception Message=" + ex.getMessage());
     }
 }

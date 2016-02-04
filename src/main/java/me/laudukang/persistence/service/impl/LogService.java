@@ -4,13 +4,14 @@ import me.laudukang.persistence.model.OsLog;
 import me.laudukang.persistence.repository.LogRepository;
 import me.laudukang.persistence.service.ILogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * <p>Created with IDEA
@@ -26,50 +27,66 @@ public class LogService implements ILogService {
     @Autowired
     private LogRepository logRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    //@PersistenceContext
+    //private EntityManager entityManager;
+    //public void saveWithEM(OsLog osLog) {
+    //    entityManager.merge(osLog);
+    //    entityManager.flush();
+    //}
 
     @Override
+    @Async
     public void save(OsLog osLog) {
-        System.out.println("in LogService save");
-
         logRepository.save(osLog);
     }
 
-    public void saveWithEM(OsLog osLog) {
-        System.out.println("in LogService saveEM");
-        entityManager.merge(osLog);
-        //entityManager.flush();
-    }
-
-    public List<OsLog> findByContent(String content) {
-        System.out.println("in LogService findByContent");
-        return logRepository.findByContentLike(content);
+    public Page<OsLog> findByContent(String content, Pageable pageable) {
+        return logRepository.findByContentLike(content, pageable);
     }
 
     @Override
-    public List<OsLog> findAll() {
-        return logRepository.findAll();
+    public Page<OsLog> findAll(Pageable pageable) {
+        return logRepository.findAll(pageable);
     }
 
     @Override
-    public List<OsLog> findByUserOrAdminName(String userOrAdminName) {
-        return logRepository.findByUserOrAdminNameLike(userOrAdminName);
+    public Page<OsLog> findByUserOrAdminName(String userOrAdminName, Pageable pageable) {
+        return logRepository.findByUserOrAdminNameLike(userOrAdminName, pageable);
 
     }
 
-    @Override
-    public int updateTimeById(int id, Timestamp timestamp) {
-        return logRepository.updateTimeById(id, timestamp);
-    }
-
+    @Async
     @Override
     public void deleteById(int id) throws Exception {
         logRepository.delete(id);
     }
 
+    @Async
     @Override
     public void deleteByEntity(OsLog osLog) throws Exception {
         logRepository.delete(osLog);
+    }
+
+    @Override
+    @Async
+    public void asyncMethodWithVoidReturnType() {
+        System.out.println("in asyncMethodWithVoidReturnType");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    @Async
+    public Future<String> asyncMethodWithReturnType() {
+        System.out.println("in asyncMethodWithReturnType");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new AsyncResult<String>("hello world");
     }
 }

@@ -1,11 +1,11 @@
 package me.laudukang.persistence.repository;
 
 import me.laudukang.persistence.model.OsLog;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -15,10 +15,10 @@ import java.util.List;
  * <p>Version: 1.0
  */
 public interface LogRepository extends JpaRepository<OsLog, Integer> {
-    List<OsLog> findByContentLike(String content);
+
+    Page<OsLog> findByContentLike(String content, Pageable pageablel);
 
     @Query("select log from OsLog log where log.userOrAdminName like CONCAT('%',:userOrAdminName,'%')")
-    List<OsLog> findByUserOrAdminNameLike(@Param("userOrAdminName") String userOrAdminName);
-
+    Page<OsLog> findByUserOrAdminNameLike(@Param("userOrAdminName") String userOrAdminName, Pageable pageable);
 
 }

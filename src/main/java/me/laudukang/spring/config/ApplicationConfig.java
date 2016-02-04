@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * <p>Version: 1.0
  */
 @Configuration
-
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
 //@EnableWebMvc

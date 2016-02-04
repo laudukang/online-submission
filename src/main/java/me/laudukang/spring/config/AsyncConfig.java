@@ -2,6 +2,7 @@ package me.laudukang.spring.config;
 
 import me.laudukang.spring.exception.MyAsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -21,9 +22,14 @@ import java.util.concurrent.Executor;
 @EnableAsync
 @ComponentScan({"me.laudukang.spring.events"})
 public class AsyncConfig implements AsyncConfigurer {
+
+    @Bean(name = "threadPoolTaskExecutor")
+    public Executor threadPoolTaskExecutor() {
+        return new ThreadPoolTaskExecutor();
+    }
+
     @Override
     public Executor getAsyncExecutor() {
-        System.out.println("in AsyncConfig getAsyncExecutor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(7);
         executor.setMaxPoolSize(42);
