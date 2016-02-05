@@ -44,8 +44,22 @@ public class LogServiceTest {
 
     @Test
     public void findByContent() {
-        Pageable pageable = new PageRequest(0, 10);
-        System.out.println(logService.findByContent("content_20160131174836", pageable));
+        Pageable pageable = new PageRequest(0,
+                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
+        Page<OsLog> result = logService.findByContent("content_20160131174836", pageable);
+        for (OsLog osLog : result.getContent()) {
+            System.out.println(osLog);
+        }
+    }
+
+    @Test
+    public void findByUserOrAdminName() {
+        Pageable pageable = new PageRequest(0,
+                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
+        Page<OsLog> result = logService.findByUserOrAdminName("au", pageable);
+        for (OsLog osLog : result.getContent()) {
+            System.out.println(osLog);
+        }
     }
 
     @Test
@@ -53,39 +67,23 @@ public class LogServiceTest {
         Pageable pageable = new PageRequest(0,
                 10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
         Page<OsLog> result = logService.findAll(pageable);
-        System.out.println(result.getSize());
-    }
-
-    @Test
-    public void findByUserOrAdminName() {
-        Pageable pageable = new PageRequest(0,
-                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
-
-        System.out.println(logService.findByUserOrAdminName("au", pageable));
+        for (OsLog osLog : result.getContent()) {
+            System.out.println(osLog);
+        }
     }
 
 
     @Test
     public void deleteById() {
-        //Pageable pageable = new PageRequest(page, size, sort);
-
         //logService.deleteById(1);
-        try {
-            logService.deleteById(32);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        logService.deleteById(32);
     }
 
     @Test
     public void deleteByEntity() {
         OsLog osLog = new OsLog();
         osLog.setId(33);
-        try {
-            logService.deleteByEntity(osLog);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        logService.deleteByEntity(osLog);
     }
 
     @Test
