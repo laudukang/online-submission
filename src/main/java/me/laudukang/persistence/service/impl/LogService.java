@@ -45,25 +45,26 @@ public class LogService implements ILogService {
     }
 
     @Override
-    public Page<OsLog> findAll(Pageable pageable) {
-        return logRepository.findAll(pageable);
-    }
-
-    @Override
     public Page<OsLog> findByUserOrAdminName(String userOrAdminName, Pageable pageable) {
         return logRepository.findByUserOrAdminNameLike(userOrAdminName, pageable);
 
     }
 
+    @Override
+    public Page<OsLog> findAll(Pageable pageable) {
+        return logRepository.findAll(pageable);
+    }
+
+
     @Async
     @Override
-    public void deleteById(int id) throws Exception {
+    public void deleteById(int id) {
         logRepository.delete(id);
     }
 
     @Async
     @Override
-    public void deleteByEntity(OsLog osLog) throws Exception {
+    public void deleteByEntity(OsLog osLog) {
         logRepository.delete(osLog);
     }
 

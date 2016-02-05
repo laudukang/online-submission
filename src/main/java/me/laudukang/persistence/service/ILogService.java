@@ -24,9 +24,9 @@ public interface ILogService {
 
     Page<OsLog> findByUserOrAdminName(String userOrAdminName, Pageable pageable);
 
-    void deleteById(int id) throws Exception;
+    void deleteById(int id);
 
-    void deleteByEntity(OsLog osLog) throws Exception;
+    void deleteByEntity(OsLog osLog);
 
     void asyncMethodWithVoidReturnType();
 
