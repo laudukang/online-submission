@@ -18,6 +18,7 @@ import java.sql.Date;
 public class OsUser {
     private int id;
     private String account;
+    private String password;
     private String name;
     private String sex;
     private Date birth;
@@ -49,6 +50,16 @@ public class OsUser {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    @Basic
+    @Column(name = "password", nullable = true, length = 32)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Basic
