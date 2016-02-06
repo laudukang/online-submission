@@ -19,8 +19,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public void saveAdmin(OsAdmin osAdmin) {
-        System.out.println("in AdminRepositoryCustomImpl saveAccount");
+    public void saveAdminWithEM(OsAdmin osAdmin) {
         entityManager.merge(osAdmin);
         entityManager.flush();
     }

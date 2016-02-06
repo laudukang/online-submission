@@ -10,5 +10,5 @@ import me.laudukang.persistence.model.OsAdmin;
  * <p>Version: 1.0
  */
 public interface AdminRepositoryCustom {
-    void saveAdmin(OsAdmin osAdmin);
+    void saveAdminWithEM(OsAdmin osAdmin);
 }

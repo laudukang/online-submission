@@ -1,12 +1,13 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsLog;
+import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,6 +34,16 @@ import java.util.concurrent.Future;
 public class LogServiceTest {
     @Autowired
     private ILogService logService;
+    private PrintUtil printUtil;
+    private Pageable pageable;
+
+    @Before
+    public void createPrintUtil() {
+        this.printUtil = new PrintUtil();
+        this.pageable = new PageRequest(0,
+                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
+
+    }
 
     @Test
     public void saveWithJPA() {
@@ -44,32 +55,17 @@ public class LogServiceTest {
 
     @Test
     public void findByContent() {
-        Pageable pageable = new PageRequest(0,
-                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
-        Page<OsLog> result = logService.findByContent("content_20160131174836", pageable);
-        for (OsLog osLog : result.getContent()) {
-            System.out.println(osLog);
-        }
+        printUtil.printToConsole(logService.findByContent("content_20160131174836", pageable));
     }
 
     @Test
     public void findByUserOrAdminName() {
-        Pageable pageable = new PageRequest(0,
-                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
-        Page<OsLog> result = logService.findByUserOrAdminName("au", pageable);
-        for (OsLog osLog : result.getContent()) {
-            System.out.println(osLog);
-        }
+        printUtil.printToConsole(logService.findByUserOrAdminName("au", pageable));
     }
 
     @Test
     public void findAll() {
-        Pageable pageable = new PageRequest(0,
-                10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
-        Page<OsLog> result = logService.findAll(pageable);
-        for (OsLog osLog : result.getContent()) {
-            System.out.println(osLog);
-        }
+        printUtil.printToConsole(logService.findAll(pageable));
     }
 
 

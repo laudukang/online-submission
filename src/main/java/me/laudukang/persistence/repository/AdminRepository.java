@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * <p>Version: 1.0
  */
 public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminRepositoryCustom {
+    //void updatePassword(OsAdmin osAdmin);
 }

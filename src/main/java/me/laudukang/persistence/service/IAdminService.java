@@ -1,6 +1,9 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * <p>Created with IDEA
@@ -9,8 +12,15 @@ import me.laudukang.persistence.model.OsAdmin;
  * <p>Time: 12:09
  * <p>Version: 1.0
  */
-public interface IAdminService {
-    void saveAdmin(OsAdmin osAdmin);
+public interface IAdminService extends ApplicationContextAware {
 
-    int updateById(OsAdmin osAdmin);
+    void save(OsAdmin osAdmin);
+
+    void deleteById(int id);
+
+    void updateById(OsAdmin osAdminToSave);
+
+    void updatePassword(int id, String password);
+
+    Page<OsAdmin> findAll(Pageable pageable);
 }

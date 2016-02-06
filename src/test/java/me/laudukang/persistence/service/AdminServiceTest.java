@@ -1,11 +1,16 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,18 +35,47 @@ public class AdminServiceTest {
     @Autowired
     private IAdminService adminService;
 
+    private PrintUtil printUtil;
+    private Pageable pageable;
+
+    @Before
+    public void createPrintUtil() {
+        this.printUtil = new PrintUtil();
+        this.pageable = new PageRequest(0,
+                10, new Sort(Sort.Direction.ASC, "id"));
+    }
 
     @Test
-    public void saveAdmin() {
+    public void save() {
         OsAdmin osAdmin = new OsAdmin();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         osAdmin.setAccount("lau_" + sdf.format(new Date()));
-        adminService.saveAdmin(osAdmin);
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        adminService.save(osAdmin);
+    }
+
+    @Test
+    public void updatePassword() {
+        adminService.updatePassword(18, "666");
+        adminService.updatePassword(1, "666");
+    }
+
+    @Test
+    public void updateById() {
+        OsAdmin osAdmin = new OsAdmin();
+        osAdmin.setId(2);
+        osAdmin.setRemark("remark_" + System.currentTimeMillis());
+        osAdmin.setBirth(new java.sql.Date(new Date().getTime()));
+        adminService.updateById(osAdmin);
+    }
+
+    @Test
+    public void deleteById() {
+        adminService.deleteById(16);
+    }
+
+    @Test
+    public void findAll() {
+        printUtil.printToConsole(adminService.findAll(pageable));
     }
 
 }
