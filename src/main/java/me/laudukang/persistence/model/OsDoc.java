@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p>Created with IDEA
@@ -30,6 +32,7 @@ public class OsDoc {
     private String status;
     private Timestamp statusTime;
     private Integer userId;
+    private Set<OsAuthor> osAuthors = new HashSet<OsAuthor>();
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -170,6 +173,16 @@ public class OsDoc {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)//级联保存、更新、删除、刷新;延迟加载
+    @JoinColumn(name = "id")//在book表增加一个外键列来实现一对多的单向关联
+    public Set<OsAuthor> getOsAuthors() {
+        return osAuthors;
+    }
+
+    public void setOsAuthors(Set<OsAuthor> osAuthors) {
+        this.osAuthors = osAuthors;
     }
 
     @Override
