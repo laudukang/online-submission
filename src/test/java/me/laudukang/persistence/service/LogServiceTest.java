@@ -4,6 +4,7 @@ import me.laudukang.persistence.model.OsLog;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,11 +39,20 @@ public class LogServiceTest {
     private Pageable pageable;
 
     @Before
-    public void createPrintUtil() {
+    public void initTest() {
         this.printUtil = new PrintUtil();
         this.pageable = new PageRequest(0,
                 10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));
+    }
 
+    @After
+    public void endTest() {
+        System.out.println("waiting async...");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
