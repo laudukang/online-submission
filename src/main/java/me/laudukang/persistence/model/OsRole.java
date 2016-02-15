@@ -4,71 +4,100 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The persistent class for the os_role database table.
  */
 @Entity
-@Table(name = "os_role", schema = "online_submission")
-public class OsRole {
+@Table(name = "os_role")
+@NamedQuery(name = "OsRole.findAll", query = "SELECT o FROM OsRole o")
+public class OsRole implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
+
     private String remark;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+    //bi-directional many-to-one association to OsPermission
+    @OneToMany(mappedBy = "osRole")
+    private List<OsPermission> osPermissions = new ArrayList<>();
+
+    //bi-directional many-to-many association to OsAdmin
+    @ManyToMany
+    @JoinTable(
+            name = "os_admin_role"
+            , joinColumns = {
+            @JoinColumn(name = "role_id")
+    }
+            , inverseJoinColumns = {
+            @JoinColumn(name = "admin_id")
+    }
+    )
+    private List<OsAdmin> osAdmins;
+
+    public OsRole() {
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name", nullable = true, length = 255)
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "remark", nullable = true, length = 255)
     public String getRemark() {
-        return remark;
+        return this.remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OsRole osRole = (OsRole) o;
-
-        if (id != osRole.id) return false;
-        if (name != null ? !name.equals(osRole.name) : osRole.name != null) return false;
-        return remark != null ? remark.equals(osRole.remark) : osRole.remark == null;
-
+    public List<OsPermission> getOsPermissions() {
+        return this.osPermissions;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (remark != null ? remark.hashCode() : 0);
-        return result;
+    public void setOsPermissions(List<OsPermission> osPermissions) {
+        this.osPermissions = osPermissions;
+    }
+
+    public OsPermission addOsPermission(OsPermission osPermission) {
+        getOsPermissions().add(osPermission);
+        osPermission.setOsRole(this);
+
+        return osPermission;
+    }
+
+    public OsPermission removeOsPermission(OsPermission osPermission) {
+        getOsPermissions().remove(osPermission);
+        osPermission.setOsRole(null);
+
+        return osPermission;
+    }
+
+    public List<OsAdmin> getOsAdmins() {
+        return this.osAdmins;
+    }
+
+    public void setOsAdmins(List<OsAdmin> osAdmins) {
+        this.osAdmins = osAdmins;
     }
 
     @Override

@@ -4,174 +4,203 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The persistent class for the os_admin database table.
  */
 @Entity
-@Table(name = "os_admin", schema = "online_submission")
-public class OsAdmin {
+@Table(name = "os_admin")
+@NamedQuery(name = "OsAdmin.findAll", query = "SELECT o FROM OsAdmin o")
+public class OsAdmin implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String account;
-    private String password;
-    private String name;
-    private String sex;
-    private Date birth;
-    private String subject;
+
     private String address;
-    private String officePhone;
+
+    @Temporal(TemporalType.DATE)
+    private Date birth;
+
+    @Column(name = "mobile_phone")
     private String mobilePhone;
+
+    private String name;
+
+    @Column(name = "office_phone")
+    private String officePhone;
+
+    @Column(columnDefinition = "char")
+    private String password;
+
     private String remark;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+    @Column(columnDefinition = "char")
+    private String sex;
+
+    private String subject;
+
+    //bi-directional many-to-one association to OsChat
+    @OneToMany(mappedBy = "osAdmin", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<OsChat> osChats = new ArrayList<>();
+
+    //bi-directional many-to-one association to OsDocAdmin
+    @OneToMany(mappedBy = "osAdmin", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
+
+    //bi-directional many-to-many association to OsRole
+    @ManyToMany(mappedBy = "osAdmins")
+    private List<OsRole> osRoles = new ArrayList<>();
+
+    public OsAdmin() {
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "account", nullable = false, length = 255)
     public String getAccount() {
-        return account;
+        return this.account;
     }
 
     public void setAccount(String account) {
         this.account = account;
     }
 
-    @Basic
-    @Column(name = "password", nullable = true, length = 32)
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Basic
-    @Column(name = "name", nullable = true, length = 255)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "sex", nullable = true, length = 2)
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    @Basic
-    @Column(name = "birth", nullable = true)
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    @Basic
-    @Column(name = "subject", nullable = true, length = 255)
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    @Basic
-    @Column(name = "address", nullable = true, length = 255)
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    @Basic
-    @Column(name = "office_phone", nullable = true, length = 255)
-    public String getOfficePhone() {
-        return officePhone;
+    public Date getBirth() {
+        return this.birth;
     }
 
-    public void setOfficePhone(String officePhone) {
-        this.officePhone = officePhone;
+    public void setBirth(Date birth) {
+        this.birth = birth;
     }
 
-    @Basic
-    @Column(name = "mobile_phone", nullable = true, length = 255)
     public String getMobilePhone() {
-        return mobilePhone;
+        return this.mobilePhone;
     }
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
     }
 
-    @Basic
-    @Column(name = "remark", nullable = true, length = 255)
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOfficePhone() {
+        return this.officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getRemark() {
-        return remark;
+        return this.remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OsAdmin osAdmin = (OsAdmin) o;
-
-        if (id != osAdmin.id) return false;
-        if (account != null ? !account.equals(osAdmin.account) : osAdmin.account != null) return false;
-        if (name != null ? !name.equals(osAdmin.name) : osAdmin.name != null) return false;
-        if (sex != null ? !sex.equals(osAdmin.sex) : osAdmin.sex != null) return false;
-        if (birth != null ? !birth.equals(osAdmin.birth) : osAdmin.birth != null) return false;
-        if (subject != null ? !subject.equals(osAdmin.subject) : osAdmin.subject != null) return false;
-        if (address != null ? !address.equals(osAdmin.address) : osAdmin.address != null) return false;
-        if (officePhone != null ? !officePhone.equals(osAdmin.officePhone) : osAdmin.officePhone != null) return false;
-        if (mobilePhone != null ? !mobilePhone.equals(osAdmin.mobilePhone) : osAdmin.mobilePhone != null) return false;
-        return remark != null ? remark.equals(osAdmin.remark) : osAdmin.remark == null;
-
+    public String getSex() {
+        return this.sex;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (account != null ? account.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (birth != null ? birth.hashCode() : 0);
-        result = 31 * result + (subject != null ? subject.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (officePhone != null ? officePhone.hashCode() : 0);
-        result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
-        result = 31 * result + (remark != null ? remark.hashCode() : 0);
-        return result;
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getSubject() {
+        return this.subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public List<OsChat> getOsChats() {
+        return this.osChats;
+    }
+
+    public void setOsChats(List<OsChat> osChats) {
+        this.osChats = osChats;
+    }
+
+    public OsChat addOsChat(OsChat osChat) {
+        getOsChats().add(osChat);
+        osChat.setOsAdmin(this);
+
+        return osChat;
+    }
+
+    public OsChat removeOsChat(OsChat osChat) {
+        getOsChats().remove(osChat);
+        osChat.setOsAdmin(null);
+
+        return osChat;
+    }
+
+    public List<OsDocAdmin> getOsDocAdmins() {
+        return this.osDocAdmins;
+    }
+
+    public void setOsDocAdmins(List<OsDocAdmin> osDocAdmins) {
+        this.osDocAdmins = osDocAdmins;
+    }
+
+    public OsDocAdmin addOsDocAdmin(OsDocAdmin osDocAdmin) {
+        getOsDocAdmins().add(osDocAdmin);
+        osDocAdmin.setOsAdmin(this);
+
+        return osDocAdmin;
+    }
+
+    public OsDocAdmin removeOsDocAdmin(OsDocAdmin osDocAdmin) {
+        getOsDocAdmins().remove(osDocAdmin);
+        osDocAdmin.setOsAdmin(null);
+
+        return osDocAdmin;
+    }
+
+    public List<OsRole> getOsRoles() {
+        return this.osRoles;
+    }
+
+    public void setOsRoles(List<OsRole> osRoles) {
+        this.osRoles = osRoles;
     }
 
     @Override

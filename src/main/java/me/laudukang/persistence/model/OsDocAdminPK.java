@@ -4,61 +4,67 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The primary key class for the os_doc_admin database table.
+ * 
  */
+@Embeddable
 public class OsDocAdminPK implements Serializable {
-    private int docId;
-    private int adminId;
+	//default serial version id, required for serializable classes.
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "doc_id", nullable = false)
-    @Id
-    public int getDocId() {
-        return docId;
-    }
+	@Column(name = "doc_id")
+	private int docId;
 
-    public void setDocId(int docId) {
-        this.docId = docId;
-    }
+	@Column(name = "admin_id")
+	private int adminId;
 
-    @Column(name = "admin_id", nullable = false)
-    @Id
-    public int getAdminId() {
-        return adminId;
-    }
+	public OsDocAdminPK() {
+	}
 
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
-    }
+	public int getDocId() {
+		return this.docId;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void setDocId(int docId) {
+		this.docId = docId;
+	}
 
-        OsDocAdminPK that = (OsDocAdminPK) o;
+	public int getAdminId() {
+		return this.adminId;
+	}
 
-        if (docId != that.docId) return false;
-        return adminId == that.adminId;
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
+	}
 
-    }
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof OsDocAdminPK)) {
+			return false;
+		}
+		OsDocAdminPK castOther = (OsDocAdminPK) other;
+		return
+				(this.docId == castOther.docId)
+						&& (this.adminId == castOther.adminId);
+	}
 
-    @Override
-    public int hashCode() {
-        int result = docId;
-        result = 31 * result + adminId;
-        return result;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + this.docId;
+		hash = hash * prime + this.adminId;
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-    }
+		return hash;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+	}
 }

@@ -25,7 +25,12 @@ public class LogEventListener implements ApplicationListener<LogEvent> {
         System.out.println("in CustomSpringEventListener onApplicationEvent");
         //if (event instanceof LogEvent) {
         //logService.save(new OsLog(((LogEvent) event).getContent(), ((LogEvent) event).getUserOrAdminName(), ((LogEvent) event).getIp()));
-        logService.save(new OsLog(((LogEvent) event).getContent(), ((LogEvent) event).getUserOrAdminName(), ((LogEvent) event).getIp()));
+        OsLog osLog = new OsLog();
+        osLog.setContent(event.getContent());
+        osLog.setUserOrAdminName(event.getUserOrAdminName());
+        osLog.setIp(event.getIp());
+        logService.save(osLog);
+        //logService.save(new OsLog(event.getContent(), event.getUserOrAdminName(), event.getIp()));
         //}
     }
 }

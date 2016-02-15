@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
-import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.model.OsAuthor;
+import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
@@ -24,20 +25,20 @@ import java.util.Date;
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
- * <p>Date: 2016/2/1
- * <p>Time: 12:11
+ * <p>Date: 2016/2/7
+ * <p>Time: 14:13
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
-public class AdminServiceTest {
+public class DocServiceTest {
     @Autowired
-    private IAdminService adminService;
+    private IDocService docService;
+    private SimpleDateFormat sdf;
     private PrintUtil printUtil;
     private Pageable pageable;
-    private SimpleDateFormat sdf;
 
     @Before
     public void initTest() {
@@ -59,35 +60,18 @@ public class AdminServiceTest {
 
     @Test
     public void save() {
-        OsAdmin osAdmin = new OsAdmin();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        osAdmin.setAccount("lau_" + sdf.format(new Date()));
-        adminService.save(osAdmin);
-    }
+        OsDoc osDoc = new OsDoc();
+        osDoc.setZhTitle("title_" + sdf.format(new Date()));
 
-    @Test
-    public void updatePassword() {
-        adminService.updatePassword(18, "666");
-        adminService.updatePassword(1, "666");
-    }
+        OsAuthor osAuthor = new OsAuthor();
+        osAuthor.setRemark("remark_" + sdf.format(new Date()));
 
-    @Test
-    public void updateById() {
-        OsAdmin osAdmin = new OsAdmin();
-        osAdmin.setId(2);
-        osAdmin.setRemark("remark_" + System.currentTimeMillis());
-        osAdmin.setBirth(new java.sql.Date(new Date().getTime()));
-        adminService.updateById(osAdmin);
+        //osDoc.addOsAuthor(osAuthor);
+        docService.save(osDoc);
     }
 
     @Test
     public void deleteById() {
-        adminService.deleteById(16);
+        docService.deleteById(5);
     }
-
-    @Test
-    public void findAll() {
-        printUtil.printToConsole(adminService.findAll(pageable));
-    }
-
 }

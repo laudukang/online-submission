@@ -4,228 +4,228 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The persistent class for the os_doc database table.
  */
 @Entity
 @Table(name = "os_doc", schema = "online_submission")
-public class OsDoc {
-    private int id;
-    private String zhTitle;
-    private String enTitle;
-    private String subject;
-    private String column;
-    private String type;
-    private String zhKeyword;
-    private String enKeyword;
-    private String zhSummary;
-    private String enSummary;
-    private Timestamp postTime;
-    private String status;
-    private Timestamp statusTime;
-    private Integer userId;
-    private Set<OsAuthor> osAuthors = new HashSet<OsAuthor>();
+@NamedQuery(name = "OsDoc.findAll", query = "SELECT o FROM OsDoc o")
+public class OsDoc implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String classification;
+
+    @Column(name = "en_keyword")
+    private String enKeyword;
+
+    @Column(name = "en_summary")
+    private String enSummary;
+
+    @Column(name = "en_title")
+    private String enTitle;
+
+    @Column(name = "post_time")
+    private Timestamp postTime;
+
+    private String status;
+
+    @Column(name = "status_time")
+    private Timestamp statusTime;
+
+    private String subject;
+
+    private String type;
+
+    @Column(name = "zh_keyword")
+    private String zhKeyword;
+
+    @Column(name = "zh_summary")
+    private String zhSummary;
+
+    @Column(name = "zh_title")
+    private String zhTitle;
+
+    //bi-directional many-to-one association to OsAuthor
+    @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<OsAuthor> osAuthors = new ArrayList<>();
+
+    //bi-directional many-to-one association to OsUser
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = true)
+    private OsUser osUser;
+
+    //bi-directional many-to-one association to OsDocAdmin
+    @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
+
+    public OsDoc() {
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "zh_title", nullable = true, length = 255)
-    public String getZhTitle() {
-        return zhTitle;
+
+    public String getClassification() {
+        return classification;
     }
 
-    public void setZhTitle(String zhTitle) {
-        this.zhTitle = zhTitle;
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 
-    @Basic
-    @Column(name = "en_title", nullable = true, length = 255)
-    public String getEnTitle() {
-        return enTitle;
-    }
-
-    public void setEnTitle(String enTitle) {
-        this.enTitle = enTitle;
-    }
-
-    @Basic
-    @Column(name = "subject", nullable = true, length = 255)
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    @Basic
-    @Column(name = "column", nullable = true, length = 255)
-    public String getColumn() {
-        return column;
-    }
-
-    public void setColumn(String column) {
-        this.column = column;
-    }
-
-    @Basic
-    @Column(name = "type", nullable = true, length = 255)
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @Basic
-    @Column(name = "zh_keyword", nullable = true, length = 255)
-    public String getZhKeyword() {
-        return zhKeyword;
-    }
-
-    public void setZhKeyword(String zhKeyword) {
-        this.zhKeyword = zhKeyword;
-    }
-
-    @Basic
-    @Column(name = "en_keyword", nullable = true, length = 255)
     public String getEnKeyword() {
-        return enKeyword;
+        return this.enKeyword;
     }
 
     public void setEnKeyword(String enKeyword) {
         this.enKeyword = enKeyword;
     }
 
-    @Basic
-    @Column(name = "zh_summary", nullable = true, length = 255)
-    public String getZhSummary() {
-        return zhSummary;
-    }
-
-    public void setZhSummary(String zhSummary) {
-        this.zhSummary = zhSummary;
-    }
-
-    @Basic
-    @Column(name = "en_summary", nullable = true, length = 255)
     public String getEnSummary() {
-        return enSummary;
+        return this.enSummary;
     }
 
     public void setEnSummary(String enSummary) {
         this.enSummary = enSummary;
     }
 
-    @Basic
-    @Column(name = "post_time", nullable = true)
+    public String getEnTitle() {
+        return this.enTitle;
+    }
+
+    public void setEnTitle(String enTitle) {
+        this.enTitle = enTitle;
+    }
+
     public Timestamp getPostTime() {
-        return postTime;
+        return this.postTime;
     }
 
     public void setPostTime(Timestamp postTime) {
         this.postTime = postTime;
     }
 
-    @Basic
-    @Column(name = "status", nullable = true, length = 255)
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    @Basic
-    @Column(name = "status_time", nullable = true)
     public Timestamp getStatusTime() {
-        return statusTime;
+        return this.statusTime;
     }
 
     public void setStatusTime(Timestamp statusTime) {
         this.statusTime = statusTime;
     }
 
-    @Basic
-    @Column(name = "user_id", nullable = true)
-    public Integer getUserId() {
-        return userId;
+    public String getSubject() {
+        return this.subject;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)//级联保存、更新、删除、刷新;延迟加载
-    @JoinColumn(name = "id")//在book表增加一个外键列来实现一对多的单向关联
-    public Set<OsAuthor> getOsAuthors() {
-        return osAuthors;
+    public String getType() {
+        return this.type;
     }
 
-    public void setOsAuthors(Set<OsAuthor> osAuthors) {
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getZhKeyword() {
+        return this.zhKeyword;
+    }
+
+    public void setZhKeyword(String zhKeyword) {
+        this.zhKeyword = zhKeyword;
+    }
+
+    public String getZhSummary() {
+        return this.zhSummary;
+    }
+
+    public void setZhSummary(String zhSummary) {
+        this.zhSummary = zhSummary;
+    }
+
+    public String getZhTitle() {
+        return this.zhTitle;
+    }
+
+    public void setZhTitle(String zhTitle) {
+        this.zhTitle = zhTitle;
+    }
+
+    public List<OsAuthor> getOsAuthors() {
+        return this.osAuthors;
+    }
+
+    public void setOsAuthors(List<OsAuthor> osAuthors) {
         this.osAuthors = osAuthors;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public OsAuthor addOsAuthor(OsAuthor osAuthor) {
+        getOsAuthors().add(osAuthor);
+        osAuthor.setOsDoc(this);
 
-        OsDoc osDoc = (OsDoc) o;
-
-        if (id != osDoc.id) return false;
-        if (zhTitle != null ? !zhTitle.equals(osDoc.zhTitle) : osDoc.zhTitle != null) return false;
-        if (enTitle != null ? !enTitle.equals(osDoc.enTitle) : osDoc.enTitle != null) return false;
-        if (subject != null ? !subject.equals(osDoc.subject) : osDoc.subject != null) return false;
-        if (column != null ? !column.equals(osDoc.column) : osDoc.column != null) return false;
-        if (type != null ? !type.equals(osDoc.type) : osDoc.type != null) return false;
-        if (zhKeyword != null ? !zhKeyword.equals(osDoc.zhKeyword) : osDoc.zhKeyword != null) return false;
-        if (enKeyword != null ? !enKeyword.equals(osDoc.enKeyword) : osDoc.enKeyword != null) return false;
-        if (zhSummary != null ? !zhSummary.equals(osDoc.zhSummary) : osDoc.zhSummary != null) return false;
-        if (enSummary != null ? !enSummary.equals(osDoc.enSummary) : osDoc.enSummary != null) return false;
-        if (postTime != null ? !postTime.equals(osDoc.postTime) : osDoc.postTime != null) return false;
-        if (status != null ? !status.equals(osDoc.status) : osDoc.status != null) return false;
-        if (statusTime != null ? !statusTime.equals(osDoc.statusTime) : osDoc.statusTime != null) return false;
-        return userId != null ? userId.equals(osDoc.userId) : osDoc.userId == null;
-
+        return osAuthor;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (zhTitle != null ? zhTitle.hashCode() : 0);
-        result = 31 * result + (enTitle != null ? enTitle.hashCode() : 0);
-        result = 31 * result + (subject != null ? subject.hashCode() : 0);
-        result = 31 * result + (column != null ? column.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (zhKeyword != null ? zhKeyword.hashCode() : 0);
-        result = 31 * result + (enKeyword != null ? enKeyword.hashCode() : 0);
-        result = 31 * result + (zhSummary != null ? zhSummary.hashCode() : 0);
-        result = 31 * result + (enSummary != null ? enSummary.hashCode() : 0);
-        result = 31 * result + (postTime != null ? postTime.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (statusTime != null ? statusTime.hashCode() : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        return result;
+    public OsAuthor removeOsAuthor(OsAuthor osAuthor) {
+        getOsAuthors().remove(osAuthor);
+        osAuthor.setOsDoc(null);
+
+        return osAuthor;
+    }
+
+    public OsUser getOsUser() {
+        return this.osUser;
+    }
+
+    public void setOsUser(OsUser osUser) {
+        this.osUser = osUser;
+    }
+
+    public List<OsDocAdmin> getOsDocAdmins() {
+        return this.osDocAdmins;
+    }
+
+    public void setOsDocAdmins(List<OsDocAdmin> osDocAdmins) {
+        this.osDocAdmins = osDocAdmins;
+    }
+
+    public OsDocAdmin addOsDocAdmin(OsDocAdmin osDocAdmin) {
+        getOsDocAdmins().add(osDocAdmin);
+        osDocAdmin.setOsDoc(this);
+
+        return osDocAdmin;
+    }
+
+    public OsDocAdmin removeOsDocAdmin(OsDocAdmin osDocAdmin) {
+        getOsDocAdmins().remove(osDocAdmin);
+        osDocAdmin.setOsDoc(null);
+
+        return osDocAdmin;
     }
 
     @Override

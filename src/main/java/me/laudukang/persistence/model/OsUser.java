@@ -4,213 +4,221 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The persistent class for the os_user database table.
  */
 @Entity
-@Table(name = "os_user", schema = "online_submission")
-public class OsUser {
+@Table(name = "os_user")
+@NamedQuery(name = "OsUser.findAll", query = "SELECT o FROM OsUser o")
+public class OsUser implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String account;
-    private String password;
-    private String name;
-    private String sex;
-    private Date birth;
-    private String country;
-    private String province;
-    private String city;
-    private String postcode;
+
     private String address;
-    private String officePhone;
+
+    @Temporal(TemporalType.DATE)
+    private Date birth;
+
+    private String city;
+
+    private String country;
+
+    @Column(name = "mobile_phone")
     private String mobilePhone;
+
+    private String name;
+
+    @Column(name = "office_phone")
+    private String officePhone;
+
+    @Column(columnDefinition = "char")
+    private String password;
+
+    private String postcode;
+
+    private String province;
+
     private String remark;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
+    @Column(columnDefinition = "char")
+    private String sex;
+
+    //bi-directional many-to-one association to OsChat
+    @OneToMany(mappedBy = "osUser")
+    private List<OsChat> osChats = new ArrayList<OsChat>();
+
+    //bi-directional many-to-one association to OsDoc
+    @OneToMany(mappedBy = "osUser")
+    private List<OsDoc> osDocs = new ArrayList<OsDoc>();
+
+    public OsUser() {
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "account", nullable = false, length = 255)
     public String getAccount() {
-        return account;
+        return this.account;
     }
 
     public void setAccount(String account) {
         this.account = account;
     }
 
-    @Basic
-    @Column(name = "password", nullable = true, length = 32)
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Basic
-    @Column(name = "name", nullable = true, length = 255)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Basic
-    @Column(name = "sex", nullable = true, length = 2)
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    @Basic
-    @Column(name = "birth", nullable = true)
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    @Basic
-    @Column(name = "country", nullable = true, length = 255)
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    @Basic
-    @Column(name = "province", nullable = true, length = 255)
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    @Basic
-    @Column(name = "city", nullable = true, length = 255)
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    @Basic
-    @Column(name = "postcode", nullable = true, length = 255)
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    @Basic
-    @Column(name = "address", nullable = true, length = 255)
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    @Basic
-    @Column(name = "office_phone", nullable = true, length = 255)
-    public String getOfficePhone() {
-        return officePhone;
+    public Date getBirth() {
+        return this.birth;
     }
 
-    public void setOfficePhone(String officePhone) {
-        this.officePhone = officePhone;
+    public void setBirth(Date birth) {
+        this.birth = birth;
     }
 
-    @Basic
-    @Column(name = "mobile_phone", nullable = true, length = 255)
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return this.country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getMobilePhone() {
-        return mobilePhone;
+        return this.mobilePhone;
     }
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
     }
 
-    @Basic
-    @Column(name = "remark", nullable = true, length = 255)
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOfficePhone() {
+        return this.officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPostcode() {
+        return this.postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getProvince() {
+        return this.province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
     public String getRemark() {
-        return remark;
+        return this.remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OsUser osUser = (OsUser) o;
-
-        if (id != osUser.id) return false;
-        if (account != null ? !account.equals(osUser.account) : osUser.account != null) return false;
-        if (name != null ? !name.equals(osUser.name) : osUser.name != null) return false;
-        if (sex != null ? !sex.equals(osUser.sex) : osUser.sex != null) return false;
-        if (birth != null ? !birth.equals(osUser.birth) : osUser.birth != null) return false;
-        if (country != null ? !country.equals(osUser.country) : osUser.country != null) return false;
-        if (province != null ? !province.equals(osUser.province) : osUser.province != null) return false;
-        if (city != null ? !city.equals(osUser.city) : osUser.city != null) return false;
-        if (postcode != null ? !postcode.equals(osUser.postcode) : osUser.postcode != null) return false;
-        if (address != null ? !address.equals(osUser.address) : osUser.address != null) return false;
-        if (officePhone != null ? !officePhone.equals(osUser.officePhone) : osUser.officePhone != null) return false;
-        if (mobilePhone != null ? !mobilePhone.equals(osUser.mobilePhone) : osUser.mobilePhone != null) return false;
-        return remark != null ? remark.equals(osUser.remark) : osUser.remark == null;
-
+    public String getSex() {
+        return this.sex;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (account != null ? account.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
-        result = 31 * result + (birth != null ? birth.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (province != null ? province.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (officePhone != null ? officePhone.hashCode() : 0);
-        result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
-        result = 31 * result + (remark != null ? remark.hashCode() : 0);
-        return result;
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public List<OsChat> getOsChats() {
+        return this.osChats;
+    }
+
+    public void setOsChats(List<OsChat> osChats) {
+        this.osChats = osChats;
+    }
+
+    public OsChat addOsChat(OsChat osChat) {
+        getOsChats().add(osChat);
+        osChat.setOsUser(this);
+
+        return osChat;
+    }
+
+    public OsChat removeOsChat(OsChat osChat) {
+        getOsChats().remove(osChat);
+        osChat.setOsUser(null);
+
+        return osChat;
+    }
+
+    public List<OsDoc> getOsDocs() {
+        return this.osDocs;
+    }
+
+    public void setOsDocs(List<OsDoc> osDocs) {
+        this.osDocs = osDocs;
+    }
+
+    public OsDoc addOsDoc(OsDoc osDoc) {
+        getOsDocs().add(osDoc);
+        osDoc.setOsUser(this);
+
+        return osDoc;
+    }
+
+    public OsDoc removeOsDoc(OsDoc osDoc) {
+        getOsDocs().remove(osDoc);
+        osDoc.setOsUser(null);
+
+        return osDoc;
     }
 
     @Override

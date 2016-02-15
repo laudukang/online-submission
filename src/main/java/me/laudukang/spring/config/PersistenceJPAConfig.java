@@ -73,6 +73,7 @@ public class PersistenceJPAConfig {
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
         final JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
+        //transactionManager.setRollbackOnCommitFailure(false);
         return transactionManager;
     }
 
@@ -93,7 +94,8 @@ public class PersistenceJPAConfig {
         hibernateProperties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
 
         // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
-        // hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        //hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "validate");
         // System.out.println("hibernate.format_sql=" + env.getProperty("hibernate.format_sql"));
 
         return hibernateProperties;

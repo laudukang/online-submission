@@ -2,94 +2,87 @@ package me.laudukang.persistence.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Timestamp;
+
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The persistent class for the os_doc_admin database table.
+ * 
  */
 @Entity
-@Table(name = "os_doc_admin", schema = "online_submission")
-@IdClass(OsDocAdminPK.class)
-public class OsDocAdmin {
-    private int docId;
-    private int adminId;
-    private String reviewResult;
-    private Date reviewTime;
+@Table(name = "os_doc_admin")
+@NamedQuery(name = "OsDocAdmin.findAll", query = "SELECT o FROM OsDocAdmin o")
+public class OsDocAdmin implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "doc_id", nullable = false)
-    public int getDocId() {
-        return docId;
-    }
+	@EmbeddedId
+	private OsDocAdminPK id;
 
-    public void setDocId(int docId) {
-        this.docId = docId;
-    }
+	@Lob
+	@Column(name = "review_result", columnDefinition = "text")
+	private String reviewResult;
 
-    @Id
-    @Column(name = "admin_id", nullable = false)
-    public int getAdminId() {
-        return adminId;
-    }
+	@Column(name = "review_time")
+	private Timestamp reviewTime;
 
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
-    }
+	//bi-directional many-to-one association to OsAdmin
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "admin_id", nullable = true, insertable = false, updatable = false)
+	private OsAdmin osAdmin;
 
-    @Basic
-    @Column(name = "review_result", nullable = true, length = -1)
-    public String getReviewResult() {
-        return reviewResult;
-    }
+	//bi-directional many-to-one association to OsDoc
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "doc_id", nullable = true, insertable = false, updatable = false)
+	private OsDoc osDoc;
 
-    public void setReviewResult(String reviewResult) {
-        this.reviewResult = reviewResult;
-    }
+	public OsDocAdmin() {
+	}
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    @Basic
-    @Column(name = "review_time", nullable = true)
-    public Date getReviewTime() {
-        return reviewTime;
-    }
+	public OsDocAdminPK getId() {
+		return this.id;
+	}
 
-    public void setReviewTime(Date reviewTime) {
-        this.reviewTime = reviewTime;
-    }
+	public void setId(OsDocAdminPK id) {
+		this.id = id;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public String getReviewResult() {
+		return this.reviewResult;
+	}
 
-        OsDocAdmin that = (OsDocAdmin) o;
+	public void setReviewResult(String reviewResult) {
+		this.reviewResult = reviewResult;
+	}
 
-        if (docId != that.docId) return false;
-        if (adminId != that.adminId) return false;
-        if (reviewResult != null ? !reviewResult.equals(that.reviewResult) : that.reviewResult != null) return false;
-        return reviewTime != null ? reviewTime.equals(that.reviewTime) : that.reviewTime == null;
+	public Timestamp getReviewTime() {
+		return this.reviewTime;
+	}
 
-    }
+	public void setReviewTime(Timestamp reviewTime) {
+		this.reviewTime = reviewTime;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = docId;
-        result = 31 * result + adminId;
-        result = 31 * result + (reviewResult != null ? reviewResult.hashCode() : 0);
-        result = 31 * result + (reviewTime != null ? reviewTime.hashCode() : 0);
-        return result;
-    }
+	public OsAdmin getOsAdmin() {
+		return this.osAdmin;
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-    }
+	public void setOsAdmin(OsAdmin osAdmin) {
+		this.osAdmin = osAdmin;
+	}
+
+	public OsDoc getOsDoc() {
+		return this.osDoc;
+	}
+
+	public void setOsDoc(OsDoc osDoc) {
+		this.osDoc = osDoc;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+	}
 }

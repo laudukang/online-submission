@@ -2,122 +2,98 @@ package me.laudukang.persistence.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Timestamp;
+
 
 /**
- * <p>Created with IDEA
- * <p>Author: laudukang
- * <p>Date: 2016/1/30
- * <p>Time: 22:45
- * <p>Version: 1.0
+ * The persistent class for the os_chat database table.
+ * 
  */
 @Entity
-@EntityListeners({AuditingEntityListener.class})
-@Table(name = "os_chat", schema = "online_submission")
-public class OsChat {
-    private int id;
-    private String title;
-    private String content;
-    private Date postTime;
-    private Integer userId;
-    private Integer adminId;
+@Table(name = "os_chat")
+@NamedQuery(name = "OsChat.findAll", query = "SELECT o FROM OsChat o")
+public class OsChat implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
-    public int getId() {
-        return id;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	@Lob
+	@Column(columnDefinition = "text")
+	private String content;
 
-    @Basic
-    @Column(name = "title", nullable = true, length = 255)
-    public String getTitle() {
-        return title;
-    }
+	@Column(name = "post_time")
+	private Timestamp postTime;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	private String title;
 
-    @Basic
-    @Column(name = "content", nullable = true, length = -1)
-    public String getContent() {
-        return content;
-    }
+	//bi-directional many-to-one association to OsAdmin
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "admin_id", nullable = true)
+	private OsAdmin osAdmin;
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	//bi-directional many-to-one association to OsUser
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = true)
+	private OsUser osUser;
 
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    @Basic
-    @Column(name = "post_time", nullable = true)
-    public Date getPostTime() {
-        return postTime;
-    }
+	public OsChat() {
+	}
 
-    public void setPostTime(Date postTime) {
-        this.postTime = postTime;
-    }
+	public int getId() {
+		return this.id;
+	}
 
-    @Basic
-    @Column(name = "user_id", nullable = true)
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public String getContent() {
+		return this.content;
+	}
 
-    @Basic
-    @Column(name = "admin_id", nullable = true)
-    public Integer getAdminId() {
-        return adminId;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
-    }
+	public Timestamp getPostTime() {
+		return this.postTime;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void setPostTime(Timestamp postTime) {
+		this.postTime = postTime;
+	}
 
-        OsChat osChat = (OsChat) o;
+	public String getTitle() {
+		return this.title;
+	}
 
-        if (id != osChat.id) return false;
-        if (title != null ? !title.equals(osChat.title) : osChat.title != null) return false;
-        if (content != null ? !content.equals(osChat.content) : osChat.content != null) return false;
-        if (postTime != null ? !postTime.equals(osChat.postTime) : osChat.postTime != null) return false;
-        if (userId != null ? !userId.equals(osChat.userId) : osChat.userId != null) return false;
-        return adminId != null ? adminId.equals(osChat.adminId) : osChat.adminId == null;
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    }
+	public OsAdmin getOsAdmin() {
+		return this.osAdmin;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
-        result = 31 * result + (postTime != null ? postTime.hashCode() : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (adminId != null ? adminId.hashCode() : 0);
-        return result;
-    }
+	public void setOsAdmin(OsAdmin osAdmin) {
+		this.osAdmin = osAdmin;
+	}
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-    }
+	public OsUser getOsUser() {
+		return this.osUser;
+	}
+
+	public void setOsUser(OsUser osUser) {
+		this.osUser = osUser;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+	}
 }
