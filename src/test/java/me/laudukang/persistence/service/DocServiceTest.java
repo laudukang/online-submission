@@ -66,12 +66,35 @@ public class DocServiceTest {
         OsAuthor osAuthor = new OsAuthor();
         osAuthor.setRemark("remark_" + sdf.format(new Date()));
 
-        //osDoc.addOsAuthor(osAuthor);
+        osDoc.addOsAuthor(osAuthor);
         docService.save(osDoc);
     }
 
     @Test
+    public void updateById() {
+        OsDoc osDoc = new OsDoc();
+        osDoc.setZhTitle("title_" + sdf.format(new Date()));
+        osDoc.setEnTitle("Entitle_" + sdf.format(new Date()));
+        osDoc.setId(7);
+
+        OsAuthor osAuthor = new OsAuthor();
+        osAuthor.setCity("gd gd");
+        osAuthor.setId(3);
+        osAuthor.setRemark("remark_" + sdf.format(new Date()));
+
+        OsAuthor osAuthor2 = new OsAuthor();
+        osAuthor2.setId(4);
+        osAuthor2.setCity("gd gd");
+        osAuthor2.setRemark("remark_" + sdf.format(new Date()));
+
+        osDoc.addOsAuthor(osAuthor);
+        osDoc.addOsAuthor(osAuthor2);
+        docService.updateById(osDoc);
+
+    }
+
+    @Test
     public void deleteById() {
-        docService.deleteById(5);
+        docService.deleteById(9);
     }
 }

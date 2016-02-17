@@ -1,7 +1,6 @@
 package me.laudukang.persistence.service.impl;
 
 import me.laudukang.persistence.model.OsDoc;
-import me.laudukang.persistence.repository.AuthorRepository;
 import me.laudukang.persistence.repository.DocRepository;
 import me.laudukang.persistence.service.IDocService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +23,28 @@ public class DocService implements IDocService {
     @Autowired
     private DocRepository docRepository;
 
-    @Autowired
-    private AuthorRepository authorRepository;
-
     @Override
     public void save(OsDoc osDoc) {
-
-        //for (OsAuthor osAuthor : osDoc.getOsAuthors()
-        //        ) {
-        //    authorRepository.save(osAuthor);
-        //}
-        try {
-            docRepository.save(osDoc);
-        } catch (Exception ex) {
-            System.out.println("in save Exception=" + ex.getMessage());
-            ex.printStackTrace();
-        }
+        docRepository.save(osDoc);
     }
 
     @Override
     public void updateById(OsDoc osDoc) {
-        docRepository.save(osDoc);
+        OsDoc result = docRepository.findOne(osDoc.getId());
+        if (null != result) {
+            result.setZhTitle(osDoc.getZhTitle());
+            result.setZhSummary(osDoc.getZhSummary());
+            result.setZhKeyword(osDoc.getZhKeyword());
+            result.setEnKeyword(osDoc.getEnKeyword());
+            result.setEnSummary(osDoc.getEnSummary());
+            result.setEnTitle(osDoc.getEnTitle());
+            result.setSubject(osDoc.getSubject());
+            result.setClassification(osDoc.getClassification());
+            result.setType(osDoc.getType());
+
+            result.setOsAuthors(osDoc.getOsAuthors());
+            docRepository.save(osDoc);
+        }
 
     }
 

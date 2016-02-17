@@ -65,7 +65,7 @@ public class OsDoc implements Serializable {
     private OsUser osUser;
 
     //bi-directional many-to-one association to OsDocAdmin
-    @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
 
     public OsDoc() {
