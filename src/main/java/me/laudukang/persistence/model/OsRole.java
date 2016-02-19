@@ -27,7 +27,7 @@ public class OsRole implements Serializable {
     private String remark;
 
     //bi-directional many-to-one association to OsPermission
-    @OneToMany(mappedBy = "osRole")
+    @OneToMany(mappedBy = "osRole", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsPermission> osPermissions = new ArrayList<>();
 
     //bi-directional many-to-many association to OsAdmin
