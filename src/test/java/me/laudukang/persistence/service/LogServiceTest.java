@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -37,9 +38,11 @@ public class LogServiceTest {
     private ILogService logService;
     private PrintUtil printUtil;
     private Pageable pageable;
+    private SimpleDateFormat sdf;
 
     @Before
     public void initTest() {
+        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.printUtil = new PrintUtil();
         this.pageable = new PageRequest(0,
                 10, new Sort(Sort.Direction.DESC, "time").and(new Sort(Sort.Direction.ASC, "content")));

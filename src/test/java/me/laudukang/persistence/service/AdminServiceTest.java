@@ -41,7 +41,7 @@ public class AdminServiceTest {
 
     @Before
     public void initTest() {
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.printUtil = new PrintUtil();
         this.pageable = new PageRequest(0,
                 10, new Sort(Sort.Direction.ASC, "id"));
