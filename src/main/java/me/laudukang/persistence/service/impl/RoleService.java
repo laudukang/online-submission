@@ -51,7 +51,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public void update(OsRole osRole, int[] permission) {
+    public void updateById(OsRole osRole, int[] permission) {
         OsRole result = roleRepository.findOne(osRole.getId());
         if (null != result) {
             result.setName(osRole.getName());
@@ -63,22 +63,22 @@ public class RoleService implements IRoleService {
                 }
             }
             permissionRepository.save(result.getOsPermissions());
-        }
 
-        List<OsPermission> osPermissions = new ArrayList<>();
-        for (int id : permission
-                ) {
-            OsPermission osPermission = permissionRepository.findOne(id);
-            if (null != osPermission) {
-                osPermission.setOsRole(result);
-                osPermissions.add(osPermission);
-            } else {
-                System.out.println("id=" + id + " permission is not exit");
+            List<OsPermission> osPermissions = new ArrayList<>();
+            for (int id : permission
+                    ) {
+                OsPermission osPermission = permissionRepository.findOne(id);
+                if (null != osPermission) {
+                    osPermission.setOsRole(result);
+                    osPermissions.add(osPermission);
+                } else {
+                    System.out.println("id=" + id + " permission is not exit");
+                }
             }
-        }
 
-        result.setOsPermissions(osPermissions);
-        roleRepository.save(result);
+            result.setOsPermissions(osPermissions);
+            roleRepository.save(result);
+        }
     }
 
     @Override

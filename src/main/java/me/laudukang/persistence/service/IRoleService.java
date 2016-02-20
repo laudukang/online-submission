@@ -17,7 +17,7 @@ public interface IRoleService {
 
     void deleteById(int id);
 
-    void update(OsRole osRole, int[] permission);
+    void updateById(OsRole osRole, int[] permission);
 
     Page<OsRole> findAll(Pageable pageable);
 }

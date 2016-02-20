@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service.impl;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.repository.AdminRepository;
 import me.laudukang.persistence.service.IAdminService;
@@ -45,6 +46,9 @@ public class AdminService implements IAdminService {
             osAdmin.setRemark(osAdminToSave.getRemark());
             osAdmin.setSex(osAdminToSave.getSex());
             osAdmin.setSubject(osAdminToSave.getSubject());
+            if (!Strings.isNullOrEmpty(osAdminToSave.getPassword())) {
+                osAdmin.setPassword(osAdminToSave.getPassword());
+            }
             adminRepository.save(osAdmin);
         }
     }
