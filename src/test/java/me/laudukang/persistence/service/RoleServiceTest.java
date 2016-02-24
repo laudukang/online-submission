@@ -76,6 +76,6 @@ public class RoleServiceTest {
         osRole.setId(1);
         osRole.setName("UPDATE_" + sdf.format(new Date()));
         int[] permission = {2, 3};
-        roleService.update(osRole, permission);
+        roleService.updateById(osRole, permission);
     }
 }
