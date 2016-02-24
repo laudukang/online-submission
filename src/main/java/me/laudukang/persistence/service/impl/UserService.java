@@ -48,17 +48,25 @@ public class UserService implements IUserService {
                 result.setPassword(osUser.getPassword());
             }
             userRepository.save(result);
+            userRepository.flush();
+        } else {
+            System.out.println("user id=" + osUser.getId() + " not found");
         }
 
     }
 
     @Override
     public void deleteById(int id) {
-
+        userRepository.delete(id);
     }
 
     @Override
     public Page<OsUser> findAll(Pageable pageable) {
-        return null;
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public OsUser findOne(String account, String password) {
+        return userRepository.findOne(account, password);
     }
 }

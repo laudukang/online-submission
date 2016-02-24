@@ -1,10 +1,12 @@
 package me.laudukang.persistence.service;
 
+import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * <p>Created with IDEA
@@ -51,6 +54,39 @@ public class UserServiceTest {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void save() {
+        OsUser osUser = new OsUser();
+        osUser.setAccount("account_" + sdf.format(new Date()));
+        osUser.setPassword("123");
+        userService.save(osUser);
+    }
+
+    @Test
+    public void updateById() {
+        OsUser osUser = new OsUser();
+        osUser.setId(4);
+        osUser.setName("update_" + sdf.format(new Date()));
+        osUser.setPassword("123");
+        userService.updateById(osUser);
+    }
+
+    @Test
+    public void deleteById() {
+        userService.deleteById(3);
+    }
+
+    @Test
+    public void findOne() {
+        OsUser osUser = userService.findOne("lau", "123");
+        try {
+            com.google.common.base.Preconditions.checkNotNull(osUser, "Warning:user is null");
+            System.out.println("user.name=" + osUser.getName());
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 }

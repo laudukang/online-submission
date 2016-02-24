@@ -19,5 +19,7 @@ public interface IUserService {
 
     void deleteById(int id);
 
+    OsUser findOne(String account, String password);
+
     Page<OsUser> findAll(Pageable pageable);
 }
