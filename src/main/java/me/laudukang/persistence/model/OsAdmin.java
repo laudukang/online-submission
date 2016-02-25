@@ -48,9 +48,9 @@ public class OsAdmin implements Serializable {
 
     private String subject;
 
-    //bi-directional many-to-one association to OsChat
+    //bi-directional many-to-one association to OsMessage
     @OneToMany(mappedBy = "osAdmin", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<OsChat> osChats = new ArrayList<>();
+    private List<OsMessage> osMessages = new ArrayList<>();
 
     //bi-directional many-to-one association to OsDocAdmin
     @OneToMany(mappedBy = "osAdmin", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -151,26 +151,26 @@ public class OsAdmin implements Serializable {
         this.subject = subject;
     }
 
-    public List<OsChat> getOsChats() {
-        return this.osChats;
+    public List<OsMessage> getOsMessages() {
+        return this.osMessages;
     }
 
-    public void setOsChats(List<OsChat> osChats) {
-        this.osChats = osChats;
+    public void setOsMessages(List<OsMessage> osMessages) {
+        this.osMessages = osMessages;
     }
 
-    public OsChat addOsChat(OsChat osChat) {
-        getOsChats().add(osChat);
-        osChat.setOsAdmin(this);
+    public OsMessage addOsChat(OsMessage osMessage) {
+        getOsMessages().add(osMessage);
+        osMessage.setOsAdmin(this);
 
-        return osChat;
+        return osMessage;
     }
 
-    public OsChat removeOsChat(OsChat osChat) {
-        getOsChats().remove(osChat);
-        osChat.setOsAdmin(null);
+    public OsMessage removeOsChat(OsMessage osMessage) {
+        getOsMessages().remove(osMessage);
+        osMessage.setOsAdmin(null);
 
-        return osChat;
+        return osMessage;
     }
 
     public List<OsDocAdmin> getOsDocAdmins() {

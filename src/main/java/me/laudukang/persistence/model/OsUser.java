@@ -54,9 +54,9 @@ public class OsUser implements Serializable {
     @Column(columnDefinition = "char")
     private String sex;
 
-    //bi-directional many-to-one association to OsChat
+    //bi-directional many-to-one association to OsMessage
     @OneToMany(mappedBy = "osUser")
-    private List<OsChat> osChats = new ArrayList<OsChat>();
+    private List<OsMessage> osMessages = new ArrayList<OsMessage>();
 
     //bi-directional many-to-one association to OsDoc
     @OneToMany(mappedBy = "osUser")
@@ -177,26 +177,26 @@ public class OsUser implements Serializable {
         this.sex = sex;
     }
 
-    public List<OsChat> getOsChats() {
-        return this.osChats;
+    public List<OsMessage> getOsMessages() {
+        return this.osMessages;
     }
 
-    public void setOsChats(List<OsChat> osChats) {
-        this.osChats = osChats;
+    public void setOsMessages(List<OsMessage> osMessages) {
+        this.osMessages = osMessages;
     }
 
-    public OsChat addOsChat(OsChat osChat) {
-        getOsChats().add(osChat);
-        osChat.setOsUser(this);
+    public OsMessage addOsChat(OsMessage osMessage) {
+        getOsMessages().add(osMessage);
+        osMessage.setOsUser(this);
 
-        return osChat;
+        return osMessage;
     }
 
-    public OsChat removeOsChat(OsChat osChat) {
-        getOsChats().remove(osChat);
-        osChat.setOsUser(null);
+    public OsMessage removeOsChat(OsMessage osMessage) {
+        getOsMessages().remove(osMessage);
+        osMessage.setOsUser(null);
 
-        return osChat;
+        return osMessage;
     }
 
     public List<OsDoc> getOsDocs() {
