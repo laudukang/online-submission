@@ -68,17 +68,17 @@ public class LogServiceTest {
 
     @Test
     public void findByContent() {
-        printUtil.printToConsole(logService.findByContent("content_20160131174836", pageable));
+        printUtil.printPageToConsole(logService.findByContent("content_20160131174836", pageable));
     }
 
     @Test
     public void findByUserOrAdminName() {
-        printUtil.printToConsole(logService.findByUserOrAdminName("au", pageable));
+        printUtil.printPageToConsole(logService.findByUserOrAdminName("au", pageable));
     }
 
     @Test
     public void findAll() {
-        printUtil.printToConsole(logService.findAll(pageable));
+        printUtil.printPageToConsole(logService.findAll(pageable));
     }
 
 

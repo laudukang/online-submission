@@ -1,9 +1,12 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.model.OsMessage;
+import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import me.laudukang.spring.domain.OsMessageDomain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,21 +23,22 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
- * <p>Date: 2016/2/1
- * <p>Time: 12:11
+ * <p>Date: 2016/2/24
+ * <p>Time: 21:36
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
-public class AdminServiceTest {
+public class MessageServiceTest {
     @Autowired
-    private IAdminService adminService;
+    private IMessageService messageService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -59,35 +63,33 @@ public class AdminServiceTest {
 
     @Test
     public void save() {
+        OsMessage osMessage = new OsMessage();
         OsAdmin osAdmin = new OsAdmin();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        osAdmin.setAccount("lau_" + sdf.format(new Date()));
-        adminService.save(osAdmin);
-    }
+        osAdmin.setId(4);
 
-    @Test
-    public void updatePassword() {
-        adminService.updatePassword(18, "666");
-        adminService.updatePassword(1, "666");
-    }
+        OsUser osUser = new OsUser();
+        osUser.setId(4);
 
-    @Test
-    public void updateById() {
-        OsAdmin osAdmin = new OsAdmin();
-        osAdmin.setId(2);
-        osAdmin.setRemark("remark_" + System.currentTimeMillis());
-        osAdmin.setBirth(new java.sql.Date(new Date().getTime()));
-        adminService.updateById(osAdmin);
+        osMessage.setOsAdmin(osAdmin);
+        osMessage.setOsUser(osUser);
+        osMessage.setContent("message_" + sdf.format(new Date()));
+        messageService.save(osMessage);
     }
 
     @Test
     public void deleteById() {
-        adminService.deleteById(16);
+        messageService.deleteById(2);
     }
 
     @Test
-    public void findAll() {
-        printUtil.printPageToConsole(adminService.findAll(pageable));
+    public void findAllByUserId() {
+        List<OsMessageDomain> result = messageService.findAllByUserId(4);
+        printUtil.printListToConsole(result);
     }
 
+    @Test
+    public void findAllByAdminId() {
+        List<OsMessageDomain> result = messageService.findAllByAdminId(1);
+        printUtil.printListToConsole(result);
+    }
 }

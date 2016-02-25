@@ -3,9 +3,8 @@
 
     <persistence-unit name="persistenceUnit">
         <class>me.laudukang.persistence.model.OsAdmin</class>
-        <class>me.laudukang.persistence.model.OsAdminRole</class>
         <class>me.laudukang.persistence.model.OsAuthor</class>
-        <class>me.laudukang.persistence.model.OsChat</class>
+        <class>me.laudukang.persistence.model.OsMessage</class>
         <class>me.laudukang.persistence.model.OsDoc</class>
         <class>me.laudukang.persistence.model.OsDocAdmin</class>
         <class>me.laudukang.persistence.model.OsLog</class>

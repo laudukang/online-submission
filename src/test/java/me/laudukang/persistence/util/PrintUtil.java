@@ -2,6 +2,8 @@ package me.laudukang.persistence.util;
 
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -13,7 +15,7 @@ public class PrintUtil<T> {
     public PrintUtil() {
     }
 
-    public void printToConsole(Page<T> result) {
+    public void printPageToConsole(Page<T> result) {
         System.out.println("\n================= info ==================");
         System.out.println("          getNumber= " + result.getNumber());
         System.out.println("getNumberOfElements= " + result.getNumberOfElements());
@@ -23,6 +25,23 @@ public class PrintUtil<T> {
         System.out.println("================= info ==================\n");
         for (T entity : result.getContent()) {
             System.out.println(entity);
+        }
+    }
+
+    public void printListToConsole(List<T> list) {
+        for (T value : list
+                ) {
+            System.out.println(value);
+        }
+    }
+
+    public void printListObejctToConsole(List<Object[]> list) {
+        for (Object[] value : list
+                ) {
+            for (Object obj : value
+                    ) {
+                System.out.println(obj);
+            }
         }
     }
 }
