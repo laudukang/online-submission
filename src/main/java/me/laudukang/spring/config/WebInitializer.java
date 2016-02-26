@@ -1,6 +1,5 @@
 package me.laudukang.spring.config;
 
-import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -30,16 +29,21 @@ public class WebInitializer implements WebApplicationInitializer {
         rootContext.register(ApplicationConfig.class);
         //rootContext.scan("me.laudukang.spring.config");
         sc.addListener(new ContextLoaderListener(rootContext));
-        sc.addFilter("hibernateFilter", OpenSessionInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");
+        //follow can be deleted
+        //sc.addFilter("hibernateFilter", OpenSessionInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");
+
+        //maybe follow will be use
+        // sc.addFilter("OpenEntityManagerInViewFilter", org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");
 
         //2、springmvc上下文
         AnnotationConfigWebApplicationContext springMvcContext = new AnnotationConfigWebApplicationContext();
         springMvcContext.register(MvcConfig.class);
         //3、DispatcherServlet
         DispatcherServlet dispatcherServlet = new DispatcherServlet(springMvcContext);
+
         ServletRegistration.Dynamic dynamic = sc.addServlet("dispatcherServlet", dispatcherServlet);
         dynamic.setLoadOnStartup(1);
-        dynamic.addMapping("/");
+        dynamic.addMapping("/*");
 
         //4、CharacterEncodingFilter
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
