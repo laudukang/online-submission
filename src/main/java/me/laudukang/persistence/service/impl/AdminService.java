@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -78,5 +79,10 @@ public class AdminService implements IAdminService {
     @Override
     public void deleteById(int id) {
         adminRepository.delete(id);
+    }
+
+    @Override
+    public List<Object[]> findOne(String account, String password) {
+        return adminRepository.findOne(account, password);
     }
 }

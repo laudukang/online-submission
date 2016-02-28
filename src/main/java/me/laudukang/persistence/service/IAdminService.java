@@ -5,6 +5,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -23,4 +25,6 @@ public interface IAdminService extends ApplicationContextAware {
     void updatePassword(int id, String password);
 
     Page<OsAdmin> findAll(Pageable pageable);
+
+    List<Object[]> findOne(String account, String password);
 }

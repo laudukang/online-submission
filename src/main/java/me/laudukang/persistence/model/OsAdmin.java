@@ -49,7 +49,7 @@ public class OsAdmin implements Serializable {
     private String subject;
 
     //bi-directional many-to-one association to OsMessage
-    @OneToMany(mappedBy = "osAdmin", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "osAdmin", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsMessage> osMessages = new ArrayList<>();
 
     //bi-directional many-to-one association to OsDocAdmin

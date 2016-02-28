@@ -20,6 +20,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -90,4 +91,11 @@ public class AdminServiceTest {
         printUtil.printPageToConsole(adminService.findAll(pageable));
     }
 
+    @Test
+    public void findOne() {
+        List<Object[]> result = adminService.findOne("lau_2016-02-10 20:03:19", "123");
+        if (result.size() != 0) {
+            System.out.println("id=" + result.get(0)[0] + " account=" + result.get(0)[1] + " name=" + result.get(0)[2]);
+        }
+    }
 }
