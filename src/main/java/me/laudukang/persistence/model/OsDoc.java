@@ -68,6 +68,9 @@ public class OsDoc implements Serializable {
     @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
 
+    @Column(name = "path")
+    private String path;
+
     public OsDoc() {
     }
 
@@ -226,6 +229,14 @@ public class OsDoc implements Serializable {
         osDocAdmin.setOsDoc(null);
 
         return osDocAdmin;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
