@@ -40,6 +40,7 @@ public class WebInitializer implements WebApplicationInitializer {
         springMvcContext.register(MvcConfig.class);
         //3、DispatcherServlet
         DispatcherServlet dispatcherServlet = new DispatcherServlet(springMvcContext);
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
         ServletRegistration.Dynamic dynamic = sc.addServlet("dispatcherServlet", dispatcherServlet);
         dynamic.setLoadOnStartup(1);
@@ -48,6 +49,7 @@ public class WebInitializer implements WebApplicationInitializer {
         //4、CharacterEncodingFilter
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("utf-8");
+        characterEncodingFilter.setForceEncoding(true);
         FilterRegistration filterRegistration =
                 sc.addFilter("characterEncodingFilter", characterEncodingFilter);
         filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/");
