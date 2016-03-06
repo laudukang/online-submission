@@ -26,7 +26,7 @@ import java.util.List;
 @Transactional
 public class AdminService implements IAdminService {
     @Autowired
-    AdminRepository adminRepository;
+    private AdminRepository adminRepository;
 
     private ApplicationContext applicationContext;
 
@@ -84,5 +84,10 @@ public class AdminService implements IAdminService {
     @Override
     public List<Object[]> findOne(String account, String password) {
         return adminRepository.findOne(account, password);
+    }
+
+    @Override
+    public Object[] login(String account, String password) {
+        return adminRepository.login(account, password);
     }
 }

@@ -27,4 +27,7 @@ public interface IAdminService extends ApplicationContextAware {
     Page<OsAdmin> findAll(Pageable pageable);
 
     List<Object[]> findOne(String account, String password);
+
+    Object[] login(String account, String password);
+
 }

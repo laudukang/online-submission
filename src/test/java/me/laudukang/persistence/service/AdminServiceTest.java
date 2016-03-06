@@ -98,4 +98,10 @@ public class AdminServiceTest {
             System.out.println("id=" + result.get(0)[0] + " account=" + result.get(0)[1] + " name=" + result.get(0)[2]);
         }
     }
+
+    @Test
+    public void login() {
+        Object[] result = adminService.login("lau_2016-02-10 20:03:19", "1234");
+        System.out.println(result.length);
+    }
 }
