@@ -6,6 +6,7 @@ import me.laudukang.spring.domain.OsDocAdminDomain;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>Created with IDEA
@@ -14,6 +15,7 @@ import org.springframework.data.repository.query.Param;
  * <p>Time: 23:38
  * <p>Version: 1.0
  */
+@Repository
 public interface DocAdminRepository extends JpaRepository<OsDocAdmin, OsDocAdminPK> {
 
     //@Query("select da from OsDocAdmin da where da.osDoc.id=:id")
