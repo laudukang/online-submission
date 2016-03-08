@@ -56,12 +56,8 @@ public class AdminService implements IAdminService {
 
 
     @Override
-    public void updatePassword(int id, String password) {
-        OsAdmin osAdmin = adminRepository.findOne(id);
-        if (null != osAdmin) {
-            osAdmin.setPassword(password);
-            adminRepository.save(osAdmin);
-        }
+    public int updatePassword(int id, String password) {
+        return adminRepository.updatePassword(id, password);
     }
 
     @Override
@@ -89,5 +85,15 @@ public class AdminService implements IAdminService {
     @Override
     public Object[] login(String account, String password) {
         return adminRepository.login(account, password);
+    }
+
+    @Override
+    public boolean existAccount(String account) {
+        return 1 == adminRepository.existAccount(account) ? true : false;
+    }
+
+    @Override
+    public OsAdmin findOne(int id) {
+        return adminRepository.findOne(id);
     }
 }

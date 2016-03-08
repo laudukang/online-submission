@@ -81,12 +81,18 @@ public class UserServiceTest {
 
     @Test
     public void findOne() {
-        OsUser osUser = userService.findOne("lau", "123");
+        OsUser osUser = userService.findOne(1);
         try {
             com.google.common.base.Preconditions.checkNotNull(osUser, "Warning:user is null");
             System.out.println("user.name=" + osUser.getName());
         } catch (NullPointerException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    @Test
+    public void login() {
+        Object[] result = userService.login("lau", "123");
+        System.out.println(result.length);
     }
 }

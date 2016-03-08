@@ -19,7 +19,13 @@ public interface IUserService {
 
     void deleteById(int id);
 
-    OsUser findOne(String account, String password);
+    OsUser findOne(int id);
+
+    Object[] login(String account, String password);
+
+    boolean existAccount(String account);
+
+    int updatePassword(int id, String password);
 
     Page<OsUser> findAll(Pageable pageable);
 }

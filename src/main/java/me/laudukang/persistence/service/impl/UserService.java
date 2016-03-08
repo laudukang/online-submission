@@ -66,7 +66,23 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public OsUser findOne(String account, String password) {
-        return userRepository.findOne(account, password);
+    public OsUser findOne(int id) {
+        return userRepository.findOne(id);
+    }
+
+    @Override
+    public Object[] login(String account, String password) {
+        return userRepository.login(account, password);
+    }
+
+    @Override
+    public boolean existAccount(String account) {
+        return 1 == userRepository.existAccount(account) ? true : false;
+    }
+
+    @Override
+    public int updatePassword(int id, String password) {
+        return userRepository.updatePassword(id, password);
     }
 }
+

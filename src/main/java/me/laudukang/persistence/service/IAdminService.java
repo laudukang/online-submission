@@ -22,12 +22,16 @@ public interface IAdminService extends ApplicationContextAware {
 
     void updateById(OsAdmin osAdminToSave);
 
-    void updatePassword(int id, String password);
+    int updatePassword(int id, String password);
 
     Page<OsAdmin> findAll(Pageable pageable);
+
+    boolean existAccount(String account);
 
     List<Object[]> findOne(String account, String password);
 
     Object[] login(String account, String password);
+
+    OsAdmin findOne(int id);
 
 }
