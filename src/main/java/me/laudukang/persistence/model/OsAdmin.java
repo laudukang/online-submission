@@ -2,6 +2,8 @@ package me.laudukang.persistence.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,6 +25,8 @@ public class OsAdmin implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Email
+    @NotEmpty(message = "账号不能为空")
     private String account;
 
     private String address;
@@ -38,6 +42,7 @@ public class OsAdmin implements Serializable {
     @Column(name = "office_phone")
     private String officePhone;
 
+    @NotEmpty(message = "密码不能为空")
     @Column(columnDefinition = "char")
     private String password;
 

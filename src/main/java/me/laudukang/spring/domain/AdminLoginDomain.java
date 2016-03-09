@@ -16,7 +16,7 @@ public class AdminLoginDomain {
     private String account;
     @NotEmpty(message = "密码不能为空")
     private String password;
-    @NotEmpty(message = "验证码不能为空")
+    //@NotEmpty(message = "验证码不能为空")
     private String verificationCode;
 
     public String getAccount() {
