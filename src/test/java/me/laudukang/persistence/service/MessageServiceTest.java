@@ -6,7 +6,7 @@ import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
-import me.laudukang.spring.domain.OsMessageDomain;
+import me.laudukang.spring.domain.MessageDomain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -83,13 +83,13 @@ public class MessageServiceTest {
 
     @Test
     public void findAllByUserId() {
-        List<OsMessageDomain> result = messageService.findAllByUserId(4);
+        List<MessageDomain> result = messageService.findAllByUserId(4);
         printUtil.printListToConsole(result);
     }
 
     @Test
     public void findAllByAdminId() {
-        List<OsMessageDomain> result = messageService.findAllByAdminId(1);
+        List<MessageDomain> result = messageService.findAllByAdminId(1);
         printUtil.printListToConsole(result);
     }
 }

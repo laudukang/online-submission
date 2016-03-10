@@ -4,6 +4,7 @@ import me.laudukang.persistence.model.OsLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Repository;
  * <p>Version: 1.0
  */
 @Repository
-public interface LogRepository extends JpaRepository<OsLog, Integer> {
+public interface LogRepository extends JpaRepository<OsLog, Integer>, JpaSpecificationExecutor<OsLog> {
 
     Page<OsLog> findByContentLike(String content, Pageable pageablel);
 

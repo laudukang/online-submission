@@ -1,6 +1,6 @@
 package me.laudukang.persistence.repository;
 
-import me.laudukang.spring.domain.OsMessageDomain;
+import me.laudukang.spring.domain.MessageDomain;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 public interface MessageRepositoryCustom {
-    List<OsMessageDomain> findAllByUserId(int id);
+    List<MessageDomain> findAllByUserId(int id);
 
-    List<OsMessageDomain> findAllByAdminId(int id);
+    List<MessageDomain> findAllByAdminId(int id);
 }

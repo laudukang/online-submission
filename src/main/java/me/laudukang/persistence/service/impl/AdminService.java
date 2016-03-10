@@ -4,14 +4,16 @@ import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.repository.AdminRepository;
 import me.laudukang.persistence.service.IAdminService;
+import me.laudukang.spring.domain.AdminDomain;
 import me.laudukang.spring.events.LogEvent;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -22,9 +24,9 @@ import java.util.List;
  * <p>Time: 12:09
  * <p>Version: 1.0
  */
-@Service
+@Service("adminService")
 @Transactional
-public class AdminService implements IAdminService {
+public class AdminService extends CustomPageService<OsAdmin> implements IAdminService {
     @Autowired
     private AdminRepository adminRepository;
 
@@ -61,11 +63,6 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public Page<OsAdmin> findAll(Pageable pageable) {
-        return adminRepository.findAll(pageable);
-    }
-
-    @Override
     public void save(OsAdmin osAdmin) {
         //adminRepository.saveAdminWithEM(osAdmin);
         adminRepository.save(osAdmin);
@@ -95,5 +92,41 @@ public class AdminService implements IAdminService {
     @Override
     public OsAdmin findOne(int id) {
         return adminRepository.findOne(id);
+    }
+
+    @Override
+    public Page<OsAdmin> findAll(AdminDomain adminDomain) {
+        return adminRepository.findAll(getSpecification(adminDomain.getAccount(), adminDomain.getName()), getPageRequest(adminDomain.getPage(), adminDomain.getPageSize(), adminDomain.getSortCol(), adminDomain.getSortDir()));
+    }
+
+    @Override
+    public Page<OsAdmin> findAllReviewer(AdminDomain adminDomain) {
+        return adminRepository.findAll(getReviewerSpecification(adminDomain.getAccount(), adminDomain.getName()), getPageRequest(adminDomain.getPage(), adminDomain.getPageSize(), adminDomain.getSortCol(), adminDomain.getSortDir()));
+    }
+
+    @Override
+    public int ableAdmin(int id, int status) {
+        return adminRepository.ableAdmin(id, status);
+    }
+
+    private Specification<OsAdmin> getReviewerSpecification(final String account, final String name) {
+        return (root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            predicate.getExpressions().add(cb.like(root.get("account"), account));
+            predicate.getExpressions().add(cb.like(root.get("name"), name));
+            predicate.getExpressions().add(cb.equal(root.get("reviewer"), "1"));
+            return predicate;
+        };
+    }
+
+    @Override
+    public Specification<OsAdmin> getSpecification(String account, String name) {
+        return (root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            predicate.getExpressions().add(cb.like(root.get("account"), account));
+            predicate.getExpressions().add(cb.like(root.get("name"), name));
+            predicate.getExpressions().add(cb.equal(root.get("reviewer"), "0"));
+            return predicate;
+        };
     }
 }

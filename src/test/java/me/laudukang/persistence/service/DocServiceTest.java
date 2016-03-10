@@ -5,11 +5,13 @@ import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import me.laudukang.spring.domain.DocDomain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,7 +22,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * <p>Created with IDEA
@@ -96,5 +100,25 @@ public class DocServiceTest {
     @Test
     public void deleteById() {
         docService.deleteById(9);
+    }
+
+    @Test
+    public void findAllByPage() {
+        Calendar fromTime = new GregorianCalendar(2016, 1, 1, 0, 0, 0);
+        Calendar toTime = new GregorianCalendar(2016, 3, 11, 0, 0, 0);
+        Page<OsDoc> tmp = docService.findAll("%title%", fromTime.getTime(), toTime.getTime(), pageable);
+        System.out.println(tmp.getContent().size());
+    }
+
+    @Test
+    public void findAllByUserId() {
+        DocDomain docDomain = new DocDomain();
+        docDomain.setId(1);
+        docDomain.setSortCol("id");
+        docDomain.setSortDir("ASC");
+        docDomain.setPage(1);
+        docDomain.setPageSize(10);
+        Page<OsDoc> tmp = docService.findAllByUserId(docDomain);
+        System.out.println(tmp.getContent().size());
     }
 }

@@ -2,7 +2,7 @@ package me.laudukang.spring.controller;
 
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IUserService;
-import me.laudukang.spring.domain.UserLoginDomain;
+import me.laudukang.spring.domain.UserDomain;
 import me.laudukang.util.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,17 +32,17 @@ public class UserController {
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage(Model model) {
-        model.addAttribute("userLoginDomain", new UserLoginDomain());
+        model.addAttribute("userLoginDomain", new UserDomain());
         return "";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@ModelAttribute UserLoginDomain userLoginDomain, BindingResult bindingResult, Model model, HttpSession session) {
+    public String login(@ModelAttribute UserDomain userDomain, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userLoginDomain", userLoginDomain);
+            model.addAttribute("userLoginDomain", userDomain);
             return "redirect:";
         }
-        Object[] tmp = userService.login(userLoginDomain.getAccount(), userLoginDomain.getPassword());
+        Object[] tmp = userService.login(userDomain.getAccount(), userDomain.getPassword());
         if (null != tmp && tmp.length > 0) {
             session.setAttribute("userid", tmp[0]); //user.id,user.account,user.name
             session.setAttribute("account", tmp[1]);
@@ -65,7 +65,7 @@ public class UserController {
         boolean isSame = !isNullOrEmpty(newPassword1) && !isNullOrEmpty(newPassword2) && newPassword1.equals(newPassword2);
         int tmp = 0;
         if (check = !isNullOrEmpty(password)) {
-            int id = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
+            int id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
             OsUser osUser = userService.findOne(id);
             if (null != osUser && osUser.getPassword().equals(password) && isSame) {
                 tmp = userService.updatePassword(id, newPassword1);
@@ -114,6 +114,10 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("osUser", osUser);
             return "redirect:";
+        }
+        if (userService.existAccount(osUser.getAccount())) {
+            bindingResult.reject("accountExist", "账号已存在");
+            return "redirect:newAdmin";
         }
         userService.save(osUser);
         model.addAttribute("success", true);

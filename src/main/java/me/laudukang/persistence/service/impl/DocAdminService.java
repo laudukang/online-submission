@@ -4,7 +4,7 @@ import me.laudukang.persistence.model.OsDocAdmin;
 import me.laudukang.persistence.model.OsDocAdminPK;
 import me.laudukang.persistence.repository.DocAdminRepository;
 import me.laudukang.persistence.service.IDocAdminService;
-import me.laudukang.spring.domain.OsDocAdminDomain;
+import me.laudukang.spring.domain.DocAdminDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +44,17 @@ public class DocAdminService implements IDocAdminService {
     }
 
     @Override
-    public OsDocAdminDomain findOneByDocId(int id) {
+    public DocAdminDomain findOneByDocId(int id) {
         return docAdminRepository.findOneByDocId(id);
     }
+
+    //private Specification<OsDocAdmin> getSpecification(final String account, final String name) {
+    //    return (root, query, cb) -> {
+    //        Predicate predicate = cb.conjunction();
+    //        predicate.getExpressions().add(cb.like(root.get("account"), account));
+    //        predicate.getExpressions().add(cb.like(root.get("name"), name));
+    //        return predicate;
+    //    };
+    //}
+
 }

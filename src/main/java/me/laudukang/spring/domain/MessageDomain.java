@@ -12,7 +12,7 @@ import java.util.Date;
  * <p>Time: 14:06
  * <p>Version: 1.0
  */
-public class OsMessageDomain {
+public class MessageDomain {
     private int id;
     private String title;
     private String content;
@@ -20,14 +20,14 @@ public class OsMessageDomain {
     private String userAccount;
     private String adminAccount;
 
-    public OsMessageDomain() {
+    public MessageDomain() {
     }
 
-    public OsMessageDomain(int id) {
+    public MessageDomain(int id) {
         this.id = id;
     }
 
-    public OsMessageDomain(int id, String title, String content, Date postTime, String userAccount, String adminAccount) {
+    public MessageDomain(int id, String title, String content, Date postTime, String userAccount, String adminAccount) {
         this.id = id;
         this.title = title;
         this.content = content;

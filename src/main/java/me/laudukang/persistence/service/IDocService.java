@@ -1,8 +1,11 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsDoc;
+import me.laudukang.spring.domain.DocDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.Date;
 
 /**
  * <p>Created with IDEA
@@ -14,9 +17,15 @@ import org.springframework.data.domain.Pageable;
 public interface IDocService {
     void save(OsDoc osDoc);
 
+    OsDoc findOne(int id);
+
     void updateById(OsDoc osDoc);
 
     void deleteById(int id);
 
-    Page<OsDoc> findAll(Pageable pageable);
+    Page<OsDoc> findAll(String zhTitle, Date fromTime, Date toTime, Pageable pageable);
+
+    Page<OsDoc> findAll(DocDomain docDomain);
+
+    Page<OsDoc> findAllByUserId(DocDomain docDomain);
 }

@@ -12,17 +12,17 @@ import java.util.Date;
  * <p>Time: 23:47
  * <p>Version: 1.0
  */
-public class OsDocAdminDomain {
+public class DocAdminDomain {
     private int docId;
     private int adminId;
     private String reviewResult;
     private Date reviewTime;
     private String adminAccount;
 
-    public OsDocAdminDomain() {
+    public DocAdminDomain() {
     }
 
-    public OsDocAdminDomain(int docId, int adminId, String reviewResult, Date reviewTime, String adminAccount) {
+    public DocAdminDomain(int docId, int adminId, String reviewResult, Date reviewTime, String adminAccount) {
         this.docId = docId;
         this.adminId = adminId;
         this.reviewResult = reviewResult;

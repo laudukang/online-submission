@@ -2,6 +2,7 @@ package me.laudukang.persistence.repository;
 
 import me.laudukang.persistence.model.OsAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @Repository
-public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminRepositoryCustom {
+public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminRepositoryCustom, JpaSpecificationExecutor<OsAdmin> {
     //void updatePassword(OsAdmin osAdmin);
     //@Query("select admin from OsAdmin admin where admin.account=:account and admin.password=:password")
     //OsAdmin findOne2(@Param("account") String account, @Param("password") String password);
@@ -34,4 +35,8 @@ public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminR
     @Query("update OsAdmin u set u.password=:password where u.id=:id")
     @Modifying
     int updatePassword(@Param("id") int id, @Param("password") String password);
+
+    @Query("update OsAdmin u set u.status=:status where u.id=:id")
+    @Modifying
+    int ableAdmin(@Param("id") int id, @Param("status") int status);
 }

@@ -2,7 +2,7 @@ package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsDocAdmin;
 import me.laudukang.persistence.model.OsDocAdminPK;
-import me.laudukang.spring.domain.OsDocAdminDomain;
+import me.laudukang.spring.domain.DocAdminDomain;
 
 /**
  * <p>Created with IDEA
@@ -18,6 +18,6 @@ public interface IDocAdminService {
 
     void update(OsDocAdmin osDocAdmin);
 
-    OsDocAdminDomain findOneByDocId(int id);
+    DocAdminDomain findOneByDocId(int id);
 
 }

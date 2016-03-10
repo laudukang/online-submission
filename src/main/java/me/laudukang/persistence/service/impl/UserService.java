@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
  */
 @Service
 @Transactional
-public class UserService implements IUserService {
+public class UserService extends CustomPageService<OsUser> implements IUserService {
     @Autowired
     private UserRepository userRepository;
 
@@ -84,5 +84,6 @@ public class UserService implements IUserService {
     public int updatePassword(int id, String password) {
         return userRepository.updatePassword(id, password);
     }
+
 }
 

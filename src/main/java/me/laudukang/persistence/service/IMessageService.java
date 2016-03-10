@@ -1,7 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsMessage;
-import me.laudukang.spring.domain.OsMessageDomain;
+import me.laudukang.spring.domain.MessageDomain;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface IMessageService {
 
     void deleteById(int id);
 
-    List<OsMessageDomain> findAllByUserId(int id);
+    List<MessageDomain> findAllByUserId(int id);
 
-    List<OsMessageDomain> findAllByAdminId(int id);
+    List<MessageDomain> findAllByAdminId(int id);
 }

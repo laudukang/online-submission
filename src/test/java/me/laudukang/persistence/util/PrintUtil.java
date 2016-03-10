@@ -17,15 +17,15 @@ public class PrintUtil<T> {
 
     public void printPageToConsole(Page<T> result) {
         System.out.println("\n================= info ==================");
-        System.out.println("          getNumber= " + result.getNumber());
-        System.out.println("getNumberOfElements= " + result.getNumberOfElements());
-        System.out.println("   getTotalElements= " + result.getTotalElements());
-        System.out.println("      getTotalPages= " + result.getTotalPages());
-        System.out.println("            getSize= " + result.getSize());
+        System.out.println("          getNumber= " + result.getNumber());//page
+        System.out.println("getNumberOfElements= " + result.getNumberOfElements());//当前切片大小
+        System.out.println("   getTotalElements= " + result.getTotalElements());//查询结果总数
+        System.out.println("      getTotalPages= " + result.getTotalPages());//总页数
+        System.out.println("            getSize= " + result.getSize());//pageSzie
         System.out.println("================= info ==================\n");
-        for (T entity : result.getContent()) {
-            System.out.println(entity);
-        }
+        //for (T entity : result.getContent()) {
+        //    System.out.println(entity);
+        //}
     }
 
     public void printListToConsole(List<T> list) {

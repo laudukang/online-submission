@@ -1,9 +1,9 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.spring.domain.AdminDomain;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -24,7 +24,9 @@ public interface IAdminService extends ApplicationContextAware {
 
     int updatePassword(int id, String password);
 
-    Page<OsAdmin> findAll(Pageable pageable);
+    Page<OsAdmin> findAll(AdminDomain adminDomain);
+
+    Page<OsAdmin> findAllReviewer(AdminDomain adminDomain);
 
     boolean existAccount(String account);
 
@@ -34,4 +36,5 @@ public interface IAdminService extends ApplicationContextAware {
 
     OsAdmin findOne(int id);
 
+    int ableAdmin(int id, int status);
 }

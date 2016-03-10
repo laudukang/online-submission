@@ -1,6 +1,6 @@
 package me.laudukang.persistence.repository;
 
-import me.laudukang.spring.domain.OsMessageDomain;
+import me.laudukang.spring.domain.MessageDomain;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -21,17 +21,17 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<OsMessageDomain> findAllByUserId(int id) {
-        String queryStr = "select new me.laudukang.spring.domain.OsMessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osUser.id=:id order by message.postTime";
-        TypedQuery<OsMessageDomain> query = entityManager.createQuery(queryStr, OsMessageDomain.class);
+    public List<MessageDomain> findAllByUserId(int id) {
+        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osUser.id=:id order by message.postTime";
+        TypedQuery<MessageDomain> query = entityManager.createQuery(queryStr, MessageDomain.class);
         query.setParameter("id", id);
         return query.getResultList();
     }
 
     @Override
-    public List<OsMessageDomain> findAllByAdminId(int id) {
-        String queryStr = "select new me.laudukang.spring.domain.OsMessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osAdmin.id=:id order by message.postTime";
-        TypedQuery<OsMessageDomain> query = entityManager.createQuery(queryStr, OsMessageDomain.class);
+    public List<MessageDomain> findAllByAdminId(int id) {
+        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osAdmin.id=:id order by message.postTime";
+        TypedQuery<MessageDomain> query = entityManager.createQuery(queryStr, MessageDomain.class);
         query.setParameter("id", id);
         return query.getResultList();
     }

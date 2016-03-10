@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f0491153-2df2-4498-aef1-646eaf276412" name="Default" comment="add AdminController">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/AdminController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminLoginDomain.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserLoginDomain.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/login.jsp" />
+    <list default="true" id="f0491153-2df2-4498-aef1-646eaf276412" name="Default" comment="add AdminController and AdminLoginDomain,UserLoginDomain">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/ICustomPageService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/CustomPageService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/DocController.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/DocDomain.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/util/TimeStampPropertyEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/online-submission.iml" afterPath="$PROJECT_DIR$/online-submission.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAdmin.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAdmin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsUser.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsUser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocAdminRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocAdminRepository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocRepository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/LogRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/LogRepository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryCustom.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryCustom.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryImpl.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/RoleRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/RoleRepository.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/UserRepository.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/UserRepository.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IAdminService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IAdminService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocAdminService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocAdminService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IMessageService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IMessageService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/AdminService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/AdminService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocAdminService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocAdminService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/MessageService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/MessageService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/UserService.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/UserService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/AdminController.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/AdminController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/HiController.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/HiController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/UserController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/util/MapUtil.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/util/MapUtil.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java" afterPath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocServiceTest.java" afterPath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocServiceTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/MessageServiceTest.java" afterPath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/MessageServiceTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/util/PrintUtil.java" afterPath="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/util/PrintUtil.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminLoginDomain.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserDomain.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/OsDocAdminDomain.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/DocAdminDomain.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/OsMessageDomain.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/MessageDomain.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserLoginDomain.java" afterPath="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminDomain.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/login.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/login.jsp" />
     </list>
     <ignored path="online-submission.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,6 +76,24 @@
         <option name="myItemId" />
         <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
       </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="MySQL - online_submission@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" />
+        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="MySQL - online_submission@localhost" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="os_admin" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
+      </PATH_ELEMENT>
     </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
@@ -54,21 +102,104 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AdminController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/AdminController.java">
+      <file leaf-file-name="DocController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/DocController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.86200714">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="88" column="17" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
+              <folding>
+                <element signature="e#3036#3037#0" expanded="true" />
+                <element signature="e#3061#3062#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="114" column="42" selection-start-line="114" selection-start-column="42" selection-end-line="114" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdminLoginDomain.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminLoginDomain.java">
+      <file leaf-file-name="AdminRepository.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5505618">
+              <caret line="20" column="121" selection-start-line="20" selection-start-column="97" selection-end-line="20" selection-end-column="121" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocServiceTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+              <caret line="104" column="9" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CustomPageService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/CustomPageService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DocDomain.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/DocDomain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="113" column="28" selection-start-line="113" selection-start-column="28" selection-end-line="113" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdminDomain.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminDomain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AdminServiceTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IDocService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="29" column="31" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OsDoc.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDoc.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="52" column="29" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -79,9 +210,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Jsp File" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -105,57 +236,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAuthor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsUser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDoc.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsRole.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/LogServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsPermission.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IRoleService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IUserService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/UserRepository.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/RoleServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/UserService.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/UserServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IChatService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/ChatService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/RoleService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/ChatRepository.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/ChatServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsChat.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsMessage.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/persistence.xml" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/util/PrintUtil.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/OsMessageDomain.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryCustom.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IMessageService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/MessageService.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/MessageServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDocAdminPK.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDocAdmin.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/OsDocAdminDomain.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocAdminRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocAdminService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocAdminService.java" />
         <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocAdminServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/login.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/PermissionRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDoc.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IUserService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/UserServiceTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/MvcConfig.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/WebInitializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/SpringBootApp.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAdmin.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IAdminService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/AdminService.java" />
-        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/login.jsp" />
         <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminLoginDomain.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserLoginDomain.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/view/login.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/specification/OsAdminSpecification.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/SpringBootApp.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/HiController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocAdminRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/LogRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/RoleRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/UserRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/MessageDomain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/PageableService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IPageableService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/PageRequestService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IPageRequestService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IPageService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/PageService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/UserService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/util/PrintUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAdmin.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IAdminService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/CustomPageService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocAdminService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/AdminService.java" />
         <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/AdminController.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/util/TimeStampPropertyEditor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserDomain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/UserController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsUser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/util/MapUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/DocController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocRepository.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/DocDomain.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminDomain.java" />
+        <option value="$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocServiceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java" />
       </list>
     </option>
   </component>
@@ -410,6 +541,11 @@
             <id>XPath</id>
           </State>
         </expanded-state>
+        <selected-state>
+          <State>
+            <id>Android</id>
+          </State>
+        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -438,6 +574,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -548,93 +686,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="online-submission" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="online-submission" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="persistence" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="service" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="online-submission" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="online-submission" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="online-submission" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="online-submission" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="WEB-INF" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="admin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="online-submission" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="online-submission" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="webapp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -679,6 +761,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="laudukang" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="util" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -922,53 +1008,56 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="vcs.TFS" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.folding" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15332031" />
     <property name="project.structure.side.proportion" value="0.24682814" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../TEST" />
+    <property name="last_opened_file_path" value="D:/Git/tutorials/spring-jpa" />
     <property name="ChangesBrowser.SHOW_FLATTEN" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="103" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="102" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="132" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="131" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="132" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="131" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="925" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="915" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="120" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="119" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="127" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="126" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="126" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="125" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="919" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="909" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="JPA.DatabaseSchemaImportDialog" value="673fc956-e4cf-446f-ab55-4147b2bba9d9" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://D:/IntelliJWorkspaces/online-submission/src/main/java/me/laudukang/persistence/model/OsLog.java" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://D:/IntelliJWorkspaces/online-submission/src/main/java/me/laudukang/persistence/model/OsAdmin.java" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\webapp\WEB-INF\view" />
+      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\webapp" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="me.laudukang" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\java\me\laudukang\spring\config" />
-      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\webapp\js" />
     </key>
     <key name="ImportMappingsDialog.RecentPackages">
       <recent name="me.laudukang.persistence.model" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\webapp" />
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.laudukang.util" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\java\me\laudukang\util" />
+      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\java\me\laudukang\spring\config" />
+      <recent name="D:\IntelliJWorkspaces\online-submission\src\main\webapp\js" />
     </key>
   </component>
   <component name="RestClientSettings">
@@ -1017,112 +1106,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.SpringBootApp">
-    <configuration default="false" name="DocAdminServiceTest.save" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="online-submission" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
-      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.DocAdminServiceTest" />
-      <option name="METHOD_NAME" value="save" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="DocAdminServiceTest.update" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="online-submission" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
-      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.DocAdminServiceTest" />
-      <option name="METHOD_NAME" value="update" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="DocAdminServiceTest.findOneByDocId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="online-submission" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
-      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.DocAdminServiceTest" />
-      <option name="METHOD_NAME" value="findOneByDocId" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="LogServiceTest.findAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="online-submission" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
-      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.LogServiceTest" />
-      <option name="METHOD_NAME" value="findAll" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-      <method />
-    </configuration>
-    <configuration default="false" name="AdminServiceTest.findOne" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.DocServiceTest.findAllByUserId">
+    <configuration default="false" name="AdminServiceTest.findAllByPage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="me.laudukang.persistence.service.*" />
@@ -1134,7 +1119,7 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
       <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.AdminServiceTest" />
-      <option name="METHOD_NAME" value="findOne" />
+      <option name="METHOD_NAME" value="findAllByPage" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -1148,15 +1133,203 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+    <configuration default="false" name="DocServiceTest.findAllByPage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="online-submission" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
+      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.DocServiceTest" />
+      <option name="METHOD_NAME" value="findAllByPage" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="AdminServiceTest.ableAdmin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="online-submission" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
+      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.AdminServiceTest" />
+      <option name="METHOD_NAME" value="ableAdmin" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="AdminServiceTest.findAllReviewer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="online-submission" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
+      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.AdminServiceTest" />
+      <option name="METHOD_NAME" value="findAllReviewer" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="DocServiceTest.findAllByUserId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="me.laudukang.persistence.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="online-submission" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="me.laudukang.persistence.service" />
+      <option name="MAIN_CLASS_NAME" value="me.laudukang.persistence.service.DocServiceTest" />
+      <option name="METHOD_NAME" value="findAllByUserId" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0.30" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
       <deployment />
-      <server-settings />
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="_online-submission_2" />
+      </server-settings>
       <predefined_log_file id="Tomcat" enabled="true" />
       <predefined_log_file id="Tomcat Catalina" enabled="true" />
       <predefined_log_file id="Tomcat Manager" enabled="false" />
       <predefined_log_file id="Tomcat Host Manager" enabled="false" />
       <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="30341" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="JRebel Debug">
+        <option name="DEBUG_PORT" value="30342" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Executor">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
       <method />
     </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -1573,6 +1746,121 @@
       <listeners />
       <method />
     </configuration>
+    <configuration default="true" type="TomeeConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="_online-submission" />
+      </server-settings>
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="Tomcat Catalina" enabled="true" />
+      <predefined_log_file id="Tomcat Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Host Manager" enabled="false" />
+      <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="30312" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="JRebel Debug">
+        <option name="DEBUG_PORT" value="30313" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Executor">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method />
+    </configuration>
+    <configuration default="true" type="TomeeConfiguration" factoryName="Remote" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="LOCAL" value="false" />
+      <deployment />
+      <server-settings>
+        <data>
+          <option name="transportHostId" value="" />
+          <host-id />
+        </data>
+      </server-settings>
+      <predefined_log_file id="Tomcat" enabled="true" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="30320" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="JRebel Debug">
+        <option name="DEBUG_PORT" value="30321" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
       <node-options />
       <gulpfile />
@@ -1591,6 +1879,13 @@
       <method />
     </configuration>
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
+      <method />
+    </configuration>
+    <configuration default="false" name="SpringBootApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="me.laudukang.spring.config.SpringBootApp" />
+      <module name="online-submission" />
+      <envs />
       <method />
     </configuration>
     <configuration default="false" name="online_submission" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.0.30" ALTERNATIVE_JRE_ENABLED="false">
@@ -1700,29 +1995,22 @@
         </option>
       </method>
     </configuration>
-    <configuration default="false" name="SpringBootApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="me.laudukang.spring.config.SpringBootApp" />
-      <module name="online-submission" />
-      <envs />
-      <method />
-    </configuration>
     <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="Tomcat Server.online_submission" />
-      <item index="1" class="java.lang.String" itemvalue="Spring Boot.SpringBootApp" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.DocAdminServiceTest.save" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.DocAdminServiceTest.update" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.DocAdminServiceTest.findOneByDocId" />
-      <item index="5" class="java.lang.String" itemvalue="JUnit.LogServiceTest.findAll" />
-      <item index="6" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.findOne" />
+      <item index="0" class="java.lang.String" itemvalue="Spring Boot.SpringBootApp" />
+      <item index="1" class="java.lang.String" itemvalue="Tomcat Server.online_submission" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.findAllByPage" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.DocServiceTest.findAllByPage" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.ableAdmin" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.findAllReviewer" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.DocServiceTest.findAllByUserId" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.findOne" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.DocAdminServiceTest.findOneByDocId" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.LogServiceTest.findAll" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.DocAdminServiceTest.update" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.DocAdminServiceTest.save" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.DocServiceTest.findAllByUserId" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.findAllByPage" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.findAllReviewer" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.AdminServiceTest.ableAdmin" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.DocServiceTest.findAllByPage" />
       </list>
     </recent_temporary>
   </component>
@@ -1776,7 +2064,26 @@
       <workItem from="1456383902164" duration="26197000" />
       <workItem from="1456543715747" duration="316000" />
       <workItem from="1456544102779" duration="2883000" />
-      <workItem from="1456671523323" duration="85000" />
+      <workItem from="1456671523323" duration="774000" />
+      <workItem from="1456719455927" duration="978000" />
+      <workItem from="1456721097043" duration="593000" />
+      <workItem from="1456830826254" duration="1297000" />
+      <workItem from="1456904940096" duration="2503000" />
+      <workItem from="1456907471989" duration="14000" />
+      <workItem from="1456984054286" duration="979000" />
+      <workItem from="1456985069070" duration="365000" />
+      <workItem from="1457082667231" duration="1080000" />
+      <workItem from="1457089021151" duration="5313000" />
+      <workItem from="1457178927034" duration="132000" />
+      <workItem from="1457181345469" duration="232000" />
+      <workItem from="1457273429422" duration="989000" />
+      <workItem from="1457278452297" duration="2771000" />
+      <workItem from="1457315608862" duration="107000" />
+      <workItem from="1457327645383" duration="3495000" />
+      <workItem from="1457419279820" duration="615000" />
+      <workItem from="1457445163817" duration="2784000" />
+      <workItem from="1457522307961" duration="16454000" />
+      <workItem from="1457588197850" duration="27648000" />
     </task>
     <task id="LOCAL-00001" summary="delete PersistenceXmlConfig.java">
       <created>1453548898090</created>
@@ -1964,43 +2271,97 @@
       <option name="project" value="LOCAL" />
       <updated>1456501041509</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="add AdminController and AdminLoginDomain,UserLoginDomain">
+      <created>1456671680059</created>
+      <option name="number" value="00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1456671680059</updated>
+    </task>
+    <task id="LOCAL-00033" summary="update entity(add path column)">
+      <created>1456830906176</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1456830906176</updated>
+    </task>
+    <task id="LOCAL-00034" summary="characterEncodingFilter.setForceEncoding(true)">
+      <created>1457178985290</created>
+      <option name="number" value="00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1457178985290</updated>
+    </task>
+    <task id="LOCAL-00035" summary="login">
+      <created>1457274331569</created>
+      <option name="number" value="00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1457274331569</updated>
+    </task>
+    <task id="LOCAL-00036" summary="@Repository">
+      <created>1457344902186</created>
+      <option name="number" value="00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1457344902186</updated>
+    </task>
+    <task id="LOCAL-00037" summary="updatePassword">
+      <created>1457447986313</created>
+      <option name="number" value="00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1457447986313</updated>
+    </task>
+    <task id="LOCAL-00038" summary="util">
+      <created>1457536059050</created>
+      <option name="number" value="00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1457536059050</updated>
+    </task>
+    <task id="LOCAL-00039" summary="admin improve">
+      <created>1457536136917</created>
+      <option name="number" value="00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1457536136917</updated>
+    </task>
+    <task id="LOCAL-00040" summary="finish user part">
+      <created>1457576425466</created>
+      <option name="number" value="00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1457576425466</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="AdminServiceTest_findOne - 2016.02.27 at 01h 01m 17s.xml">
-      <configuration name="AdminServiceTest.findOne" configurationId="JUnit" />
+    <history-entry file="AdminServiceTest_ableAdmin - 2016.03.10 at 20h 39m 38s.xml">
+      <configuration name="AdminServiceTest.ableAdmin" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="AdminServiceTest_findOne - 2016.02.27 at 01h 02m 27s.xml">
-      <configuration name="AdminServiceTest.findOne" configurationId="JUnit" />
+    <history-entry file="AdminServiceTest_findAllByPage - 2016.03.10 at 21h 18m 12s.xml">
+      <configuration name="AdminServiceTest.findAllByPage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="AdminServiceTest_findOne - 2016.02.27 at 01h 03m 54s.xml">
-      <configuration name="AdminServiceTest.findOne" configurationId="JUnit" />
+    <history-entry file="AdminServiceTest_findAllByPage - 2016.03.10 at 21h 18m 34s.xml">
+      <configuration name="AdminServiceTest.findAllByPage" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="AdminServiceTest_findOne - 2016.02.27 at 01h 05m 17s.xml">
-      <configuration name="AdminServiceTest.findOne" configurationId="JUnit" />
+    <history-entry file="AdminServiceTest_findAllReviewer - 2016.03.10 at 21h 05m 21s.xml">
+      <configuration name="AdminServiceTest.findAllReviewer" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="AdminServiceTest_findOne - 2016.02.27 at 01h 10m 03s.xml">
-      <configuration name="AdminServiceTest.findOne" configurationId="JUnit" />
+    <history-entry file="AdminServiceTest_findAllReviewer - 2016.03.10 at 21h 07m 16s.xml">
+      <configuration name="AdminServiceTest.findAllReviewer" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="AdminServiceTest_findOne - 2016.02.27 at 01h 10m 20s.xml">
-      <configuration name="AdminServiceTest.findOne" configurationId="JUnit" />
+    <history-entry file="DocServiceTest_findAllByUserId - 2016.03.10 at 23h 12m 51s.xml">
+      <configuration name="DocServiceTest.findAllByUserId" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DocAdminServiceTest_findOneByDocId - 2016.02.25 at 23h 46m 36s.xml">
-      <configuration name="DocAdminServiceTest.findOneByDocId" configurationId="JUnit" />
+    <history-entry file="DocServiceTest_findAllByUserId - 2016.03.10 at 23h 14m 30s.xml">
+      <configuration name="DocServiceTest.findAllByUserId" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DocAdminServiceTest_findOneByDocId - 2016.02.25 at 23h 52m 18s.xml">
-      <configuration name="DocAdminServiceTest.findOneByDocId" configurationId="JUnit" />
+    <history-entry file="DocServiceTest_findAllByUserId - 2016.03.10 at 23h 14m 59s.xml">
+      <configuration name="DocServiceTest.findAllByUserId" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DocAdminServiceTest_findOneByDocId - 2016.02.25 at 23h 53m 34s.xml">
-      <configuration name="DocAdminServiceTest.findOneByDocId" configurationId="JUnit" />
+    <history-entry file="DocServiceTest_findAllByUserId - 2016.03.10 at 23h 16m 58s.xml">
+      <configuration name="DocServiceTest.findAllByUserId" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="DocAdminServiceTest_findOneByDocId - 2016.02.25 at 23h 53m 53s.xml">
-      <configuration name="DocAdminServiceTest.findOneByDocId" configurationId="JUnit" />
+    <history-entry file="DocServiceTest_findAllByUserId - 2016.03.10 at 23h 18m 21s.xml">
+      <configuration name="DocServiceTest.findAllByUserId" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="248867000" />
+    <option name="totallyTimeSpent" value="317905000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -2016,37 +2377,37 @@
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.49546143" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5045386" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270548" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290469" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.65068495" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32829046" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.68835616" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28971255" sideWeight="0.51369864" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6729452" sideWeight="0.4969743" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2927383" sideWeight="0.48214287" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28971255" sideWeight="0.51369864" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2927383" sideWeight="0.51785713" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32829046" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24886535" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.71746576" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.49546143" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.65068495" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.66780823" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3270548" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.68835616" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.290469" sideWeight="0.52226025" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.295764" sideWeight="0.47773972" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28971255" sideWeight="0.51369864" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2927383" sideWeight="0.51785713" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24810892" sideWeight="0.51282054" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6729452" sideWeight="0.4969743" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.71746576" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44006848" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6849315" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.67636985" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2100,15 +2461,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="LIMIT_HISTORY" value="false" />
-    <MESSAGE value="add custom CRUD method into Repository level.realize part of AdminService test,update pom.xml" />
-    <MESSAGE value="deal with service Exception" />
-    <MESSAGE value="use @EnableJpaAuditing,and change some entity's time style from Timestamp to Date,use @Temporal to format the store time style" />
-    <MESSAGE value="add Spring event support" />
-    <MESSAGE value="use Pageable,use Async,rename LogEvent" />
-    <MESSAGE value="add password column" />
-    <MESSAGE value="LogServiceTest done" />
-    <MESSAGE value="LogService done" />
-    <MESSAGE value="finish AdminService and it's test,add PrintUtil in test" />
     <MESSAGE value="add asyncuncaughtexceptionhandler" />
     <MESSAGE value="add onetomany,test will be update next time" />
     <MESSAGE value="add @After to endTest" />
@@ -2125,7 +2477,16 @@
     <MESSAGE value="finish MessageService and it's test" />
     <MESSAGE value="finish DocAdminService and it's test,add domain" />
     <MESSAGE value="add SpringBoot support" />
-    <option name="LAST_COMMIT_MESSAGE" value="add SpringBoot support" />
+    <MESSAGE value="add AdminController and AdminLoginDomain,UserLoginDomain" />
+    <MESSAGE value="update entity(add path column)" />
+    <MESSAGE value="characterEncodingFilter.setForceEncoding(true)" />
+    <MESSAGE value="login" />
+    <MESSAGE value="@Repository" />
+    <MESSAGE value="updatePassword" />
+    <MESSAGE value="util" />
+    <MESSAGE value="admin improve" />
+    <MESSAGE value="finish user part" />
+    <option name="LAST_COMMIT_MESSAGE" value="finish user part" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -2140,195 +2501,18 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-jpa/1.9.2.RELEASE/spring-data-jpa-1.9.2.RELEASE-sources.jar!/org/springframework/data/jpa/repository/Query.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.2.4.RELEASE/spring-context-4.2.4.RELEASE-sources.jar!/org/springframework/validation/Errors.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.40074906">
-          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepositoryCustom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.411985">
-          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepositoryImpl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/login.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21348314">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21146953">
-          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsUser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.9139786">
-          <caret line="179" column="25" selection-start-line="179" selection-start-column="25" selection-end-line="179" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryCustom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="231" selection-start-line="32" selection-start-column="231" selection-end-line="32" selection-end-column="231" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IMessageService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/MessageService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="50" selection-start-line="42" selection-start-column="50" selection-end-line="42" selection-end-column="50" />
-          <folding>
-            <element signature="e#978#979#0" expanded="false" />
-            <element signature="e#1038#1039#0" expanded="false" />
-            <element signature="e#1113#1114#0" expanded="false" />
-            <element signature="e#1174#1175#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/MessageServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="20" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/RoleRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsRole.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="24" selection-start-line="80" selection-start-column="24" selection-end-line="80" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/LogServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final-sources.jar!/javax/persistence/EmbeddedId.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="74" column="18" selection-start-line="74" selection-start-column="18" selection-end-line="74" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDocAdmin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDocAdminPK.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocAdminServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="85" column="59" selection-start-line="85" selection-start-column="59" selection-end-line="85" selection-end-column="59" />
-          <folding>
-            <element signature="e#2305#2306#0" expanded="false" />
-            <element signature="e#2371#2372#0" expanded="false" />
-            <element signature="e#2727#2728#0" expanded="false" />
-            <element signature="e#2796#2797#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocAdminService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="27" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="27" />
-          <folding>
-            <element signature="e#798#799#0" expanded="false" />
-            <element signature="e#849#850#0" expanded="false" />
-            <element signature="e#920#921#0" expanded="false" />
-            <element signature="e#975#976#0" expanded="false" />
-            <element signature="e#1401#1402#0" expanded="false" />
-            <element signature="e#1461#1462#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocAdminRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6896552">
-          <caret line="1" column="17" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/ApplicationConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.35643566">
+          <caret line="9" column="58" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="58" />
           <folding />
         </state>
       </provider>
@@ -2337,121 +2521,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-          <folding>
-            <element signature="e#928#929#0" expanded="false" />
-            <element signature="e#979#980#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1-sources.jar!/javax/servlet/ServletContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="97" column="17" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/exception/MyExceptionHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.2.4.RELEASE/spring-context-4.2.4.RELEASE-sources.jar!/org/springframework/context/annotation/ComponentScan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="18" selection-start-line="56" selection-start-column="18" selection-end-line="56" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/8.0.30/tomcat-embed-core-8.0.30.jar!/javax/servlet/ServletRegistration.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4624506">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/1.3.2.RELEASE/spring-boot-autoconfigure-1.3.2.RELEASE.jar!/org/springframework/boot/autoconfigure/SpringBootApplication.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.78656125">
-          <caret line="40" column="37" selection-start-line="40" selection-start-column="15" selection-end-line="40" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/MvcConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1835206">
-          <caret line="39" column="23" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/PersistenceJPAConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <caret line="82" column="5" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/SpringBootApp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="22" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.7490637">
+          <caret line="35" column="17" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocAdminRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/config/WebInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.762712">
-          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IUserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/HiController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="37" column="21" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/UserRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="17" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+          <caret line="19" column="120" selection-start-line="19" selection-start-column="120" selection-end-line="19" selection-end-column="120" />
           <folding />
         </state>
       </provider>
@@ -2459,108 +2552,396 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="20" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="20" />
+          <caret line="15" column="101" selection-start-line="15" selection-start-column="101" selection-end-line="15" selection-end-column="101" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/view/admin/login.jsp">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/MessageRepositoryCustom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5148515">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="40" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/PermissionRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="82" selection-start-line="14" selection-start-column="82" selection-end-line="14" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/RoleRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="103" selection-start-line="15" selection-start-column="103" selection-end-line="15" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-jpa/1.9.2.RELEASE/spring-data-jpa-1.9.2.RELEASE-sources.jar!/org/springframework/data/jpa/domain/Specification.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8627451">
+          <caret line="36" column="14" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/UserRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="103" selection-start-line="18" selection-start-column="103" selection-end-line="18" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/LogService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="91" column="5" selection-start-line="91" selection-start-column="5" selection-end-line="91" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocAdminService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAdmin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7752809">
-          <caret line="209" column="0" selection-start-line="205" selection-start-column="3" selection-end-line="209" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserLoginDomain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8876405">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding>
-            <element signature="e#578#579#0" expanded="true" />
-            <element signature="e#608#609#0" expanded="true" />
-            <element signature="e#654#655#0" expanded="true" />
-            <element signature="e#692#693#0" expanded="true" />
-            <element signature="e#727#728#0" expanded="true" />
-            <element signature="e#758#759#0" expanded="true" />
-            <element signature="e#806#807#0" expanded="true" />
-            <element signature="e#846#847#0" expanded="true" />
-            <element signature="e#889#890#0" expanded="true" />
-            <element signature="e#928#929#0" expanded="true" />
-            <element signature="e#992#993#0" expanded="true" />
-            <element signature="e#1048#1049#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/OsMessageDomain.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final-sources.jar!/javax/persistence/criteria/Path.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <caret line="113" column="16" selection-start-line="113" selection-start-column="16" selection-end-line="113" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/OsDocAdminDomain.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/MessageDomain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36329588">
-          <caret line="24" column="112" selection-start-line="24" selection-start-column="112" selection-end-line="24" selection-end-column="112" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/DocAdminDomain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56989247">
-          <caret line="19" column="21" selection-start-line="19" selection-start-column="21" selection-end-line="19" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/RoleService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="28" selection-start-line="56" selection-start-column="28" selection-end-line="56" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/ICustomPageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/1.11.2.RELEASE/spring-data-commons-1.11.2.RELEASE-sources.jar!/org/springframework/data/domain/Sort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="67" selection-start-line="36" selection-start-column="64" selection-end-line="36" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="87" column="1" selection-start-line="87" selection-start-column="1" selection-end-line="87" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/1.11.2.RELEASE/spring-data-commons-1.11.2.RELEASE-sources.jar!/org/springframework/data/domain/Slice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/util/PrintUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="79" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="79" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IAdminService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71326166">
-          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="33" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocAdminService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="7" selection-start-line="50" selection-start-column="6" selection-end-line="57" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsAdmin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding>
+            <element signature="e#3525#3526#0" expanded="true" />
+            <element signature="e#3555#3556#0" expanded="true" />
+            <element signature="e#3884#3885#0" expanded="true" />
+            <element signature="e#3915#3916#0" expanded="true" />
+            <element signature="e#3963#3964#0" expanded="true" />
+            <element signature="e#4003#4004#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/HiController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.661017">
+          <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/UserDomain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="33" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
+          <folding>
+            <element signature="e#1272#1273#0" expanded="true" />
+            <element signature="e#1320#1321#0" expanded="true" />
+            <element signature="e#1360#1361#0" expanded="true" />
+            <element signature="e#1393#1394#0" expanded="true" />
+            <element signature="e#1422#1423#0" expanded="true" />
+            <element signature="e#1466#1467#0" expanded="true" />
+            <element signature="e#1502#1503#0" expanded="true" />
+            <element signature="e#1530#1531#0" expanded="true" />
+            <element signature="e#1557#1558#0" expanded="true" />
+            <element signature="e#1594#1595#0" expanded="true" />
+            <element signature="e#1626#1627#0" expanded="true" />
+            <element signature="e#1658#1659#0" expanded="true" />
+            <element signature="e#1689#1690#0" expanded="true" />
+            <element signature="e#1734#1735#0" expanded="true" />
+            <element signature="e#1774#1775#0" expanded="true" />
+            <element signature="e#1808#1809#0" expanded="true" />
+            <element signature="e#1838#1839#0" expanded="true" />
+            <element signature="e#1884#1885#0" expanded="true" />
+            <element signature="e#1922#1923#0" expanded="true" />
+            <element signature="e#1956#1957#0" expanded="true" />
+            <element signature="e#1986#1987#0" expanded="true" />
+            <element signature="e#2032#2033#0" expanded="true" />
+            <element signature="e#2070#2071#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="67" column="80" selection-start-line="67" selection-start-column="80" selection-end-line="67" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="21" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="21" />
+          <folding>
+            <element signature="e#1682#1683#0" expanded="true" />
+            <element signature="e#1710#1711#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/AdminService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64157706">
-          <caret line="84" column="25" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="113" column="22" selection-start-line="113" selection-start-column="22" selection-end-line="113" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0412186">
-          <caret line="65" column="23" selection-start-line="65" selection-start-column="23" selection-end-line="65" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminLoginDomain.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/util/TimeStampPropertyEditor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+          <caret line="16" column="32" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final-sources.jar!/javax/persistence/criteria/CriteriaBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="552" column="48" selection-start-line="552" selection-start-column="48" selection-end-line="552" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Program Files/Java/jdk1.8.0_45/src/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="237" column="12" selection-start-line="237" selection-start-column="12" selection-end-line="237" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/util/MapUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74531835">
+          <caret line="31" column="30" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/AdminController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.86200714">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="173" column="8" selection-start-line="173" selection-start-column="8" selection-end-line="179" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/LogRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="100" selection-start-line="19" selection-start-column="100" selection-end-line="19" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/DocRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="14" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/controller/DocController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="88" column="17" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
+          <folding>
+            <element signature="e#3036#3037#0" expanded="true" />
+            <element signature="e#3061#3062#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/IDocService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="31" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/AdminServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/DocDomain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="113" column="28" selection-start-line="113" selection-start-column="28" selection-end-line="113" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/spring/domain/AdminDomain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/CustomPageService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/me/laudukang/persistence/service/DocServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="104" column="9" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/model/OsDoc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="29" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-test/4.2.4.RELEASE/spring-test-4.2.4.RELEASE-sources.jar!/org/springframework/test/context/junit4/statements/RunBeforeTestMethodCallbacks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.101123594">
+          <caret line="60" column="37" selection-start-line="60" selection-start-column="37" selection-end-line="60" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/service/impl/DocService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="114" column="42" selection-start-line="114" selection-start-column="42" selection-end-line="114" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/me/laudukang/persistence/repository/AdminRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5505618">
+          <caret line="20" column="121" selection-start-line="20" selection-start-column="97" selection-end-line="20" selection-end-column="121" />
           <folding />
         </state>
       </provider>
@@ -2606,7 +2987,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>JPA (online-submission)|JPA</last-edited>
+          <last-edited>Spring (online-submission)|Spring</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -2641,7 +3022,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>Web|online-submission</last-edited>
+          <last-edited>JPA|online-submission</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

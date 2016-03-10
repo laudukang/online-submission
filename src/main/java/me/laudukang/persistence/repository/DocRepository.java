@@ -2,6 +2,7 @@ package me.laudukang.persistence.repository;
 
 import me.laudukang.persistence.model.OsDoc;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Repository;
  * <p>Time: 23:37
  * <p>Version: 1.0
  */
-@Repository
-public interface DocRepository extends JpaRepository<OsDoc, Integer> {
+@Repository("docRepository")
+public interface DocRepository extends JpaRepository<OsDoc, Integer>, JpaSpecificationExecutor<OsDoc> {
 }

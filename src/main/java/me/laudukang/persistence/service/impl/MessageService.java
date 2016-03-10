@@ -3,7 +3,7 @@ package me.laudukang.persistence.service.impl;
 import me.laudukang.persistence.model.OsMessage;
 import me.laudukang.persistence.repository.MessageRepository;
 import me.laudukang.persistence.service.IMessageService;
-import me.laudukang.spring.domain.OsMessageDomain;
+import me.laudukang.spring.domain.MessageDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +34,12 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public List<OsMessageDomain> findAllByUserId(int id) {
+    public List<MessageDomain> findAllByUserId(int id) {
         return messageRepository.findAllByUserId(id);
     }
 
     @Override
-    public List<OsMessageDomain> findAllByAdminId(int id) {
+    public List<MessageDomain> findAllByAdminId(int id) {
         return messageRepository.findAllByAdminId(id);
     }
 }

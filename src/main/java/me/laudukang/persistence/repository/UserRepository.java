@@ -2,6 +2,7 @@ package me.laudukang.persistence.repository;
 
 import me.laudukang.persistence.model.OsUser;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * <p>Version: 1.0
  */
 @Repository
-public interface UserRepository extends JpaRepository<OsUser, Integer> {
+public interface UserRepository extends JpaRepository<OsUser, Integer>, JpaSpecificationExecutor<OsUser> {
     //@Query("select user from OsUser user where user.account=:account and user.password=:password")
     //OsUser findOne(@Param("account") String account, @Param("password") String password);
 

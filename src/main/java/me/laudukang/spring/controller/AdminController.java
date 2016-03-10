@@ -2,9 +2,10 @@ package me.laudukang.spring.controller;
 
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.service.IAdminService;
-import me.laudukang.spring.domain.AdminLoginDomain;
+import me.laudukang.spring.domain.AdminDomain;
 import me.laudukang.util.MapUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,17 +35,17 @@ public class AdminController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(Model model) {
-        model.addAttribute("adminLoginDomain", new AdminLoginDomain());
+        model.addAttribute("adminLoginDomain", new AdminDomain());
         return "login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@Valid @ModelAttribute AdminLoginDomain adminLoginDomain, BindingResult bindingResult, Model model, HttpSession session) {
+    public String login(@Valid @ModelAttribute AdminDomain adminDomain, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasFieldErrors()) {
-            model.addAttribute("adminLoginDomain", adminLoginDomain);
+            model.addAttribute("adminLoginDomain", adminDomain);
             return "redirect:login";
         }
-        Object[] osAdmin = adminService.login(adminLoginDomain.getAccount(), adminLoginDomain.getPassword());
+        Object[] osAdmin = adminService.login(adminDomain.getAccount(), adminDomain.getPassword());
         if (null != osAdmin && osAdmin.length > 0) {
             session.setAttribute("adminid", osAdmin[0]);//admin.id,admin.account,admin.name
             session.setAttribute("account", osAdmin[2]);
@@ -84,7 +85,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "newAdmin", method = RequestMethod.POST)
-    public String newAdmin(@ModelAttribute OsAdmin osAdmin, BindingResult bindingResult, Model model) {
+    public String newAdmin(@RequestParam("type") String type, @ModelAttribute OsAdmin osAdmin, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("osAdmin", osAdmin);
             return "redirect:newAdmin";
@@ -93,6 +94,8 @@ public class AdminController {
             bindingResult.reject("accountExist", "账号已存在");
             return "redirect:newAdmin";
         }
+        osAdmin.setStatus(1);
+        osAdmin.setReviewer("1".equals(type) ? "1" : "0");
         adminService.save(osAdmin);
         return "";
     }
@@ -106,6 +109,15 @@ public class AdminController {
         return MapUtil.deleteMap();
     }
 
+    @RequestMapping(value = "ableAdmin", method = RequestMethod.DELETE)
+    public Map<String, Object> disable(@RequestParam("id") int id, @RequestParam("status") int status) {
+        if (1 == id) {
+            return MapUtil.forbiddenOperationMap;
+        }
+        adminService.ableAdmin(id, status);
+        return MapUtil.ableMap();
+    }
+
     @RequestMapping(value = "updateAdminInfo", method = RequestMethod.GET)
     public String updateAdminPage(Model model) {
         model.addAttribute("osAdmin", new OsAdmin());
@@ -113,23 +125,62 @@ public class AdminController {
     }
 
     @RequestMapping(value = "updateAdminInfo", method = RequestMethod.POST)
-    public String updateAdminInfo(@ModelAttribute OsAdmin osAdmin, BindingResult bindingResult, Model model) {
+    public String updateAdminInfo(@RequestParam("type") String type, @ModelAttribute OsAdmin osAdmin, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("osAdmin", osAdmin);
             return "redirect:";
         }
+        osAdmin.setStatus(1);
+        osAdmin.setReviewer("1".equals(type) ? "1" : "0");
         adminService.updateById(osAdmin);
         return "";
     }
 
-    @RequestMapping(value = "findAllAdmin", method = RequestMethod.GET)
-    public Map<String, Object> findAll() {
-        Map<String, Object> map = new HashMap<>(3);
-        map.put("success", true);
-        map.put("msg", "");
-        return map;
-        // TODO: 分页查询 2016/3/9
+    @RequestMapping(value = "adminInfo", method = RequestMethod.GET)
+    public String findOne(@RequestParam("id") int id, Model model) {
+        OsAdmin osAdmin = adminService.findOne(id);
+        model.addAttribute("success", null != osAdmin ? true : false);
+        model.addAttribute("msg", null != osAdmin ? "" : "用户不存在");
+        model.addAttribute("data", null != osAdmin ? osAdmin : "");
+        return "";
     }
+
+    @RequestMapping(value = "admins", method = RequestMethod.GET)
+    public String findAllPage() {
+        return "";
+    }
+
+    @RequestMapping(value = "admins", method = RequestMethod.POST)
+    public Map<String, Object> findAllAdmin(@ModelAttribute AdminDomain adminDomain) {
+        Map<String, Object> map = new HashMap<>(5);
+        Page<OsAdmin> tmp = adminService.findAll(adminDomain);
+        boolean hasResult = !tmp.getContent().isEmpty();
+        map.put("success", hasResult ? true : false);
+        map.put("msg", hasResult ? "" : "记录不存在");
+        map.put("data", hasResult ? tmp.getContent() : "");
+        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
+        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        return map;
+    }
+
+    @RequestMapping(value = "reviewers", method = RequestMethod.GET)
+    public String findAllReviewerPage() {
+        return "";
+    }
+
+    @RequestMapping(value = "reviewers", method = RequestMethod.POST)
+    public Map<String, Object> findAllReviewer(@ModelAttribute AdminDomain adminDomain) {
+        Page<OsAdmin> tmp = adminService.findAllReviewer(adminDomain);
+        boolean hasResult = !tmp.getContent().isEmpty();
+        Map<String, Object> map = new HashMap<>(5);
+        map.put("success", hasResult ? true : false);
+        map.put("msg", hasResult ? "" : "记录不存在");
+        map.put("data", hasResult ? tmp.getContent() : "");
+        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
+        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        return map;
+    }
+
 
     @InitBinder
     protected void initBinder(HttpServletRequest request,

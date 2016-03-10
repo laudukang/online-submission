@@ -53,6 +53,11 @@ public class OsAdmin implements Serializable {
 
     private String subject;
 
+    private int status;
+
+    @Column(columnDefinition = "char")
+    private String reviewer;
+
     //bi-directional many-to-one association to OsMessage
     @OneToMany(mappedBy = "osAdmin", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsMessage> osMessages = new ArrayList<>();
@@ -154,6 +159,22 @@ public class OsAdmin implements Serializable {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public int getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
     }
 
     public List<OsMessage> getOsMessages() {

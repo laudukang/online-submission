@@ -11,13 +11,20 @@ import org.hibernate.validator.constraints.NotEmpty;
  * <p>Time: 16:25
  * <p>Version: 1.0
  */
-public class AdminLoginDomain {
+public class UserDomain {
     @NotEmpty(message = "账号不能为空")
     private String account;
     @NotEmpty(message = "密码不能为空")
     private String password;
     //@NotEmpty(message = "验证码不能为空")
     private String verificationCode;
+
+    private String fromTime;
+    private String toTime;
+    private int page;
+    private int pageSize;
+    private String sortDir;
+    private String sortCol;
 
     public String getAccount() {
         return account;
@@ -41,6 +48,54 @@ public class AdminLoginDomain {
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
+    }
+
+    public String getFromTime() {
+        return fromTime;
+    }
+
+    public void setFromTime(String fromTime) {
+        this.fromTime = fromTime;
+    }
+
+    public String getToTime() {
+        return toTime;
+    }
+
+    public void setToTime(String toTime) {
+        this.toTime = toTime;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getSortDir() {
+        return sortDir;
+    }
+
+    public void setSortDir(String sortDir) {
+        this.sortDir = sortDir;
+    }
+
+    public String getSortCol() {
+        return sortCol;
+    }
+
+    public void setSortCol(String sortCol) {
+        this.sortCol = sortCol;
     }
 
     @Override

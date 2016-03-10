@@ -4,11 +4,13 @@ import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import me.laudukang.spring.domain.AdminDomain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -45,7 +47,7 @@ public class AdminServiceTest {
         this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.printUtil = new PrintUtil();
         this.pageable = new PageRequest(0,
-                10, new Sort(Sort.Direction.ASC, "id"));
+                1, new Sort(Sort.Direction.ASC, "id"));
     }
 
     @After
@@ -87,8 +89,22 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void findAll() {
-        printUtil.printPageToConsole(adminService.findAll(pageable));
+    public void findAllByPage() {
+        //Page<OsAdmin> osAdminPage = adminService.findAll("%lau%", "%lau%", pageable);
+        AdminDomain adminDomain = new AdminDomain();
+        adminDomain.setAccount("%lau%");
+        adminDomain.setName("%lau%");
+        adminDomain.setPage(0);
+        adminDomain.setPageSize(2);
+        adminDomain.setSortCol("id");
+        adminDomain.setSortDir("ASC");
+        Page<OsAdmin> osAdminPage = adminService.findAll(adminDomain);
+        int size = osAdminPage.getContent().size();
+        System.out.println(size);
+        if (size > 0)
+            System.out.println(osAdminPage.getContent().get(0).getAccount());
+
+        printUtil.printPageToConsole(osAdminPage);
     }
 
     @Test
@@ -103,5 +119,24 @@ public class AdminServiceTest {
     public void login() {
         Object[] result = adminService.login("lau_2016-02-10 20:03:19", "1234");
         System.out.println(result.length);
+    }
+
+    @Test
+    public void ableAdmin() {
+        System.out.println(adminService.ableAdmin(1, 0));
+    }
+
+    @Test
+    public void findAllReviewer() {
+        AdminDomain adminDomain = new AdminDomain();
+        adminDomain.setAccount("%lau%");
+        adminDomain.setName("%lau%");
+        adminDomain.setPage(0);
+        adminDomain.setPageSize(10);
+        adminDomain.setSortCol("id");
+        adminDomain.setSortDir("ASC");
+        Page<OsAdmin> osAdminPage = adminService.findAllReviewer(adminDomain);
+        int size = osAdminPage.getContent().size();
+        System.out.println(size);
     }
 }
