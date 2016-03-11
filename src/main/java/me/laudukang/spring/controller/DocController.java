@@ -7,6 +7,8 @@ import me.laudukang.spring.domain.DocDomain;
 import me.laudukang.util.MapUtil;
 import me.laudukang.util.TimeStampPropertyEditor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,10 +31,13 @@ import java.util.Map;
  * <p>Time: 21:28
  * <p>Version: 1.0
  */
+@PropertySource({"classpath:system.properties"})
 @Controller
 public class DocController {
     @Autowired
     private IDocService docService;
+    @Autowired
+    private Environment environment;
 
     public final String DOC_NEW_PUBLISH = "待审阅";
     public final String DOC_REVIEWING = "审阅中";
@@ -64,7 +69,7 @@ public class DocController {
 
     @RequestMapping(value = "deleteDoc", method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String, Object> delete(@RequestParam("id") int id) {
+    public Map<String, Object> deleteDocUser(@RequestParam("id") int id) {
         OsDoc tmp = docService.findOne(id);
         if (null != tmp && !DOC_NEW_PUBLISH.equals(tmp.getStatus())) {
             return MapUtil.deleteForbiddenMap;
@@ -75,20 +80,49 @@ public class DocController {
 
     @RequestMapping(value = "deleteDocSuper", method = RequestMethod.DELETE)
     @ResponseBody
-    public Map<String, Object> deleteSuper(@RequestParam("id") int id) {
+    public Map<String, Object> deleteDocSuper(@RequestParam("id") int id) {
         docService.deleteById(id);
         return MapUtil.deleteMap();
     }
 
+    // TODO: 2016/3/11 三个稿件列表页面
     @RequestMapping(value = "docs", method = RequestMethod.GET)
     public String docsPage() {
         return "";
     }
 
+    @RequestMapping(value = "docsSuper", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain) {
+        Page<OsDoc> tmp = docService.findAllSuper(docDomain);
+        boolean hasResult = !tmp.getContent().isEmpty();
+        Map<String, Object> map = new HashMap<>(5);
+        map.put("success", hasResult ? true : false);
+        map.put("msg", hasResult ? "" : "记录不存在");
+        map.put("data", hasResult ? tmp.getContent() : "");
+        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
+        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        return map;
+    }
+
     @RequestMapping(value = "docs", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> docs(@ModelAttribute DocDomain docDomain) {
-        Page<OsDoc> tmp = docService.findAll(docDomain);
+    public Map<String, Object> docsUser(@ModelAttribute DocDomain docDomain) {
+        Page<OsDoc> tmp = docService.findAllByUserId(docDomain);
+        boolean hasResult = !tmp.getContent().isEmpty();
+        Map<String, Object> map = new HashMap<>(5);
+        map.put("success", hasResult ? true : false);
+        map.put("msg", hasResult ? "" : "记录不存在");
+        map.put("data", hasResult ? tmp.getContent() : "");
+        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
+        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        return map;
+    }
+
+    @RequestMapping(value = "docsReview", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain) {
+        Page<OsDoc> tmp = docService.findByAdminId(docDomain);
         boolean hasResult = !tmp.getContent().isEmpty();
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", hasResult ? true : false);

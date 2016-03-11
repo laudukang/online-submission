@@ -56,7 +56,6 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
         }
     }
 
-
     @Override
     public int updatePassword(int id, String password) {
         return adminRepository.updatePassword(id, password);
@@ -112,9 +111,9 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     private Specification<OsAdmin> getReviewerSpecification(final String account, final String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            predicate.getExpressions().add(cb.like(root.get("account"), account));
-            predicate.getExpressions().add(cb.like(root.get("name"), name));
-            predicate.getExpressions().add(cb.equal(root.get("reviewer"), "1"));
+            predicate.getExpressions().add(cb.like(root.get("account").as(String.class), account));
+            predicate.getExpressions().add(cb.like(root.get("name").as(String.class), name));
+            predicate.getExpressions().add(cb.equal(root.get("reviewer").as(String.class), "1"));
             return predicate;
         };
     }
@@ -123,9 +122,9 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     public Specification<OsAdmin> getSpecification(String account, String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            predicate.getExpressions().add(cb.like(root.get("account"), account));
-            predicate.getExpressions().add(cb.like(root.get("name"), name));
-            predicate.getExpressions().add(cb.equal(root.get("reviewer"), "0"));
+            predicate.getExpressions().add(cb.like(root.get("account").as(String.class), account));
+            predicate.getExpressions().add(cb.like(root.get("name").as(String.class), name));
+            predicate.getExpressions().add(cb.equal(root.get("reviewer").as(String.class), "0"));
             return predicate;
         };
     }

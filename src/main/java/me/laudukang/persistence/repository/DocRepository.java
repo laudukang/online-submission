@@ -14,4 +14,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("docRepository")
 public interface DocRepository extends JpaRepository<OsDoc, Integer>, JpaSpecificationExecutor<OsDoc> {
+    //Page<OsDoc> findByOsUserIdEquals(int id, Pageable pageable);
+
+    //@Query("select doc from OsDoc doc join doc.osDocAdmins da where doc.id=da.osDoc.id and da.osAdmin.id=:adminid")
+    //Page<OsDoc> findByAdminId(@Param("adminid") int id, Pageable pageable);
 }

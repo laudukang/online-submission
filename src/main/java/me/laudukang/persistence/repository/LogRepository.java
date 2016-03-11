@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LogRepository extends JpaRepository<OsLog, Integer>, JpaSpecificationExecutor<OsLog> {
 
-    Page<OsLog> findByContentLike(String content, Pageable pageablel);
+    Page<OsLog> findByContentLike(String content, Pageable pageable);
 
     @Query("select log from OsLog log where log.userOrAdminName like CONCAT('%',:userOrAdminName,'%')")
     Page<OsLog> findByUserOrAdminNameLike(@Param("userOrAdminName") String userOrAdminName, Pageable pageable);

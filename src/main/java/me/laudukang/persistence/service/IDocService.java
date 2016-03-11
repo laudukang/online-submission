@@ -25,7 +25,9 @@ public interface IDocService {
 
     Page<OsDoc> findAll(String zhTitle, Date fromTime, Date toTime, Pageable pageable);
 
-    Page<OsDoc> findAll(DocDomain docDomain);
+    Page<OsDoc> findAllSuper(DocDomain docDomain);
 
     Page<OsDoc> findAllByUserId(DocDomain docDomain);
+
+    Page<OsDoc> findByAdminId(DocDomain docDomain);
 }

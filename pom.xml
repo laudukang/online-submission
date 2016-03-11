@@ -278,9 +278,62 @@
                 </configuration>
             </plugin>-->
 
-        </plugins>
+            <plugin>
+                <groupId>com.ethlo.persistence.tools</groupId>
+                <artifactId>eclipselink-maven-plugin</artifactId>
+                <version>2.6.2</version>
+                <executions>
+                    <execution>
+                        <id>weave</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>weave</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>modelgen</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>modelgen</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
+        </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>com.ethlo</id>
+            <name>com.ethlo</name>
+            <url>http://ethlo.com/maven</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>com.ethlo</id>
+            <name>com.ethlo</name>
+            <url>http://ethlo.com/maven/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 
     <properties>
         <!-- Spring -->

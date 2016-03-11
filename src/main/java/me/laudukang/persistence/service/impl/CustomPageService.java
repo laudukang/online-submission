@@ -26,8 +26,8 @@ public class CustomPageService<T> implements ICustomPageService {
     public Specification<T> getSpecification(String account, String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            predicate.getExpressions().add(cb.like(root.get("account"), account));
-            predicate.getExpressions().add(cb.like(root.get("name"), name));
+            predicate.getExpressions().add(cb.like(root.get("account").as(String.class), account));
+            predicate.getExpressions().add(cb.like(root.get("name").as(String.class), name));
             return predicate;
         };
     }

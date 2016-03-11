@@ -1,5 +1,7 @@
 package me.laudukang.spring.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.sql.Timestamp;
 
 /**
@@ -25,6 +27,11 @@ public class DocDomain {
     private int pageSize;
     private String sortDir;
     private String sortCol;
+
+    private int userid;
+    private int adminid;
+
+    private MultipartFile multipartFile;
 
     public int getId() {
         return id;
@@ -136,5 +143,29 @@ public class DocDomain {
 
     public void setSortCol(String sortCol) {
         this.sortCol = sortCol;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public int getAdminid() {
+        return adminid;
+    }
+
+    public void setAdminid(int adminid) {
+        this.adminid = adminid;
+    }
+
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
+    }
+
+    public void setMultipartFile(MultipartFile multipartFile) {
+        this.multipartFile = multipartFile;
     }
 }
