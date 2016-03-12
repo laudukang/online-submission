@@ -24,7 +24,6 @@ public class WebInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(javax.servlet.ServletContext sc) throws ServletException {
-        System.out.println("in WebInitializer onStartup");
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationConfig.class);
         //rootContext.scan("me.laudukang.spring.config");
