@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -32,7 +33,7 @@ import java.util.Properties;
 @PropertySource({"classpath:persistence-mysql.properties"})
 @EnableJpaRepositories(basePackages = "me.laudukang.persistence.repository")
 @ComponentScan({"me.laudukang.persistence.repository", "me.laudukang.persistence.service"})
-//@EnableTransactionManagement
+@EnableTransactionManagement
 @EnableJpaAuditing
 public class PersistenceJPAConfig {
 
@@ -43,8 +44,6 @@ public class PersistenceJPAConfig {
         super();
     }
 
-    // beans
-
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
@@ -54,7 +53,6 @@ public class PersistenceJPAConfig {
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(jpaProperties());
-
         return em;
     }
 
