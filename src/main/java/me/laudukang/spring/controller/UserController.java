@@ -4,7 +4,9 @@ import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IUserService;
 import me.laudukang.spring.domain.UserDomain;
 import me.laudukang.util.MapUtil;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -29,6 +33,8 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage(Model model) {
@@ -119,6 +125,7 @@ public class UserController {
             bindingResult.reject("accountExist", "账号已存在");
             return "redirect:newAdmin";
         }
+        osUser.setStatus("normal");
         userService.save(osUser);
         model.addAttribute("success", true);
         model.addAttribute("msg", "保存成功");
@@ -130,6 +137,50 @@ public class UserController {
     public Map<String, Object> delete(@RequestParam("id") int id) {
         userService.deleteById(id);
         return MapUtil.deleteMap();
+    }
+
+    @RequestMapping(value = "resetRequest", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> resetRequest(@RequestParam("account") String account) {
+        OsUser osUser = userService.findByAccount(account);
+        if (null != osUser) {
+            osUser.setStatus("resetting");
+            userService.save(osUser);
+            // 这里发送邮件
+            return MapUtil.userPasswordResetRequstSuccessMap();
+        }
+        return MapUtil.userPasswordResetRequstFailMap();
+    }
+
+    @RequestMapping(value = "resetPassword", method = RequestMethod.GET)
+    public String resetPasswordPage(@RequestParam("v") String v, Model model) {
+        if (NumberUtils.isNumber(v)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(Integer.valueOf(v) + 24 * 60 * 60 * 1000);
+            if (calendar.getTime().before(new Date())) {
+                return "resetPassword";//返回重置密码页面
+            }
+        }
+        model.addAttribute("success", false);
+        model.addAttribute("msg", "链接失效");
+        return "login";//返回登录页面
+    }
+
+    @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
+    public String resetPassword(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
+        if (NumberUtils.isNumber(id)) {
+            OsUser osUser = userService.findOne(Integer.valueOf(id));
+            if ("resetting".equals(osUser.getSex())) {
+                osUser.setPassword(password);
+                userService.save(osUser);
+                model.addAttribute("success", true);
+                model.addAttribute("msg", "成功重置密码");
+                return "login";
+            }
+        }
+        model.addAttribute("success", false);
+        model.addAttribute("msg", "非法操作");
+        return "/";
     }
 
     @InitBinder

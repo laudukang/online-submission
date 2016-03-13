@@ -29,4 +29,6 @@ public interface UserRepository extends JpaRepository<OsUser, Integer>, JpaSpeci
     @Query("update OsUser u set u.password=:password where u.id=:id")
     @Modifying
     int updatePassword(@Param("id") int id, @Param("password") String password);
+
+    OsUser findByAccountEquals(String account);
 }
