@@ -11,6 +11,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
@@ -24,7 +27,7 @@ import java.util.Properties;
 @Configuration
 @EnableSpringDataWebSupport
 @PropertySource({"classpath:system.properties"})
-@Import(PersistenceJPAConfig.class)
+@Import({PersistenceJPAConfig.class, AsyncConfig.class})
 //@EnableWebMvc
 //@EnableTransactionManagement
 //@ComponentScan(basePackages = {"me.laudukang.spring.config"})
@@ -46,6 +49,7 @@ public class ApplicationConfig {
         properties.put("mail.smtp.auth", environment.getProperty("mail.smtp.auth"));
         properties.put("mail.smtp.starttls.enable", environment.getProperty("mail.smtp.starttls.enable"));
         properties.put("mail.debug", environment.getProperty("mail.debug"));
+        properties.put("mail.smtp.timeout", environment.getProperty("mail.smtp.timeout"));
         javaMailSender.setJavaMailProperties(properties);
         return javaMailSender;
     }
@@ -57,5 +61,18 @@ public class ApplicationConfig {
         simpleMailMessage.setSubject(environment.getProperty("mail.default.subject"));
         simpleMailMessage.setText(environment.getProperty("mail.default.text"));
         return simpleMailMessage;
+    }
+
+    @Bean
+    public MimeMessage mimeMessage(JavaMailSender javaMailSender) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try {
+            mimeMessage.setSubject(environment.getProperty("mail.default.subject"));
+            mimeMessage.setText(environment.getProperty("mail.default.text"));
+            mimeMessage.setFrom(new InternetAddress(environment.getProperty("mail.from")));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return mimeMessage;
     }
 }

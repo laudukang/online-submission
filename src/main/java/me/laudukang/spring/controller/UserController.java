@@ -3,10 +3,13 @@ package me.laudukang.spring.controller;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IUserService;
 import me.laudukang.spring.domain.UserDomain;
+import me.laudukang.spring.events.EmailEvent;
 import me.laudukang.util.MapUtil;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,14 +32,18 @@ import static com.google.common.base.Strings.isNullOrEmpty;
  * <p>Version: 1.0
  */
 @Controller
-public class UserController {
+public class UserController implements ApplicationContextAware {
 
     @Autowired
     private IUserService userService;
-    @Autowired
     private ApplicationContext applicationContext;
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @RequestMapping(value = {"/", "login"}, method = RequestMethod.GET)
     public String loginPage(Model model) {
         model.addAttribute("userLoginDomain", new UserDomain());
         return "";
@@ -48,11 +55,11 @@ public class UserController {
             model.addAttribute("userLoginDomain", userDomain);
             return "redirect:";
         }
-        Object[] tmp = userService.login(userDomain.getAccount(), userDomain.getPassword());
-        if (null != tmp && tmp.length > 0) {
-            session.setAttribute("userid", tmp[0]); //user.id,user.account,user.name
-            session.setAttribute("account", tmp[1]);
-            session.setAttribute("name", tmp[2]);
+        OsUser tmp = userService.login(userDomain.getAccount(), userDomain.getPassword());
+        if (null != tmp) {
+            session.setAttribute("userid", tmp.getId()); //user.id,user.account,user.name
+            session.setAttribute("account", tmp.getAccount());
+            session.setAttribute("name", null != tmp.getName() ? tmp.getName() : tmp.getAccount());
             return "redirect:";
         }
         model.addAttribute("success", false);
@@ -75,7 +82,6 @@ public class UserController {
             OsUser osUser = userService.findOne(id);
             if (null != osUser && osUser.getPassword().equals(password) && isSame) {
                 tmp = userService.updatePassword(id, newPassword1);
-                //return "";//更新成功
             }
         }
         model.addAttribute("success", check && isSame && 1 == tmp ? true : false);
@@ -141,12 +147,32 @@ public class UserController {
 
     @RequestMapping(value = "resetRequest", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> resetRequest(@RequestParam("account") String account) {
+    public Map<String, Object> resetRequest(@RequestParam("account") String account, HttpServletRequest request) {
         OsUser osUser = userService.findByAccount(account);
         if (null != osUser) {
             osUser.setStatus("resetting");
             userService.save(osUser);
-            // 这里发送邮件
+            StringBuffer sb = new StringBuffer(
+                    "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>")
+                    .append(null != osUser.getName() ? osUser.getName() : osUser.getAccount())
+                    .append(",您好</br><b>温馨提示</b>：重置密码链接只能使用一次，24小时内有效</br>")
+                    .append("<a href=\"")
+                    .append(request.getScheme())
+                    .append("://")
+                    .append(request.getServerName())
+                    .append(":")
+                    .append(request.getServerPort())
+                    .append(request.getContextPath())
+                    .append("/")
+                    .append("resetPassword?account=")
+                    .append(account)
+                    .append("&v=")
+                    .append(new Date().getTime())
+                    .append("\">")
+                    .append("点击这里进入重置密码页面,如非本人操作请忽略")
+                    .append("</a></body></html>");
+            EmailEvent emailEvent = new EmailEvent(this, account, "找回密码-网络投稿系统服务邮件", sb.toString());
+            applicationContext.publishEvent(emailEvent);
             return MapUtil.userPasswordResetRequstSuccessMap();
         }
         return MapUtil.userPasswordResetRequstFailMap();
@@ -158,29 +184,35 @@ public class UserController {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(Integer.valueOf(v) + 24 * 60 * 60 * 1000);
             if (calendar.getTime().before(new Date())) {
-                return "resetPassword";//返回重置密码页面
+                return "redirect:resetPassword";//返回重置密码页面
             }
         }
         model.addAttribute("success", false);
         model.addAttribute("msg", "链接失效");
-        return "login";//返回登录页面
+        return "redirect:login";//返回登录页面
     }
 
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
-    public String resetPassword(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
-        if (NumberUtils.isNumber(id)) {
-            OsUser osUser = userService.findOne(Integer.valueOf(id));
-            if ("resetting".equals(osUser.getSex())) {
+    public String resetPassword(@RequestParam("account") String account, @RequestParam("password") String password, Model model) {
+        if (!isNullOrEmpty(account)) {
+            OsUser osUser = userService.findByAccount(account);
+            if ("resetting".equals(osUser.getStatus())) {
                 osUser.setPassword(password);
                 userService.save(osUser);
                 model.addAttribute("success", true);
                 model.addAttribute("msg", "成功重置密码");
-                return "login";
+                return "redirect:login";
             }
         }
         model.addAttribute("success", false);
         model.addAttribute("msg", "非法操作");
-        return "/";
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:login";
     }
 
     @InitBinder

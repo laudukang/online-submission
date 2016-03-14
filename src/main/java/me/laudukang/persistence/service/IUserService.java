@@ -1,7 +1,6 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsUser;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +11,7 @@ import org.springframework.data.domain.Pageable;
  * <p>Time: 12:07
  * <p>Version: 1.0
  */
-public interface IUserService extends ApplicationContextAware {
+public interface IUserService {
 
     void save(OsUser osUser);
 
@@ -24,7 +23,7 @@ public interface IUserService extends ApplicationContextAware {
 
     OsUser findByAccount(String account);
 
-    Object[] login(String account, String password);
+    OsUser login(String account, String password);
 
     boolean existAccount(String account);
 

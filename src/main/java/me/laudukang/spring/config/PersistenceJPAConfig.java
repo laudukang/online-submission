@@ -49,7 +49,6 @@ public class PersistenceJPAConfig {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{"me.laudukang.persistence.model"});
-
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(jpaProperties());
@@ -91,8 +90,8 @@ public class PersistenceJPAConfig {
         hibernateProperties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
 
         // hibernateProperties.setProperty("hibernate.globally_quoted_identifiers", "true");
-        //hibernateProperties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        // hibernateProperties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
+        // hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "validate");
         // System.out.println("hibernate.format_sql=" + environment.getProperty("hibernate.format_sql"));
 
         return hibernateProperties;

@@ -17,6 +17,8 @@ public class MapUtil {
     public static Map<String, Object> updateMap = new HashMap<>(2);
     public static Map<String, Object> forbiddenOperationMap = new HashMap<>(2);
     public static Map<String, Object> ableMap = new HashMap<>(2);
+    public static Map<String, Object> userPasswordResetRequstFailMap = new HashMap<>(2);
+    public static Map<String, Object> userPasswordResetRequstSuccessMap = new HashMap<>(2);
 
     public static Map<String, Object> deleteMap() {
         if (deleteMap.isEmpty()) {
@@ -64,5 +66,21 @@ public class MapUtil {
             ableMap.put("msg", "操作成功");
         }
         return ableMap;
+    }
+
+    public static Map<String, Object> userPasswordResetRequstFailMap() {
+        if (userPasswordResetRequstFailMap.isEmpty()) {
+            userPasswordResetRequstFailMap.put("success", false);
+            userPasswordResetRequstFailMap.put("msg", "账户不存在，请确认");
+        }
+        return userPasswordResetRequstFailMap;
+    }
+
+    public static Map<String, Object> userPasswordResetRequstSuccessMap() {
+        if (userPasswordResetRequstSuccessMap.isEmpty()) {
+            userPasswordResetRequstSuccessMap.put("success", true);
+            userPasswordResetRequstSuccessMap.put("msg", "重置密码邮件已发送到您的邮箱，请查收");
+        }
+        return userPasswordResetRequstSuccessMap;
     }
 }

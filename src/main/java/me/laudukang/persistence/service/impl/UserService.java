@@ -4,9 +4,7 @@ import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.repository.UserRepository;
 import me.laudukang.persistence.service.IUserService;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,16 +24,8 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
     @Autowired
     private UserRepository userRepository;
 
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
     @Override
     public void save(OsUser osUser) {
-        //发送注册/更新邮件
         userRepository.save(osUser);
     }
 
@@ -86,7 +76,7 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
     }
 
     @Override
-    public Object[] login(String account, String password) {
+    public OsUser login(String account, String password) {
         return userRepository.login(account, password);
     }
 
