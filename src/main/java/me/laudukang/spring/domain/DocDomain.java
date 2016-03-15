@@ -31,6 +31,7 @@ public class DocDomain {
     private int userid;
     private int adminid;
 
+    //@NotEmpty(message = "文件不能为空")
     private MultipartFile multipartFile;
 
     public int getId() {

@@ -1,6 +1,5 @@
 package me.laudukang.spring.controller;
 
-import com.google.common.io.Files;
 import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IDocService;
@@ -19,26 +18,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -68,11 +62,44 @@ public class DocController {
     }
 
     @RequestMapping(value = "newDoc", method = RequestMethod.POST)
-    public String newDoc(@ModelAttribute OsDoc osDoc, BindingResult bindingResult, Model model, HttpSession session) {
+    public String newDoc(@ModelAttribute OsDoc osDoc, BindingResult bindingResult, MultipartFile uploadFile, Model model, HttpSession session) {
+        if (uploadFile.isEmpty()) {
+            bindingResult.addError(new FieldError("osDoc", "uploadFile",
+                    "未选中任何文件"));
+        }
+
+        String fileName = uploadFile.getOriginalFilename();
+        int index = fileName.lastIndexOf('.');
+        String suffix = null;
+
+        if (-1 == index || !(suffix = fileName.substring(fileName.lastIndexOf('.'))).toUpperCase().equalsIgnoreCase(".PDF")) {
+            bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件类型不匹配"));
+        }
+        if (uploadFile.getSize() > 1024 * 1024 * 100) {
+            bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件大小超过100M"));
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        StringBuilder newFileName = new StringBuilder()
+                .append(sdf.format(new Date())).append("_")
+                .append(new Random().nextInt(100)).append(suffix);
+        File uploadPath = new File(environment.getProperty("file.upload.path"));
+        if (!uploadPath.exists()) {
+            uploadPath.mkdir();
+        }
+        File saveFile = new File(environment.getProperty("file.upload.path") + File.separator + newFileName);
+        try {
+            uploadFile.transferTo(saveFile);
+        } catch (IOException e) {
+            bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件上传失败，未知错误"));
+            e.printStackTrace();
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("osDoc", osDoc);
             return "redirect:";
         }
+
         int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
         osDoc.setOsUser(new OsUser(userid));
         osDoc.setPostTime(Timestamp.valueOf(new SimpleDateFormat(
@@ -80,6 +107,7 @@ public class DocController {
         osDoc.setStatusTime(Timestamp.valueOf(new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss").format(new Date())));
         osDoc.setStatus(DOC_NEW_PUBLISH);
+        osDoc.setPath(newFileName.toString());
         iDocService.save(osDoc);
         return "";
     }
@@ -176,77 +204,18 @@ public class DocController {
         return new ResponseEntity<>("文件不存在".getBytes(), headers, HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "zip")
-    public ResponseEntity<byte[]> zip(HttpServletResponse response) throws IOException {
-        //F:/Pictures/20140816172427.jpg
-        String path = "D:/apache/zip/751611201@qq.com/laudukang";
-        File file = new File("F:/Pictures/杜甫巴莱.jpg");
-        String dfileName = new String("test.zip".getBytes("gb2312"), "iso-8859-1");
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", dfileName);
-
-        final List<File> files = new ArrayList<File>();
-        SimpleFileVisitor<Path> finder = new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                files.add(file.toFile());
-                return super.visitFile(file, attrs);
-            }
-
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-                files.add(dir.toFile());
-                return FileVisitResult.CONTINUE;
-            }
-        };
-        try {
-            java.nio.file.Files.walkFileTree(Paths.get(path), finder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ZipOutputStream zipOutputStream = new ZipOutputStream(bos);
-        // BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(zipOutputStream);
-
-        //byte[] data = new byte[1024];
-        byte[] result = null;
-        ZipEntry zipEntry = null;
-        for (File tmp : files) {
-            System.out.println(tmp.getPath());
-            File parent = tmp.getParentFile();
-            StringBuilder sb = new StringBuilder();
-            while (!"751611201@qq.com".equals(tmp.getName()) && null != parent && !"751611201@qq.com".equals(parent.getName())) {
-                if (parent.isDirectory())
-                    sb.insert(0, parent.getName() + File.separator);
-                parent = parent.getParentFile();
-            }
-            if (tmp.isDirectory()) continue;
-            zipEntry = new ZipEntry(sb.toString() + tmp.getName());
-            zipOutputStream.putNextEntry(zipEntry);
-            Files.copy(tmp, zipOutputStream);
-            zipOutputStream.closeEntry();
-        }
-        String html = "<a class=\"brand pull-left\" href=\"/\"> <img src=\"http://www.codejava.net/images/banner.png\" alt=\"CodeJava\"> </a>";
-        for (int i = 1; i < 5; i++) {
-            zipEntry = new ZipEntry("test" + i + ".html");
-            zipOutputStream.putNextEntry(zipEntry);
-            zipOutputStream.write(html.getBytes(Charset.defaultCharset()));
-            zipOutputStream.closeEntry();
-        }
-        //  bufferedOutputStream.close();
-        zipOutputStream.close();
-        result = bos.toByteArray();
-        bos.close();
-        return new ResponseEntity<byte[]>(result, headers, HttpStatus.CREATED);
-    }
-
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) throws Exception {
         binder.registerCustomEditor(Timestamp.class,
                 new TimeStampPropertyEditor());
         request.getSession().setAttribute("userid", 1);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public void defaultErrorHandler(HttpServletRequest req, Exception ex) {
+        System.out.println("req.getMethod()=" + req.getMethod());
+        System.out.println("Exception Message=" + ex.getMessage());
+        ex.printStackTrace();
     }
 }

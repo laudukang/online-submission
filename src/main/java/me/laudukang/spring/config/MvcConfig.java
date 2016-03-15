@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -100,6 +101,24 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         return multipartResolver;
     }
 
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        //registry.addInterceptor(new DocUploadInterceptor()).addPathPatterns("/upload");//文件上传拦截器
+        super.addInterceptors(registry);
+    }
+//    @Bean
+//    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+//        SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();
+//        simpleMappingExceptionResolver.setDefaultErrorView("error");
+//        simpleMappingExceptionResolver.setExceptionAttribute("ex");
+//        Properties properties = new Properties();
+//        properties.put("org.springframework.web.multipart.MaxUploadSizeExceededException", "error");
+//        properties.put("java.lang.Exception", "error");
+//        properties.put("java.lang.RuntimeException", "error");
+//        properties.put("java.lang.Throwable", "error");
+//        simpleMappingExceptionResolver.setExceptionMappings(properties);
+//        return simpleMappingExceptionResolver;
+//    }
 
 }
 
