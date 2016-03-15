@@ -2,6 +2,7 @@ package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.util.PrintUtil;
+import me.laudukang.spring.config.ApplicationConfig;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
 import me.laudukang.spring.domain.AdminDomain;
@@ -22,7 +23,6 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -32,7 +32,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class AdminServiceTest {
@@ -107,18 +107,11 @@ public class AdminServiceTest {
         printUtil.printPageToConsole(osAdminPage);
     }
 
-    @Test
-    public void findOne() {
-        List<Object[]> result = adminService.findOne("lau_2016-02-10 20:03:19", "123");
-        if (result.size() != 0) {
-            System.out.println("id=" + result.get(0)[0] + " account=" + result.get(0)[1] + " name=" + result.get(0)[2]);
-        }
-    }
 
     @Test
     public void login() {
-        Object[] result = adminService.login("lau_2016-02-10 20:03:19", "1234");
-        System.out.println(result.length);
+        OsAdmin result = adminService.login("lau_2016-02-10 20:03:19", "1234");
+        System.out.println(result.getAccount());
     }
 
     @Test

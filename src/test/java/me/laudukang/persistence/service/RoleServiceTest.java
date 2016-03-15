@@ -2,6 +2,7 @@ package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.util.PrintUtil;
+import me.laudukang.spring.config.ApplicationConfig;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.After;
@@ -29,7 +30,7 @@ import java.util.Date;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class RoleServiceTest {

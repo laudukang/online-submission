@@ -4,6 +4,7 @@ import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.model.OsMessage;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.util.PrintUtil;
+import me.laudukang.spring.config.ApplicationConfig;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
 import me.laudukang.spring.domain.MessageDomain;
@@ -33,7 +34,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class MessageServiceTest {
