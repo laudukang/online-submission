@@ -1,13 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2016/3/14 0014
-  Time: 14:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
     <title>在线投稿系统</title>
@@ -16,48 +9,9 @@
     <link rel="stylesheet" href="css/main.css"/>
 </head>
 <body>
-<div class="frame_header">
-    <div class="frame_header_banner">
-        <a class="frame_header_logo" href="index.html">
-            <img src="images/online/logo.png" alt="在线投稿系统" width="165" height="48">
-            <h2 class="frame_header_title">在线投稿系统</h2>
-        </a>
-        <div class="frame_header_account">
-            <span>用户名：欢迎你！</span>
-            <a href="#">系统信息</a>
-            <a href="#">修改密码</a>
-            <a href="#">安全退出</a>
-        </div>
-    </div>
-</div>
+<%@include file="header.jsp" %>
 <div class="frame_main">
-    <div class="frame_main_nav_wrap">
-        <div class="frame_main_nav">
-            <div class="frame_main_nav_title">
-                <strong>稿件中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="#">我要投稿</a></li>
-                <li><a href="#">稿件查询</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>个人中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="#">修改个人信息</a></li>
-                <li><a href="#">修改登录密码</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>系统中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="#">系统信息</a></li>
-            </ul>
-        </div>
-    </div>
+    <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
             稿件中心 &gt; 稿件查询</h2>
@@ -71,6 +25,49 @@
                 <div class="doc_filter_item">
                     <span class="doc_filter_item_title">标题：</span><input type="text" class="doc_text"
                                                                          id="docList_zhTitle">
+                </div>
+                <div class="doc_filter_item">
+                    <span class="doc_filter_item_title">稿件类别：</span>
+                    <select name="classification" id="docList_classification" class="doc_select">
+                        <option value="">请选择</option>
+                        <option value="小说">小说</option>
+                        <option value="文学">文学</option>
+                        <option value="文学">文学</option>
+                        <option value="经济管理">经济管理</option>
+                        <option value="青春">青春</option>
+                        <option value="投资">投资</option>
+                        <option value="亲子">亲子</option>
+                        <option value="两性">两性</option>
+                        <option value="旅游">旅游</option>
+                        <option value="传记">传记</option>
+                        <option value="时尚">时尚</option>
+                        <option value="心理">心理</option>
+                        <option value="社科">社科</option>
+                        <option value="历史">历史</option>
+                        <option value="军事">军事</option>
+                        <option value="科普">科普</option>
+                        <option value="文化">文化</option>
+                        <option value="政治">政治</option>
+                        <option value="法律">法律</option>
+                        <option value="养生">养生</option>
+                        <option value="风水">风水</option>
+                        <option value="体育">体育</option>
+                        <option value="自然">自然</option>
+                        <option value="计算机">计算机</option>
+                        <option value="工业">工业</option>
+                        <option value="古典">古典</option>
+                        <option value="工具">工具</option>
+                        <option value="建筑">建筑</option>
+                        <option value="美食">美食</option>
+                        <option value="农林">农林</option>
+                        <option value="漫画">漫画</option>
+                        <option value="医学">医学</option>
+                        <option value="艺术">艺术</option>
+                        <option value="外语">外语</option>
+                        <option value="哲学">哲学</option>
+                        <option value="宗教">宗教</option>
+                        <option value="其他">其他</option>
+                    </select>
                 </div>
             </div>
             <div class="doc_filter docList_filter">
@@ -108,9 +105,10 @@
                     <th style="width: 100px;">投稿时间</th>
                     <th style="width: 150px;">标题</th>
                     <th>关键字</th>
-                    <th style="width: 100px;">投稿类型</th>
+                    <th style="width: 80px;">稿件类别</th>
+                    <th style="width: 80px;">投稿类型</th>
                     <th style="width: 80px;">稿件状态</th>
-                    <th style="width: 80px;">操作</th>
+                    <th style="width: 50px;">操作</th>
                 </tr>
                 </thead>
             </table>
@@ -134,6 +132,7 @@
                         {"name": "search_toTime", "value": $('#docList_toTime').val()},
                         {"name": "search_zhTitle", "value": $('#docList_zhTitle').val()},
                         {"name": "search_zhKeyword", "value": $('#docList_zhKeyword').val()},
+                        {"name": "search_classification", "value": $('#docList_classification').val()},
                         {"name": "search_type", "value": $('#docList_type').val()},
                         {"name": "search_status", "value": $('#docList_status').val()});
             },
@@ -144,21 +143,36 @@
                 {"mData": "postTime"},
                 {"mData": "zhTitle", "bSortable": false},
                 {"mData": "zhKeyword", "bSortable": false},
+                {"mData": "classification", "bSortable": false},
                 {"mData": "type", "bSortable": false},
                 {"mData": "status", "bSortable": false},
                 {"mData": "id", "bSortable": false}
             ],
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
-                if (oData.status == "待审查") {
-                    $('td:eq(6)', nRow).html('<i class="doc_icon icon-edit" data-id="' + oData.id + '"></i><i class="doc_icon icon-trash" data-id="' + oData.id + '"></i>');
-                } else {
-                    $('td:eq(6)', nRow).html('<i class="doc_icon icon-trash" data-id="' + oData.id + '"></i>');
+                $('td:eq(2)', nRow).html('<a href="javascript:;" data-id="' + oData.id + '">' + oData.zhTitle + '</a>');
+                $('td:eq(7)', nRow).html('<i class="doc_icon icon-trash" data-id="' + oData.id + '"></i>');
+                switch (oData.status) {
+                    case "待审查":
+                        $('td:eq(6)', nRow).html('<span class="docList_status1">待审查</span>');
+                        $('td:eq(7)', nRow).html('<a href="submitDoc.html"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash"  data-id="' + oData.id + '"></i>');
+                        break;
+                    case "审阅中":
+                        $('td:eq(6)', nRow).html('<span class="docList_status2">审阅中</span>');
+                        break;
+                    case "退修稿":
+                        $('td:eq(6)', nRow).html('<span class="docList_status3">退修稿</span>');
+                        break;
+                    case "已采编":
+                        $('td:eq(6)', nRow).html('<span class="docList_status4">已采编</span>');
+                        break;
                 }
                 return nRow;
             }
         }).show();
         doc.docInfo.dataTableEvent();
+        doc.app.remindBoxEvent();
+        doc.app.confirmBoxEvent();
     });
 </script>
 </body>
