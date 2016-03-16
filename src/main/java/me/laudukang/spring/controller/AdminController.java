@@ -3,8 +3,12 @@ package me.laudukang.spring.controller;
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.spring.domain.AdminDomain;
+import me.laudukang.spring.events.LogEvent;
 import me.laudukang.util.MapUtil;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,27 +33,33 @@ import static com.google.common.base.Strings.isNullOrEmpty;
  */
 @Controller
 @RequestMapping("admin")
-public class AdminController {
+public class AdminController implements ApplicationContextAware {
     @Autowired
-    private IAdminService adminService;
+    private IAdminService iAdminService;
+    private ApplicationContext applicationContext;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage(Model model) {
         model.addAttribute("adminLoginDomain", new AdminDomain());
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@Valid @ModelAttribute AdminDomain adminDomain, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("adminLoginDomain", adminDomain);
             return "redirect:login";
         }
-        Object[] osAdmin = adminService.login(adminDomain.getAccount(), adminDomain.getPassword());
-        if (null != osAdmin && osAdmin.length > 0) {
-            session.setAttribute("adminid", osAdmin[0]);//admin.id,admin.account,admin.name
-            session.setAttribute("account", osAdmin[2]);
-            session.setAttribute("name", osAdmin[3]);
+        OsAdmin osAdmin = iAdminService.login(adminDomain.getAccount(), adminDomain.getPassword());
+        if (null != osAdmin) {
+            session.setAttribute("adminid", osAdmin.getId());
+            session.setAttribute("account", osAdmin.getAccount());
+            session.setAttribute("name", null != osAdmin.getName() ? osAdmin.getName() : osAdmin.getAccount());
             return "welcome";
         }
         model.addAttribute("msg", "账号不存在或密码错误");
@@ -68,9 +78,9 @@ public class AdminController {
         int tmp = 0;
         if (check = !isNullOrEmpty(password)) {
             int id = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
-            OsAdmin osAdmin = adminService.findOne(id);
+            OsAdmin osAdmin = iAdminService.findOne(id);
             if (null != osAdmin && osAdmin.getPassword().equals(password) && isSame) {
-                tmp = adminService.updatePassword(id, newPassword1);
+                tmp = iAdminService.updatePassword(id, newPassword1);
             }
         }
         model.addAttribute("success", check && 1 == tmp ? true : false);
@@ -90,31 +100,33 @@ public class AdminController {
             model.addAttribute("osAdmin", osAdmin);
             return "redirect:newAdmin";
         }
-        if (adminService.existAccount(osAdmin.getAccount())) {
+        if (iAdminService.existAccount(osAdmin.getAccount())) {
             bindingResult.reject("accountExist", "账号已存在");
             return "redirect:newAdmin";
         }
         osAdmin.setStatus(1);
         osAdmin.setReviewer("1".equals(type) ? "1" : "0");
-        adminService.save(osAdmin);
+        iAdminService.save(osAdmin);
+        // TODO: 2016/3/14 event
+        applicationContext.publishEvent(new LogEvent(this, "content_" + System.currentTimeMillis(), "lau", "localhost"));
         return "";
     }
 
     @RequestMapping(value = "deleteAdmin", method = RequestMethod.DELETE)
     public Map<String, Object> delete(@RequestParam("id") int id) {
         if (1 == id) {
-            return MapUtil.forbiddenOperationMap;
+            return MapUtil.forbiddenOperationMap();
         }
-        adminService.deleteById(id);
+        iAdminService.deleteById(id);
         return MapUtil.deleteMap();
     }
 
     @RequestMapping(value = "ableAdmin", method = RequestMethod.DELETE)
     public Map<String, Object> disable(@RequestParam("id") int id, @RequestParam("status") int status) {
         if (1 == id) {
-            return MapUtil.forbiddenOperationMap;
+            return MapUtil.forbiddenOperationMap();
         }
-        adminService.ableAdmin(id, status);
+        iAdminService.ableAdmin(id, status);
         return MapUtil.ableMap();
     }
 
@@ -132,13 +144,13 @@ public class AdminController {
         }
         osAdmin.setStatus(1);
         osAdmin.setReviewer("1".equals(type) ? "1" : "0");
-        adminService.updateById(osAdmin);
+        iAdminService.updateById(osAdmin);
         return "";
     }
 
     @RequestMapping(value = "adminInfo", method = RequestMethod.GET)
     public String findOne(@RequestParam("id") int id, Model model) {
-        OsAdmin osAdmin = adminService.findOne(id);
+        OsAdmin osAdmin = iAdminService.findOne(id);
         model.addAttribute("success", null != osAdmin ? true : false);
         model.addAttribute("msg", null != osAdmin ? "" : "用户不存在");
         model.addAttribute("data", null != osAdmin ? osAdmin : "");
@@ -153,7 +165,7 @@ public class AdminController {
     @RequestMapping(value = "admins", method = RequestMethod.POST)
     public Map<String, Object> findAllAdmin(@ModelAttribute AdminDomain adminDomain) {
         Map<String, Object> map = new HashMap<>(5);
-        Page<OsAdmin> tmp = adminService.findAll(adminDomain);
+        Page<OsAdmin> tmp = iAdminService.findAll(adminDomain);
         boolean hasResult = !tmp.getContent().isEmpty();
         map.put("success", hasResult ? true : false);
         map.put("msg", hasResult ? "" : "记录不存在");
@@ -170,7 +182,7 @@ public class AdminController {
 
     @RequestMapping(value = "reviewers", method = RequestMethod.POST)
     public Map<String, Object> findAllReviewer(@ModelAttribute AdminDomain adminDomain) {
-        Page<OsAdmin> tmp = adminService.findAllReviewer(adminDomain);
+        Page<OsAdmin> tmp = iAdminService.findAllReviewer(adminDomain);
         boolean hasResult = !tmp.getContent().isEmpty();
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", hasResult ? true : false);
@@ -181,6 +193,11 @@ public class AdminController {
         return map;
     }
 
+    @RequestMapping(value = "logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:login";
+    }
 
     @InitBinder
     protected void initBinder(HttpServletRequest request,

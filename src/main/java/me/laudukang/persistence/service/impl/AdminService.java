@@ -5,17 +5,13 @@ import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.repository.AdminRepository;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.spring.domain.AdminDomain;
-import me.laudukang.spring.events.LogEvent;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -30,12 +26,6 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     @Autowired
     private AdminRepository adminRepository;
 
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
     @Override
     public void updateById(OsAdmin osAdminToSave) {
@@ -65,7 +55,6 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     public void save(OsAdmin osAdmin) {
         //adminRepository.saveAdminWithEM(osAdmin);
         adminRepository.save(osAdmin);
-        applicationContext.publishEvent(new LogEvent(this, "content_" + System.currentTimeMillis(), "lau", "localhost"));
     }
 
     @Override
@@ -73,13 +62,13 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
         adminRepository.delete(id);
     }
 
-    @Override
-    public List<Object[]> findOne(String account, String password) {
-        return adminRepository.findOne(account, password);
-    }
+//    @Override
+//    public List<Object[]> findOne(String account, String password) {
+//        return adminRepository.findOne(account, password);
+//    }
 
     @Override
-    public Object[] login(String account, String password) {
+    public OsAdmin login(String account, String password) {
         return adminRepository.login(account, password);
     }
 

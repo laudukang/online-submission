@@ -1,5 +1,6 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -26,6 +27,7 @@ public class OsPermission implements Serializable {
 	private String remark;
 
 	//bi-directional many-to-one association to OsRole
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = true)
 	private OsRole osRole;

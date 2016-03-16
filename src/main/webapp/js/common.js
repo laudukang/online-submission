@@ -185,7 +185,7 @@ doc.tool = {
 		var arr = str.slice(1).split('&');
 		for (var i = 0, len = arr.length; i < len; i++) {
 			var arr1 = arr[i].split("=");
-			obj[arr1[0]] = arr1[1];
+			obj[arr1[0]] = decodeURI(arr1[1]);
 		}
 		return obj;
 	},
@@ -200,7 +200,7 @@ doc.tool = {
 		if (str != "") {
 			var obj = doc.tool.search(str);
 			if (obj.success) {
-				callbackForSuccess();
+				callbackForSuccess(obj.msg);
 			} else {
 				callbackForFail(obj.msg);
 			}

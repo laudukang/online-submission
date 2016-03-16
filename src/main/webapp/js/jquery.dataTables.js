@@ -11190,7 +11190,7 @@
 			 *      } );
 			 *    } );
 				 */
-				"sUrl": "/FrontEndTool/js/en_dataTables.json",
+				"sUrl": "/js/en_dataTables.json",
 
 
 				/**

@@ -123,7 +123,7 @@
     $(function () {
         doc.docInfo.dataTable = $('#docTable').dataTable({
             "bServerSide": true,  //启动服务端分页、排序，搜索等功能
-            "sAjaxSource": 'doc.json',  //ajax请求路径
+            "sAjaxSource": 'docs',  //ajax请求路径
             "aaSorting": [[1, 'desc']],  //初始化时默认的排序字段
             //修改参数
             "fnServerParams": function (aoData) {

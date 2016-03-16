@@ -42,7 +42,8 @@ public class WebInitializer implements WebApplicationInitializer {
 
         FilterRegistration filterRegistration1 =
                 sc.addFilter("openEntityManagerInViewFilter", openEntityManagerInViewFilter);
-        filterRegistration1.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        //filterRegistration1.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        filterRegistration1.addMappingForUrlPatterns(null, false, "/*");
 
         //follow can be deleted
         //sc.addFilter("hibernateFilter", OpenSessionInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");
@@ -60,7 +61,7 @@ public class WebInitializer implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic dynamic = sc.addServlet("dispatcherServlet", dispatcherServlet);
         dynamic.setLoadOnStartup(1);
-        dynamic.addMapping("/*");
+        dynamic.addMapping("/");
 
 
     }

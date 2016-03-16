@@ -1,5 +1,6 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -27,6 +28,7 @@ public class OsRole implements Serializable {
     private String remark;
 
     //bi-directional many-to-one association to OsPermission
+    @JsonBackReference
     @OneToMany(mappedBy = "osRole", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsPermission> osPermissions = new ArrayList<>();
 

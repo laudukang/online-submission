@@ -1,5 +1,6 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Email;
@@ -59,14 +60,17 @@ public class OsAdmin implements Serializable {
     private String reviewer;
 
     //bi-directional many-to-one association to OsMessage
+    @JsonBackReference
     @OneToMany(mappedBy = "osAdmin", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsMessage> osMessages = new ArrayList<>();
 
     //bi-directional many-to-one association to OsDocAdmin
+    @JsonBackReference
     @OneToMany(mappedBy = "osAdmin", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
 
     //bi-directional many-to-many association to OsRole
+    @JsonBackReference
     @ManyToMany(mappedBy = "osAdmins")
     private List<OsRole> osRoles = new ArrayList<>();
 

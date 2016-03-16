@@ -2,10 +2,7 @@ package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.spring.domain.AdminDomain;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -14,7 +11,7 @@ import java.util.List;
  * <p>Time: 12:09
  * <p>Version: 1.0
  */
-public interface IAdminService extends ApplicationContextAware {
+public interface IAdminService {
 
     void save(OsAdmin osAdmin);
 
@@ -30,9 +27,9 @@ public interface IAdminService extends ApplicationContextAware {
 
     boolean existAccount(String account);
 
-    List<Object[]> findOne(String account, String password);
+    //List<Object[]> findOne(String account, String password);
 
-    Object[] login(String account, String password);
+    OsAdmin login(String account, String password);
 
     OsAdmin findOne(int id);
 

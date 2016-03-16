@@ -2,6 +2,9 @@ package me.laudukang.spring.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import me.laudukang.spring.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -53,9 +56,10 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-        registry.addResourceHandler("/img/**").addResourceLocations("/img/");
+        registry.addResourceHandler("/images/**").addResourceLocations("/images/");
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
         registry.addResourceHandler("/upload/**").addResourceLocations("/upload/");
+        registry.addResourceHandler("/font/**").addResourceLocations("/font/");
     }
 
     /**
@@ -64,6 +68,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        converters.add(byteArrayHttpMessageConverter());
         converters.add(converter());
         addDefaultHttpMessageConverters(converters);
     }
@@ -82,7 +87,11 @@ public class MvcConfig extends WebMvcConfigurationSupport {
          * 2016年1月22日15:52:08
          * laudukang
          */
-        converter.setObjectMapper(new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
+        ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.registerModules(new Hibernate4Module());
+        converter.setObjectMapper(objectMapper);
         return converter;
     }
 
@@ -104,6 +113,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         //registry.addInterceptor(new DocUploadInterceptor()).addPathPatterns("/upload");//文件上传拦截器
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/*");
         super.addInterceptors(registry);
     }
 //    @Bean

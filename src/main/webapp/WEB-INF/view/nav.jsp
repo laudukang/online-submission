@@ -13,16 +13,16 @@
             <div class="frame_main_nav_title_Bg"></div>
         </div>
         <ul class="frame_main_nav_list">
-            <li><a href="docList.html">稿件查询</a></li>
-            <li><a href="submitDoc.html">我要投稿</a></li>
+            <li><a href="docs">稿件查询</a></li>
+            <li><a href="newDoc">我要投稿</a></li>
         </ul>
         <div class="frame_main_nav_title">
             <strong>个人中心</strong>
             <div class="frame_main_nav_title_Bg"></div>
         </div>
         <ul class="frame_main_nav_list">
-            <li><a href="account.html">账号信息</a></li>
-            <li><a href="updatePassword.html">修改密码</a></li>
+            <li><a href="userInfo">账号信息</a></li>
+            <li><a href="updatePassword">修改密码</a></li>
         </ul>
         <div class="frame_main_nav_title">
             <strong>系统中心</strong>

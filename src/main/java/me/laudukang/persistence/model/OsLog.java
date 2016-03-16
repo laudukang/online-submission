@@ -1,5 +1,6 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,6 +29,7 @@ public class OsLog implements Serializable {
 
     private String ip;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;

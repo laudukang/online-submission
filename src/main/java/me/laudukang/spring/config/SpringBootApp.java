@@ -22,13 +22,13 @@ public class SpringBootApp extends SpringBootServletInitializer {
         return application.sources(SpringBootApp.class);
     }
 
-    //@Bean
-    //public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
-    //    ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
-    //    //registration.getUrlMappings().clear();
-    //    registration.addUrlMappings("/");
-    //    return registration;
-    //}
+//    @Bean
+//    public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
+//        ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
+//        //registration.getUrlMappings().clear();
+//        registration.addUrlMappings("/*");
+//        return registration;
+//    }
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(SpringBootApp.class, args);

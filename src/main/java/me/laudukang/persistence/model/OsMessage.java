@@ -1,5 +1,7 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -24,17 +26,20 @@ public class OsMessage implements Serializable {
     @Column(columnDefinition = "text")
     private String content;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "post_time")
     private Timestamp postTime;
 
     private String title;
 
     // bi-directional many-to-one association to OsAdmin
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = true)
     private OsAdmin osAdmin;
 
     // bi-directional many-to-one association to OsUser
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
     private OsUser osUser;

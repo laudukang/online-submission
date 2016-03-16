@@ -35,7 +35,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 public class UserController implements ApplicationContextAware {
 
     @Autowired
-    private IUserService userService;
+    private IUserService iUserService;
     private ApplicationContext applicationContext;
 
     @Override
@@ -55,7 +55,7 @@ public class UserController implements ApplicationContextAware {
             model.addAttribute("userLoginDomain", userDomain);
             return "redirect:";
         }
-        OsUser tmp = userService.login(userDomain.getAccount(), userDomain.getPassword());
+        OsUser tmp = iUserService.login(userDomain.getAccount(), userDomain.getPassword());
         if (null != tmp) {
             session.setAttribute("userid", tmp.getId()); //user.id,user.account,user.name
             session.setAttribute("account", tmp.getAccount());
@@ -69,7 +69,7 @@ public class UserController implements ApplicationContextAware {
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.GET)
     public String updatePasswordPage() {
-        return "";
+        return "updatePassword";
     }
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
@@ -79,40 +79,49 @@ public class UserController implements ApplicationContextAware {
         int tmp = 0;
         if (check = !isNullOrEmpty(password)) {
             int id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
-            OsUser osUser = userService.findOne(id);
+            OsUser osUser = iUserService.findOne(id);
             if (null != osUser && osUser.getPassword().equals(password) && isSame) {
-                tmp = userService.updatePassword(id, newPassword1);
+                tmp = iUserService.updatePassword(id, newPassword1);
             }
         }
         model.addAttribute("success", check && isSame && 1 == tmp ? true : false);
-        model.addAttribute("msg", check && isSame && 1 == tmp ? "成功修改密码" : "修改密码失败");
-        return "redirect:";
+        model.addAttribute("msg", check && isSame && 1 == tmp ? "成功修改密码" : "原密码输入错误");
+        return "redirect:updatePassword";
     }
 
     @RequestMapping(value = "userInfo", method = RequestMethod.GET)
     public String findOne(Model model, HttpSession session) {
-        int id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
-        OsUser osUser = userService.findOne(id);
-        model.addAttribute("osUser", osUser);
-        return "";
-    }
-
-    @RequestMapping(value = "updateUserInfo", method = RequestMethod.GET)
-    public String updateUserInfoPage(Model model, HttpSession session) {
-        model.addAttribute("osUser", new OsUser());
-        return "";
-    }
-
-    @RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
-    public String updateUserInfo(@ModelAttribute OsUser osUser, BindingResult bindingResult, Model model, HttpSession session) {
-        if (bindingResult.hasErrors()) {
+        String str;
+        int id;
+        if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(str)) {
+            id = Integer.valueOf(str);
+            OsUser osUser = iUserService.findOne(id);
             model.addAttribute("osUser", osUser);
-            return "redirect:";
+            return "account";
         }
-        userService.updateById(osUser);
-        model.addAttribute("success", true);
-        model.addAttribute("msg", "更新成功");
-        return "";
+        return "redirect:/";
+    }
+
+//    @RequestMapping(value = "updateUserInfo", method = RequestMethod.GET)
+//    public String updateUserInfoPage(Model model, HttpSession session) {
+//        model.addAttribute("osUser", new OsUser());
+//        return "";
+//    }
+
+    @RequestMapping(value = "userInfo", method = RequestMethod.POST)
+    public String updateUserInfo(@ModelAttribute OsUser osUser, BindingResult result, Model model, HttpSession session) {
+        String str;
+        int id;
+        boolean isUpdate = false;
+        if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(str)) {
+            id = Integer.valueOf(str);
+            osUser.setId(id);
+            iUserService.updateById(osUser);
+            isUpdate = true;
+        }
+        model.addAttribute("success", isUpdate);
+        model.addAttribute("msg", isUpdate ? "更新成功" : "更新失败,用户未登陆");
+        return "redirect:userInfo";
     }
 
     @RequestMapping(value = "newUser", method = RequestMethod.GET)
@@ -127,12 +136,12 @@ public class UserController implements ApplicationContextAware {
             model.addAttribute("osUser", osUser);
             return "redirect:";
         }
-        if (userService.existAccount(osUser.getAccount())) {
+        if (iUserService.existAccount(osUser.getAccount())) {
             bindingResult.reject("accountExist", "账号已存在");
-            return "redirect:newAdmin";
+            return "redirect:";
         }
         osUser.setStatus("normal");
-        userService.save(osUser);
+        iUserService.save(osUser);
         model.addAttribute("success", true);
         model.addAttribute("msg", "保存成功");
         return "redirect:";
@@ -141,17 +150,17 @@ public class UserController implements ApplicationContextAware {
     @RequestMapping(value = "deleteUser", method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String, Object> delete(@RequestParam("id") int id) {
-        userService.deleteById(id);
+        iUserService.deleteById(id);
         return MapUtil.deleteMap();
     }
 
     @RequestMapping(value = "resetRequest", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> resetRequest(@RequestParam("account") String account, HttpServletRequest request) {
-        OsUser osUser = userService.findByAccount(account);
+        OsUser osUser = iUserService.findByAccount(account);
         if (null != osUser) {
             osUser.setStatus("resetting");
-            userService.save(osUser);
+            iUserService.save(osUser);
             StringBuffer sb = new StringBuffer(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>")
                     .append(null != osUser.getName() ? osUser.getName() : osUser.getAccount())
@@ -195,10 +204,10 @@ public class UserController implements ApplicationContextAware {
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
     public String resetPassword(@RequestParam("account") String account, @RequestParam("password") String password, Model model) {
         if (!isNullOrEmpty(account)) {
-            OsUser osUser = userService.findByAccount(account);
+            OsUser osUser = iUserService.findByAccount(account);
             if ("resetting".equals(osUser.getStatus())) {
                 osUser.setPassword(password);
-                userService.save(osUser);
+                iUserService.save(osUser);
                 model.addAttribute("success", true);
                 model.addAttribute("msg", "成功重置密码");
                 return "redirect:login";
@@ -218,7 +227,15 @@ public class UserController implements ApplicationContextAware {
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) throws Exception {
-        request.getSession().setAttribute("userid", 1);
+        System.out.println("in initBinder");
+        //request.getSession().setAttribute("userid", 1);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public void defaultErrorHandler(HttpServletRequest req, Exception ex) {
+        System.out.println("req.getMethod()=" + req.getMethod());
+        System.out.println("Exception Message=" + ex.getMessage());
+        ex.printStackTrace();
     }
 
 }

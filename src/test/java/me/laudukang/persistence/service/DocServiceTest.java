@@ -105,8 +105,8 @@ public class DocServiceTest {
 
     @Test
     public void findAllByPage() {
-        Calendar fromTime = new GregorianCalendar(2016, 1, 1, 0, 0, 0);
-        Calendar toTime = new GregorianCalendar(2016, 3, 11, 0, 0, 0);
+        Calendar fromTime = new GregorianCalendar(2016, 1, 1);
+        Calendar toTime = new GregorianCalendar(2016, 3, 19);
         Page<OsDoc> tmp = docService.findAll("%title%", fromTime.getTime(), toTime.getTime(), pageable);
         System.out.println(tmp.getContent().size());
     }
@@ -119,9 +119,11 @@ public class DocServiceTest {
         docDomain.setSortDir("ASC");
         docDomain.setPage(1);
         docDomain.setPageSize(10);
-        docDomain.setZhTitle("%title_201%");
+        //docDomain.setZhTitle("%title_201%");
         docDomain.setAdminid(1);
         docDomain.setUserid(1);
+        docDomain.setFromTime("2016-03-01");
+        docDomain.setToTime("2016-03-24");
         Page<OsDoc> tmp = docService.findAllByUserId(docDomain);
         System.out.println(tmp.getContent().size());
     }
@@ -134,7 +136,8 @@ public class DocServiceTest {
         docDomain.setSortDir("ASC");
         docDomain.setPage(1);
         docDomain.setPageSize(10);
-        docDomain.setZhTitle("%title_2015%");
+        //docDomain.setZhTitle("%title_2015%");
+        docDomain.setZhKeyword("11;22;33;44;55");
         docDomain.setAdminid(1);
         docDomain.setUserid(1);
         Page<OsDoc> tmp = docService.findByAdminId(docDomain);

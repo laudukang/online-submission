@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -19,15 +17,16 @@ import java.util.List;
  */
 @Repository
 public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminRepositoryCustom, JpaSpecificationExecutor<OsAdmin> {
-    //void updatePassword(OsAdmin osAdmin);
-    //@Query("select admin from OsAdmin admin where admin.account=:account and admin.password=:password")
-    //OsAdmin findOne2(@Param("account") String account, @Param("password") String password);
 
-    @Query("select admin.id,admin.account,admin.name from OsAdmin admin where admin.account=:account and admin.password=:password")
-    List<Object[]> findOne(@Param("account") String account, @Param("password") String password);
+//    void updatePassword(OsAdmin osAdmin);
+//    @Query("select admin from OsAdmin admin where admin.account=:account and admin.password=:password")
+//    OsAdmin findOne2(@Param("account") String account, @Param("password") String password);
 
-    @Query("select admin.id,admin.account,admin.name from OsAdmin admin where admin.account=:account and admin.password=:password")
-    Object[] login(@Param("account") String account, @Param("password") String password);
+//    @Query("select admin.id,admin.account,admin.name from OsAdmin admin where admin.account=:account and admin.password=:password")
+//    List<Object[]> findOne(@Param("account") String account, @Param("password") String password);
+
+    @Query("select admin from OsAdmin admin where admin.account=:account and admin.password=:password")
+    OsAdmin login(@Param("account") String account, @Param("password") String password);
 
     @Query("select count(*) from OsAdmin u where u.account=:account")
     int existAccount(@Param("account") String account);

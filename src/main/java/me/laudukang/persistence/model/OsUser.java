@@ -1,8 +1,7 @@
 package me.laudukang.persistence.model;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,11 +23,12 @@ public class OsUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "账号不能为空")
+    //@NotEmpty(message = "账号不能为空")
     private String account;
 
     private String address;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date birth;
 
@@ -44,7 +44,7 @@ public class OsUser implements Serializable {
     @Column(name = "office_phone")
     private String officePhone;
 
-    @NotEmpty(message = "密码不能为空")
+    //@NotEmpty(message = "密码不能为空")
     @Column(columnDefinition = "char")
     private String password;
 
@@ -57,11 +57,15 @@ public class OsUser implements Serializable {
     @Column(columnDefinition = "char")
     private String sex;
 
+    private String status;
+
     //bi-directional many-to-one association to OsMessage
+    @JsonBackReference
     @OneToMany(mappedBy = "osUser")
     private List<OsMessage> osMessages = new ArrayList<OsMessage>();
 
     //bi-directional many-to-one association to OsDoc
+    @JsonBackReference
     @OneToMany(mappedBy = "osUser")
     private List<OsDoc> osDocs = new ArrayList<OsDoc>();
 
@@ -185,6 +189,14 @@ public class OsUser implements Serializable {
         this.sex = sex;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<OsMessage> getOsMessages() {
         return this.osMessages;
     }
@@ -229,8 +241,8 @@ public class OsUser implements Serializable {
         return osDoc;
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-    }
+//    @Override
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+//    }
 }

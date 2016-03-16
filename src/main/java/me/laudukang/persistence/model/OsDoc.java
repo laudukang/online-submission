@@ -1,7 +1,7 @@
 package me.laudukang.persistence.model;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,11 +34,14 @@ public class OsDoc implements Serializable {
     @Column(name = "en_title")
     private String enTitle;
 
+    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @Column(name = "post_time")
     private Timestamp postTime;
 
     private String status;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "status_time")
     private Timestamp statusTime;
 
@@ -56,15 +59,18 @@ public class OsDoc implements Serializable {
     private String zhTitle;
 
     //bi-directional many-to-one association to OsAuthor
+    //@JsonBackReference
     @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsAuthor> osAuthors = new ArrayList<>();
 
     //bi-directional many-to-one association to OsUser
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
     private OsUser osUser;
 
     //bi-directional many-to-one association to OsDocAdmin
+    @JsonBackReference
     @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
 
@@ -239,8 +245,8 @@ public class OsDoc implements Serializable {
         this.path = path;
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-    }
+//    @Override
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+//    }
 }

@@ -1,5 +1,7 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -24,15 +26,18 @@ public class OsDocAdmin implements Serializable {
     @Column(name = "review_result", columnDefinition = "text")
     private String reviewResult;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "review_time")
     private Timestamp reviewTime;
 
     //bi-directional many-to-one association to OsAdmin
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = true, insertable = false, updatable = false)
     private OsAdmin osAdmin;
 
     //bi-directional many-to-one association to OsDoc
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_id", nullable = true, insertable = false, updatable = false)
     private OsDoc osDoc;

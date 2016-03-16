@@ -1,5 +1,6 @@
 package me.laudukang.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -10,158 +11,168 @@ import java.util.Date;
 
 /**
  * The persistent class for the os_author database table.
- *
  */
 @Entity
 @Table(name = "os_author", schema = "online_submission")
 @NamedQuery(name = "OsAuthor.findAll", query = "SELECT o FROM OsAuthor o")
 public class OsAuthor implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	private String address;
+    private String address;
 
-	@Temporal(TemporalType.DATE)
-	private Date bitrh;
+    @Temporal(TemporalType.DATE)
+    private Date bitrh;
 
-	private String city;
+    private String city;
 
-	private String country;
+    private String country;
 
-	@Column(name = "mobile_phone")
-	private String mobilePhone;
+    @Column(name = "mobile_phone")
+    private String mobilePhone;
 
-	private String name;
+    private String name;
 
-	@Column(name = "office_phone")
-	private String officePhone;
+    @Column(name = "office_phone")
+    private String officePhone;
 
-	private String postcode;
+    private String postcode;
 
-	private String province;
+    private String province;
 
-	private String remark;
+    private String remark;
 
-	@Column(name = "sex", nullable = true, length = 2, columnDefinition = "char")
-	private String sex;
+    @Column(name = "sex", nullable = true, length = 2, columnDefinition = "char")
+    private String sex;
 
-	//bi-directional many-to-one association to OsDoc
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "doc_id")
-	private OsDoc osDoc;
+    private String mail;
 
-	public OsAuthor() {
-	}
+    //bi-directional many-to-one association to OsDoc
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doc_id")
+    private OsDoc osDoc;
 
-	public int getId() {
-		return this.id;
-	}
+    public OsAuthor() {
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public String getAddress() {
-		return this.address;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getAddress() {
+        return this.address;
+    }
 
-	public Date getBitrh() {
-		return this.bitrh;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public void setBitrh(Date bitrh) {
-		this.bitrh = bitrh;
-	}
+    public Date getBitrh() {
+        return this.bitrh;
+    }
 
-	public String getCity() {
-		return this.city;
-	}
+    public void setBitrh(Date bitrh) {
+        this.bitrh = bitrh;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getCity() {
+        return this.city;
+    }
 
-	public String getCountry() {
-		return this.country;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getCountry() {
+        return this.country;
+    }
 
-	public String getMobilePhone() {
-		return this.mobilePhone;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public void setMobilePhone(String mobilePhone) {
-		this.mobilePhone = mobilePhone;
-	}
+    public String getMobilePhone() {
+        return this.mobilePhone;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getOfficePhone() {
-		return this.officePhone;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setOfficePhone(String officePhone) {
-		this.officePhone = officePhone;
-	}
+    public String getOfficePhone() {
+        return this.officePhone;
+    }
 
-	public String getPostcode() {
-		return this.postcode;
-	}
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
 
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
-	}
+    public String getPostcode() {
+        return this.postcode;
+    }
 
-	public String getProvince() {
-		return this.province;
-	}
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
 
-	public void setProvince(String province) {
-		this.province = province;
-	}
+    public String getProvince() {
+        return this.province;
+    }
 
-	public String getRemark() {
-		return this.remark;
-	}
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public String getRemark() {
+        return this.remark;
+    }
 
-	public String getSex() {
-		return this.sex;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
+    public String getSex() {
+        return this.sex;
+    }
 
-	public OsDoc getOsDoc() {
-		return this.osDoc;
-	}
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-	public void setOsDoc(OsDoc osDoc) {
-		this.osDoc = osDoc;
-	}
+    public String getMail() {
+        return mail;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-	}
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public OsDoc getOsDoc() {
+        return this.osDoc;
+    }
+
+    public void setOsDoc(OsDoc osDoc) {
+        this.osDoc = osDoc;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+    }
 }

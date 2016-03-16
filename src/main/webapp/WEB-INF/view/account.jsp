@@ -14,12 +14,12 @@
         <h2 class="frame_main_content_path">
             个人中心 &gt; 账户信息</h2>
         <div class="frame_main_center">
-            <form action="#" method="post">
+            <form action="userInfo" method="post">
                 <table class="doc_table account_table">
                     <tbody>
                     <tr>
                         <td class="doc_title" colspan="2">
-                            登录信息：
+                            登录信息：&nbsp;&nbsp;&nbsp;&nbsp;<span class="doc_remind_Red"></span>
                         </td>
                     </tr>
                     <tr>
@@ -27,7 +27,7 @@
                             个人账户：
                         </td>
                         <td class="doc_td_Active">
-                            491501792@qq.com&nbsp;&nbsp;&nbsp;(此账户无法修改)
+                            ${osUser.account}&nbsp;&nbsp;&nbsp;(此账户无法修改)
                         </td>
                     </tr>
                     <tr>
@@ -40,7 +40,7 @@
                             姓名：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="name" required><span
+                            <input type="text" class="doc_text" name="name" value="${osUser.name}" required><span
                                 class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -49,9 +49,9 @@
                             性别：
                         </td>
                         <td class="doc_td_Active">
-                            <label style="margin-right: 10px;"><input type="radio" name="sex" checked="checked"
+                            <label style="margin-right: 10px;"><input type="radio" name="sex" ${osUser.sex=="男"?"checked":""}
                                                                       value="男" style="margin-right: 3px">男</label>
-                            <label><input type="radio" name="sex" value="女" style="margin-right: 3px">女</label>
+                            <label><input type="radio" name="sex" value="女" ${osUser.sex=="女"?"checked":""} style="margin-right: 3px">女</label>
                         </td>
                     </tr>
                     <tr>
@@ -59,7 +59,7 @@
                             出现日期：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="date" class="doc_text " name="birth" value="" required><span
+                            <input type="date" class="doc_text " name="birth" value="${osUser.birth}" required><span
                                 class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -73,7 +73,7 @@
                             手机：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="mobilePhone" value="" required
+                            <input type="text" class="doc_text" name="mobilePhone" value="${osUser.mobilePhone}" required
                                    pattern="^1[3|4|5|8]\d{9}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -82,7 +82,7 @@
                             工作电话：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="officePhone" value="" placeholder="如：010-12345678"
+                            <input type="text" class="doc_text" name="officePhone" value="${osUser.officePhone}" placeholder="如：010-12345678"
                                    required pattern="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$"><span
                                 class="doc_table_tip">*</span>
                         </td>
@@ -92,7 +92,7 @@
                             邮编：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="postcode" value="" required
+                            <input type="text" class="doc_text" name="postcode" value="${osUser.postcode}" required
                                    pattern="^[1-9]\d{5}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -101,11 +101,11 @@
                             所在地区：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Small" name="country" required/><span
+                            <input type="text" class="doc_text doc_text_Small" name="country" value="${osUser.country}" required/><span
                                 style="padding: 0 5px">国</span>
-                            <input type="text" class="doc_text doc_text_Small" name="province" required/><span
+                            <input type="text" class="doc_text doc_text_Small" name="province" value="${osUser.province}" required/><span
                                 style="padding: 0 5px">省</span>
-                            <input type="text" class="doc_text doc_text_Small" name="city" required/><span
+                            <input type="text" class="doc_text doc_text_Small" name="city" value="${osUser.city}" required/><span
                                 style="padding-left:5px;">市</span>
                             <span class="doc_table_tip">*</span>
                         </td>
@@ -115,7 +115,7 @@
                             详细地址：
                         </td>
                         <td class="doc_td_Active" colspan="3">
-                            <input type="text" class="doc_text" name="address" value="" style="width: 420px;"
+                            <input type="text" class="doc_text" name="address" value="${osUser.address}" style="width: 420px;"
                                    required><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -130,7 +130,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <textarea name="remark" class="doc_textarea" style="width: 420px" maxlength="255"
-                                      placeholder="最多输入255个字符"></textarea>
+                                      placeholder="最多输入255个字符">${osUser.remark}</textarea>
                         </td>
                     </tr>
                     <tr style="border-bottom: 4px solid #C4D8ED;">
@@ -149,6 +149,11 @@
 <script src="js/main.js"></script>
 <script>
     $(function () {
+        doc.tool.success(window.location.search,function(msg){
+            $('.doc_title .doc_remind_Red').html(msg);
+        },function(msg){
+            $('.doc_title .doc_remind_Red').html(msg);
+        });
     });
 </script>
 </body>

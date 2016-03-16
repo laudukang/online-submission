@@ -5,7 +5,6 @@ import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IDocService;
 import me.laudukang.spring.domain.DocDomain;
 import me.laudukang.util.MapUtil;
-import me.laudukang.util.TimeStampPropertyEditor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,48 +132,53 @@ public class DocController {
     // TODO: 2016/3/11 三个稿件列表页面
     @RequestMapping(value = "docs", method = RequestMethod.GET)
     public String docsPage() {
-        return "";
+        return "docList";
     }
 
     @RequestMapping(value = "docsSuper", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain) {
+    public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
         Page<OsDoc> tmp = iDocService.findAllSuper(docDomain);
         boolean hasResult = !tmp.getContent().isEmpty();
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", hasResult ? true : false);
         map.put("msg", hasResult ? "" : "记录不存在");
-        map.put("data", hasResult ? tmp.getContent() : "");
-        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
-        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        map.put("data", hasResult ? tmp.getContent() : null);
+        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : 0);
+        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : 0);
         return map;
     }
 
     @RequestMapping(value = "docs", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> docsUser(@ModelAttribute DocDomain docDomain) {
+    public Map<String, Object> docsUser(@ModelAttribute DocDomain docDomain, BindingResult bindingResult, HttpSession session) {
+        int userid = 0;
+        if (NumberUtils.isNumber(String.valueOf(session.getAttribute("userid")))) {
+            userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
+        }
+        docDomain.setUserid(userid);
         Page<OsDoc> tmp = iDocService.findAllByUserId(docDomain);
         boolean hasResult = !tmp.getContent().isEmpty();
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", hasResult ? true : false);
         map.put("msg", hasResult ? "" : "记录不存在");
-        map.put("data", hasResult ? tmp.getContent() : "");
-        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
-        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        map.put("data", tmp.getContent());
+        map.put("iTotalRecords", tmp.getTotalElements());
+        map.put("iTotalDisplayRecords", tmp.getNumberOfElements());
         return map;
     }
 
     @RequestMapping(value = "docsReview", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain) {
+    public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
         Page<OsDoc> tmp = iDocService.findByAdminId(docDomain);
         boolean hasResult = !tmp.getContent().isEmpty();
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", hasResult ? true : false);
         map.put("msg", hasResult ? "" : "记录不存在");
-        map.put("data", hasResult ? tmp.getContent() : "");
-        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : "");
-        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : "");
+        map.put("data", hasResult ? tmp.getContent() : null);
+        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : 0);
+        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : 0);
         return map;
     }
 
@@ -207,9 +211,9 @@ public class DocController {
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) throws Exception {
-        binder.registerCustomEditor(Timestamp.class,
-                new TimeStampPropertyEditor());
-        request.getSession().setAttribute("userid", 1);
+//        binder.registerCustomEditor(Timestamp.class,
+//                new TimeStampPropertyEditor());
+        System.out.println("in initBinder");
     }
 
     @ExceptionHandler(RuntimeException.class)

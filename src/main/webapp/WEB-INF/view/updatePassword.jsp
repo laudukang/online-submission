@@ -14,12 +14,12 @@
         <h2 class="frame_main_content_path">
             个人中心 &gt; 修改密码</h2>
         <div class="frame_main_center">
-            <form action="#" method="post" id="updatePassword_form">
+            <form action="updatePassword" method="post" id="updatePassword_form">
                 <table class="doc_table updatePassword_table">
                     <tbody>
                     <tr>
                         <td class="doc_title" colspan="2">
-                            修改密码 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="doc_remind_Red">修改密码成功/失败信息</span>
+                            修改密码 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="doc_remind_Red"></span>
                         </td>
                     </tr>
                     <tr>
@@ -82,6 +82,14 @@
             $('#newPassword1').val($.md5($('#newPassword1').val()));
             $('#newPassword2').val($.md5($('#newPassword2').val()));
         });
+
+
+        doc.tool.success(window.location.search, function (msg) {
+            $('.doc_title .doc_remind_Red').html(msg);
+        }, function (msg) {
+            $('.doc_title .doc_remind_Red').html(msg);
+        });
+
     });
 </script>
 </body>
