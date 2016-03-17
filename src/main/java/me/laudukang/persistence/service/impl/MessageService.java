@@ -24,8 +24,8 @@ public class MessageService implements IMessageService {
     private MessageRepository messageRepository;
 
     @Override
-    public void save(OsMessage osMessage) {
-        messageRepository.save(osMessage);
+    public OsMessage save(OsMessage osMessage) {
+        return messageRepository.save(osMessage);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IMessageService {
 
-    void save(OsMessage osMessage);
+    OsMessage save(OsMessage osMessage);
 
     void deleteById(int id);
 

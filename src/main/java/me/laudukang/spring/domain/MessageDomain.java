@@ -1,5 +1,6 @@
 package me.laudukang.spring.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -52,6 +53,7 @@ public class MessageDomain {
         this.content = content;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getPostTime() {
         return postTime;
     }

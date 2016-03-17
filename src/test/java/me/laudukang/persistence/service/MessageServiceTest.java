@@ -39,7 +39,7 @@ import java.util.List;
 @Rollback(false)
 public class MessageServiceTest {
     @Autowired
-    private IMessageService messageService;
+    private IMessageService iMessageService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -74,23 +74,23 @@ public class MessageServiceTest {
         osMessage.setOsAdmin(osAdmin);
         osMessage.setOsUser(osUser);
         osMessage.setContent("message_" + sdf.format(new Date()));
-        messageService.save(osMessage);
+        iMessageService.save(osMessage);
     }
 
     @Test
     public void deleteById() {
-        messageService.deleteById(2);
+        iMessageService.deleteById(2);
     }
 
     @Test
     public void findAllByUserId() {
-        List<MessageDomain> result = messageService.findAllByUserId(4);
+        List<MessageDomain> result = iMessageService.findAllByUserId(4);
         printUtil.printListToConsole(result);
     }
 
     @Test
     public void findAllByAdminId() {
-        List<MessageDomain> result = messageService.findAllByAdminId(1);
+        List<MessageDomain> result = iMessageService.findAllByAdminId(1);
         printUtil.printListToConsole(result);
     }
 }

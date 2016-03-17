@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * The persistent class for the os_message database table.
@@ -26,9 +27,11 @@ public class OsMessage implements Serializable {
     @Column(columnDefinition = "text")
     private String content;
 
+    @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "post_time")
-    private Timestamp postTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date postTime;
 
     private String title;
 
@@ -63,11 +66,11 @@ public class OsMessage implements Serializable {
         this.content = content;
     }
 
-    public Timestamp getPostTime() {
+    public Date getPostTime() {
         return this.postTime;
     }
 
-    public void setPostTime(Timestamp postTime) {
+    public void setPostTime(Date postTime) {
         this.postTime = postTime;
     }
 
