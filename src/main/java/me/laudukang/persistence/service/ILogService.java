@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsLog;
+import me.laudukang.spring.domain.LogDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,6 +22,8 @@ public interface ILogService {
     Page<OsLog> findByContent(String content, Pageable pageable);
 
     Page<OsLog> findAll(Pageable pageable);
+
+    Page<OsLog> findAll(LogDomain logDomain);
 
     Page<OsLog> findByUserOrAdminName(String userOrAdminName, Pageable pageable);
 

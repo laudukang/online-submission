@@ -20,7 +20,7 @@ public class MapUtil {
     public static Map<String, Object> userPasswordResetRequstFailMap = new HashMap<>(2);
     public static Map<String, Object> userPasswordResetRequstSuccessMap = new HashMap<>(2);
 
-    public static Map<String, Object> deleteMap() {
+    public static Map<String, Object> getDeleteMap() {
         if (deleteMap.isEmpty()) {
             deleteMap.put("success", true);
             deleteMap.put("msg", "删除成功");
@@ -28,7 +28,7 @@ public class MapUtil {
         return deleteMap;
     }
 
-    public static Map<String, Object> deleteForbiddenMap() {
+    public static Map<String, Object> getDeleteForbiddenMap() {
         if (deleteForbiddenMap.isEmpty()) {
             deleteForbiddenMap.put("success", false);
             deleteForbiddenMap.put("msg", "已处理投稿不允许删除");
@@ -36,7 +36,7 @@ public class MapUtil {
         return deleteForbiddenMap;
     }
 
-    public static Map<String, Object> saveMap() {
+    public static Map<String, Object> getSaveMap() {
         if (saveMap.isEmpty()) {
             saveMap.put("success", true);
             saveMap.put("msg", "保存成功");
@@ -44,7 +44,7 @@ public class MapUtil {
         return saveMap;
     }
 
-    public static Map<String, Object> updateMap() {
+    public static Map<String, Object> getUpdateMap() {
         if (updateMap.isEmpty()) {
             updateMap.put("success", true);
             updateMap.put("msg", "更新成功");
@@ -52,7 +52,7 @@ public class MapUtil {
         return updateMap;
     }
 
-    public static Map<String, Object> forbiddenOperationMap() {
+    public static Map<String, Object> getForbiddenOperationMap() {
         if (forbiddenOperationMap.isEmpty()) {
             forbiddenOperationMap.put("success", false);
             forbiddenOperationMap.put("msg", "非法操作");
@@ -60,7 +60,7 @@ public class MapUtil {
         return forbiddenOperationMap;
     }
 
-    public static Map<String, Object> ableMap() {
+    public static Map<String, Object> getAbleMap() {
         if (ableMap.isEmpty()) {
             ableMap.put("success", false);
             ableMap.put("msg", "操作成功");
@@ -68,7 +68,7 @@ public class MapUtil {
         return ableMap;
     }
 
-    public static Map<String, Object> userPasswordResetRequstFailMap() {
+    public static Map<String, Object> getUserPasswordResetRequstFailMap() {
         if (userPasswordResetRequstFailMap.isEmpty()) {
             userPasswordResetRequstFailMap.put("success", false);
             userPasswordResetRequstFailMap.put("msg", "账户不存在，请确认");
@@ -76,7 +76,7 @@ public class MapUtil {
         return userPasswordResetRequstFailMap;
     }
 
-    public static Map<String, Object> userPasswordResetRequstSuccessMap() {
+    public static Map<String, Object> getUserPasswordResetRequstSuccessMap() {
         if (userPasswordResetRequstSuccessMap.isEmpty()) {
             userPasswordResetRequstSuccessMap.put("success", true);
             userPasswordResetRequstSuccessMap.put("msg", "重置密码邮件已发送到您的邮箱，请查收");

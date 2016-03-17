@@ -36,7 +36,7 @@ import java.util.concurrent.Future;
 @Rollback(false)
 public class LogServiceTest {
     @Autowired
-    private ILogService logService;
+    private ILogService iLogService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -64,41 +64,41 @@ public class LogServiceTest {
         OsLog osLog = new OsLog();
         // osLog.setTime(new Timestamp(new Date().getTime()));
         osLog.setContent("content_" + System.currentTimeMillis());
-        logService.save(osLog);
+        iLogService.save(osLog);
     }
 
     @Test
     public void findByContent() {
-        printUtil.printPageToConsole(logService.findByContent("content_20160131174836", pageable));
+        printUtil.printPageToConsole(iLogService.findByContent("content_20160131174836", pageable));
     }
 
     @Test
     public void findByUserOrAdminName() {
-        printUtil.printPageToConsole(logService.findByUserOrAdminName("au", pageable));
+        printUtil.printPageToConsole(iLogService.findByUserOrAdminName("au", pageable));
     }
 
     @Test
     public void findAll() {
-        printUtil.printPageToConsole(logService.findAll(pageable));
+        printUtil.printPageToConsole(iLogService.findAll(pageable));
     }
 
 
     @Test
     public void deleteById() {
-        //logService.deleteById(1);
-        logService.deleteById(32);
+        //iLogService.deleteById(1);
+        iLogService.deleteById(32);
     }
 
     @Test
     public void deleteByEntity() {
         OsLog osLog = new OsLog();
         osLog.setId(33);
-        logService.deleteByEntity(osLog);
+        iLogService.deleteByEntity(osLog);
     }
 
     @Test
     public void asyncMethodWithReturnType() {
-        Future<String> future = logService.asyncMethodWithReturnType();
+        Future<String> future = iLogService.asyncMethodWithReturnType();
         while (true) {  ///这里使用了循环判断，等待获取结果信息
             if (future.isDone()) {  //判断是否执行完毕
                 try {
@@ -125,7 +125,7 @@ public class LogServiceTest {
     //    OsLog osLog = new OsLog();
     //    //osLog.setTime(new Timestamp(new Date().getTime()));
     //    osLog.setContent("content_" + System.currentTimeMillis());
-    //    logService.saveWithEM(osLog);
+    //    iLogService.saveWithEM(osLog);
     //}
 
 }

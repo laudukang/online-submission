@@ -3,15 +3,25 @@ package me.laudukang.persistence.service.impl;
 import me.laudukang.persistence.model.OsLog;
 import me.laudukang.persistence.repository.LogRepository;
 import me.laudukang.persistence.service.ILogService;
+import me.laudukang.spring.domain.LogDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.Future;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * <p>Created with IDEA
@@ -22,7 +32,10 @@ import java.util.concurrent.Future;
  */
 @Service
 @Transactional
-public class LogService implements ILogService {
+public class LogService extends CustomPageService<OsLog> implements ILogService {
+
+    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    final DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
     @Autowired
     private LogRepository logRepository;
@@ -55,6 +68,11 @@ public class LogService implements ILogService {
         return logRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<OsLog> findAll(LogDomain logDomain) {
+        return logRepository.findAll(getSpecification(logDomain),
+                getPageRequest(logDomain.getPage(), logDomain.getPageSize(), logDomain.getSortCol(), logDomain.getSortDir()));
+    }
 
     @Async
     @Override
@@ -66,6 +84,23 @@ public class LogService implements ILogService {
     @Override
     public void deleteByEntity(OsLog osLog) {
         logRepository.delete(osLog);
+    }
+
+    private Specification<OsLog> getSpecification(LogDomain logDomain) {
+        return (root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            if (!isNullOrEmpty(logDomain.getContent()))
+                predicate.getExpressions().add(cb.like(root.get("content").as(String.class), logDomain.getContent().trim()));
+            if (!isNullOrEmpty(logDomain.getFromTime()) && !isNullOrEmpty(logDomain.getToTime())) {
+                try {
+                    predicate.getExpressions().add(cb.between(root.get("time"), new Date(df.parse(logDomain.getFromTime()).getTime()), new Date(df.parse(logDomain.getToTime()).getTime())));
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            return predicate;
+        };
     }
 
     @Override
