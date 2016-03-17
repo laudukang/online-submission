@@ -10,6 +10,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -147,6 +149,23 @@ public class UserController implements ApplicationContextAware {
         return "redirect:";
     }
 
+    @RequestMapping(value = "users", method = RequestMethod.GET)
+    public String usersPage() {
+        return "";
+    }
+
+    @RequestMapping(value = "users", method = RequestMethod.POST)
+    public Map<String, Object> users(@ModelAttribute UserDomain userDomain, BindingResult bindingResult) {
+        Map<String, Object> map = new HashMap<>(5);
+        Page<OsUser> osUserPage = iUserService.findAll(userDomain);
+        map.put("success", !osUserPage.getContent().isEmpty());
+        map.put("msg", !osUserPage.getContent().isEmpty() ? "" : "记录不存在");
+        map.put("data", osUserPage.getContent());
+        map.put("iTotalRecords", osUserPage.getTotalElements());
+        map.put("iTotalDisplayRecords", osUserPage.getNumberOfElements());
+        return map;
+    }
+
     @RequestMapping(value = "deleteUser", method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String, Object> delete(@RequestParam("id") int id) {
@@ -227,7 +246,6 @@ public class UserController implements ApplicationContextAware {
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) throws Exception {
-        System.out.println("in initBinder");
         //request.getSession().setAttribute("userid", 1);
     }
 

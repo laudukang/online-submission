@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.repository.UserRepository;
 import me.laudukang.persistence.service.IUserService;
+import me.laudukang.spring.domain.UserDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,9 +50,10 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
             }
             userRepository.save(result);
             userRepository.flush();
-        } else {
-            System.out.println("user id=" + osUser.getId() + " not found");
         }
+//        else {
+//            System.out.println("user id=" + osUser.getId() + " not found");
+//        }
 
     }
 
@@ -63,6 +65,12 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
     @Override
     public Page<OsUser> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<OsUser> findAll(UserDomain userDomain) {
+        return userRepository.findAll(getSpecification(userDomain.getAccount(), userDomain.getName()),
+                getPageRequest(userDomain.getPage(), userDomain.getPageSize(), userDomain.getSortCol(), userDomain.getSortDir()));
     }
 
     @Override
@@ -82,7 +90,7 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
 
     @Override
     public boolean existAccount(String account) {
-        return 1 == userRepository.existAccount(account) ? true : false;
+        return 1 == userRepository.existAccount(account);
     }
 
     @Override

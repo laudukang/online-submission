@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsUser;
+import me.laudukang.spring.domain.UserDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -30,4 +31,6 @@ public interface IUserService {
     int updatePassword(int id, String password);
 
     Page<OsUser> findAll(Pageable pageable);
+
+    Page<OsUser> findAll(UserDomain userDomain);
 }
