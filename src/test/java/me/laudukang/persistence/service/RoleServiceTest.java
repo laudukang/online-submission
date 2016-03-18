@@ -5,6 +5,7 @@ import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
 import me.laudukang.spring.config.AsyncConfig;
 import me.laudukang.spring.config.PersistenceJPAConfig;
+import me.laudukang.spring.domain.RoleDomain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,7 @@ import java.util.Date;
 @Rollback(false)
 public class RoleServiceTest {
     @Autowired
-    private IRoleService roleService;
+    private IRoleService iRoleService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -62,21 +63,21 @@ public class RoleServiceTest {
     public void save() {
         OsRole osRole = new OsRole();
         osRole.setName("SAVE");
-        int[] permission = {1, 9};
-        roleService.save(osRole, permission);
+        int[] osPermissions = {1, 2};
+        iRoleService.save(osRole, osPermissions);
     }
 
     @Test
     public void deleteById() {
-        roleService.deleteById(5);
+        iRoleService.deleteById(5);
     }
 
     @Test
     public void update() {
-        OsRole osRole = new OsRole();
-        osRole.setId(1);
-        osRole.setName("UPDATE_" + sdf.format(new Date()));
-        int[] permission = {2, 3};
-        roleService.updateById(osRole, permission);
+        RoleDomain roleDomain = new RoleDomain();
+        roleDomain.setId(1);
+        roleDomain.setName("UPDATE_" + sdf.format(new Date()));
+        int[] osPermissions = {2, 3};
+        iRoleService.updateById(roleDomain, osPermissions);
     }
 }

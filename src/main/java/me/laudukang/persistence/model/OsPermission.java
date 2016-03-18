@@ -1,6 +1,6 @@
 package me.laudukang.persistence.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -10,65 +10,68 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the os_permission database table.
- * 
  */
 @Entity
 @Table(name = "os_permission")
 @NamedQuery(name = "OsPermission.findAll", query = "SELECT o FROM OsPermission o")
 public class OsPermission implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	private String name;
+    private String name;
 
-	private String remark;
+    private String remark;
 
-	//bi-directional many-to-one association to OsRole
-	@JsonManagedReference
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "role_id", nullable = true)
-	private OsRole osRole;
+    //bi-directional many-to-one association to OsRole
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = true)
+    private OsRole osRole;
 
-	public OsPermission() {
-	}
+    public OsPermission() {
+    }
 
-	public int getId() {
-		return this.id;
-	}
+    public OsPermission(int id) {
+        this.id = id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getRemark() {
-		return this.remark;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public String getRemark() {
+        return this.remark;
+    }
 
-	public OsRole getOsRole() {
-		return this.osRole;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setOsRole(OsRole osRole) {
-		this.osRole = osRole;
-	}
+    public OsRole getOsRole() {
+        return this.osRole;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
-	}
+    public void setOsRole(OsRole osRole) {
+        this.osRole = osRole;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
+    }
 }

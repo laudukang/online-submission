@@ -1,10 +1,12 @@
 package me.laudukang.persistence.service.impl;
 
+import me.laudukang.persistence.model.OsLog;
 import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.repository.PermissionRepository;
 import me.laudukang.persistence.repository.RoleRepository;
 import me.laudukang.persistence.service.IRoleService;
+import me.laudukang.spring.domain.RoleDomain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +25,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class RoleService implements IRoleService {
+public class RoleService extends CustomPageService<OsLog> implements IRoleService {
     @Autowired
     private RoleRepository roleRepository;
 
@@ -31,9 +33,13 @@ public class RoleService implements IRoleService {
     private PermissionRepository permissionRepository;
 
     @Override
-    public void save(OsRole osRole, int[] permission) {
+    public OsRole findOne(int id) {
+        return roleRepository.findOne(id);
+    }
 
-        for (int id : permission
+    @Override
+    public void save(OsRole osRole, int[] osPermissions) {
+        for (int id : osPermissions
                 ) {
             OsPermission osPermission = permissionRepository.findOne(id);
             if (null != osPermission) {
@@ -51,32 +57,31 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public void updateById(OsRole osRole, int[] permission) {
-        OsRole result = roleRepository.findOne(osRole.getId());
+    public void updateById(RoleDomain roleDomain, int[] osPermissions) {
+        OsRole result = roleRepository.findOne(roleDomain.getId());
         if (null != result) {
-            result.setName(osRole.getName());
-            result.setRemark(osRole.getRemark());
+            result.setName(roleDomain.getName());
+            result.setRemark(roleDomain.getRemark());
             if (null != result.getOsPermissions()) {
                 for (OsPermission op : result.getOsPermissions()
                         ) {
                     op.setOsRole(null);
                 }
             }
-            permissionRepository.save(result.getOsPermissions());
+            permissionRepository.save(result.getOsPermissions());//删除已有权限角色信息
 
-            List<OsPermission> osPermissions = new ArrayList<>();
-            for (int id : permission
+            List<OsPermission> osPermissionList = new ArrayList<>(osPermissions.length);
+            for (int id : osPermissions
                     ) {
                 OsPermission osPermission = permissionRepository.findOne(id);
                 if (null != osPermission) {
                     osPermission.setOsRole(result);
-                    osPermissions.add(osPermission);
+                    osPermissionList.add(osPermission);
                 } else {
                     System.out.println("id=" + id + " permission is not exit");
                 }
             }
-
-            result.setOsPermissions(osPermissions);
+            result.setOsPermissions(osPermissionList);
             roleRepository.save(result);
         }
     }

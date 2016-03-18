@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsRole;
+import me.laudukang.spring.domain.RoleDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,11 +14,13 @@ import org.springframework.data.domain.Pageable;
  */
 public interface IRoleService {
 
-    void save(OsRole osRole, int[] permission);
+    void save(OsRole osRole, int[] osPermissions);
 
     void deleteById(int id);
 
-    void updateById(OsRole osRole, int[] permission);
+    OsRole findOne(int id);
+
+    void updateById(RoleDomain roleDomain, int[] osPermissions);
 
     Page<OsRole> findAll(Pageable pageable);
 }
