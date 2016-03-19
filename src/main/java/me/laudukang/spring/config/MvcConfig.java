@@ -6,7 +6,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import me.laudukang.spring.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,7 +38,6 @@ import java.util.List;
  * Todo: spring cache see D:\Git\spring4-showcase\spring-cache
  */
 @Configuration
-@PropertySource({"classpath:system.properties"})
 @ComponentScan(basePackages = "me.laudukang.spring.controller", useDefaultFilters = false, includeFilters = {
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class})
 })
@@ -99,9 +102,19 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     public MultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setDefaultEncoding("UTF-8");
-        multipartResolver.setMaxUploadSize(1024 * 1024 * 100);
+        long maxFileSizeLimit;
+        try {
+            maxFileSizeLimit = Long.valueOf(environment.getProperty("file.upload.size"));
+        } catch (Exception e) {
+            maxFileSizeLimit = 100;
+        }
+        multipartResolver.setMaxUploadSize(1024 * 1024 * maxFileSizeLimit);
         multipartResolver.setMaxInMemorySize(40960);
-        FileSystemResource fileSystemResource = new FileSystemResource(environment.getProperty("file.tmp.path"));
+        File tmp = new File(environment.getProperty("file.upload.tmp"));
+        if (!tmp.exists()) {
+            tmp.mkdirs();
+        }
+        FileSystemResource fileSystemResource = new FileSystemResource(environment.getProperty("file.upload.tmp"));
         try {
             multipartResolver.setUploadTempDir(fileSystemResource);
         } catch (IOException e) {

@@ -54,6 +54,14 @@ public class DocController {
     public final String DOC_REVIEW_RETURN = "退修稿";
     public final String DOC_REVIEW_PASS = "已采编";
 
+    @RequestMapping(value = "docInfo", method = RequestMethod.GET)
+    public String docInfoPage(@RequestParam("id") int id, Model model) {
+        OsDoc osDoc = iDocService.findOne(id);
+        model.addAttribute("osDoc", osDoc);
+        return "";
+    }
+
+
     @RequestMapping(value = "newDoc", method = RequestMethod.GET)
     public String newDocPage(Model model) {
         model.addAttribute("osDoc", new OsDoc());
@@ -61,8 +69,8 @@ public class DocController {
     }
 
     @RequestMapping(value = "newDoc", method = RequestMethod.POST)
-    public String newDoc(@ModelAttribute OsDoc osDoc, BindingResult bindingResult, MultipartFile uploadFile, Model model, HttpSession session) {
-        if (uploadFile.isEmpty()) {
+    public String newDoc(@ModelAttribute OsDoc osDoc, BindingResult bindingResult, @RequestParam("uploadFile") MultipartFile uploadFile, Model model, HttpSession session) {
+        if (null == uploadFile || uploadFile.isEmpty()) {
             bindingResult.addError(new FieldError("osDoc", "uploadFile",
                     "未选中任何文件"));
         }
@@ -71,11 +79,17 @@ public class DocController {
         int index = fileName.lastIndexOf('.');
         String suffix = null;
 
-        if (-1 == index || !(suffix = fileName.substring(fileName.lastIndexOf('.'))).toUpperCase().equalsIgnoreCase(".PDF")) {
+        if (-1 == index || !(suffix = fileName.substring(fileName.lastIndexOf('.'))).equalsIgnoreCase(".PDF")) {
             bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件类型不匹配"));
         }
-        if (uploadFile.getSize() > 1024 * 1024 * 100) {
-            bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件大小超过100M"));
+        int fileSizeLimit;
+        try {
+            fileSizeLimit = Integer.valueOf(environment.getProperty("file.upload.size"));
+        } catch (Exception e) {
+            fileSizeLimit = 100;
+        }
+        if (uploadFile.getSize() > 1024 * 1024 * fileSizeLimit) {
+            bindingResult.addError(new FieldError("osDoc", "uploadFile", "上传文件不允许超过" + fileSizeLimit + "MB"));
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -84,7 +98,7 @@ public class DocController {
                 .append(new Random().nextInt(100)).append(suffix);
         File uploadPath = new File(environment.getProperty("file.upload.path"));
         if (!uploadPath.exists()) {
-            uploadPath.mkdir();
+            uploadPath.mkdirs();
         }
         File saveFile = new File(environment.getProperty("file.upload.path") + File.separator + newFileName);
         try {
@@ -116,36 +130,44 @@ public class DocController {
     public Map<String, Object> deleteDocUser(@RequestParam("id") int id) {
         OsDoc tmp = iDocService.findOne(id);
         if (null != tmp && !DOC_NEW_PUBLISH.equals(tmp.getStatus())) {
-            return MapUtil.deleteForbiddenMap();
+            return MapUtil.getDeleteForbiddenMap();
         }
         iDocService.deleteById(id);
-        return MapUtil.deleteMap();
+        return MapUtil.getDeleteMap();
     }
 
     @RequestMapping(value = "deleteDocSuper", method = RequestMethod.DELETE)
     @ResponseBody
     public Map<String, Object> deleteDocSuper(@RequestParam("id") int id) {
         iDocService.deleteById(id);
-        return MapUtil.deleteMap();
+        return MapUtil.getDeleteMap();
     }
 
-    // TODO: 2016/3/11 三个稿件列表页面
     @RequestMapping(value = "docs", method = RequestMethod.GET)
-    public String docsPage() {
+    public String docsUserPage() {
+        return "docList";
+    }
+
+    @RequestMapping(value = "docsReview", method = RequestMethod.GET)
+    public String docsReviewPage() {
+        return "docList";
+    }
+
+    @RequestMapping(value = "docsSuper", method = RequestMethod.GET)
+    public String docsSuperPage() {
         return "docList";
     }
 
     @RequestMapping(value = "docsSuper", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
-        Page<OsDoc> tmp = iDocService.findAllSuper(docDomain);
-        boolean hasResult = !tmp.getContent().isEmpty();
+        Page<OsDoc> osDocPage = iDocService.findAllSuper(docDomain);
         Map<String, Object> map = new HashMap<>(5);
-        map.put("success", hasResult ? true : false);
-        map.put("msg", hasResult ? "" : "记录不存在");
-        map.put("data", hasResult ? tmp.getContent() : null);
-        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : 0);
-        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : 0);
+        map.put("success", true);
+        map.put("msg", !osDocPage.getContent().isEmpty() ? "" : "记录不存在");
+        map.put("data", osDocPage.getContent());
+        map.put("iTotalRecords", osDocPage.getTotalElements());
+        map.put("iTotalDisplayRecords", osDocPage.getNumberOfElements());
         return map;
     }
 
@@ -157,28 +179,26 @@ public class DocController {
             userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
         }
         docDomain.setUserid(userid);
-        Page<OsDoc> tmp = iDocService.findAllByUserId(docDomain);
-        boolean hasResult = !tmp.getContent().isEmpty();
+        Page<OsDoc> osDocPage = iDocService.findAllByUserId(docDomain);
         Map<String, Object> map = new HashMap<>(5);
-        map.put("success", hasResult ? true : false);
-        map.put("msg", hasResult ? "" : "记录不存在");
-        map.put("data", tmp.getContent());
-        map.put("iTotalRecords", tmp.getTotalElements());
-        map.put("iTotalDisplayRecords", tmp.getNumberOfElements());
+        map.put("success", true);
+        map.put("msg", !osDocPage.getContent().isEmpty() ? "" : "记录不存在");
+        map.put("data", osDocPage.getContent());
+        map.put("iTotalRecords", osDocPage.getTotalElements());
+        map.put("iTotalDisplayRecords", osDocPage.getNumberOfElements());
         return map;
     }
 
     @RequestMapping(value = "docsReview", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
-        Page<OsDoc> tmp = iDocService.findByAdminId(docDomain);
-        boolean hasResult = !tmp.getContent().isEmpty();
+        Page<OsDoc> osDocPage = iDocService.findByAdminId(docDomain);
         Map<String, Object> map = new HashMap<>(5);
-        map.put("success", hasResult ? true : false);
-        map.put("msg", hasResult ? "" : "记录不存在");
-        map.put("data", hasResult ? tmp.getContent() : null);
-        map.put("iTotalRecords", hasResult ? tmp.getTotalElements() : 0);
-        map.put("iTotalDisplayRecords", hasResult ? tmp.getNumberOfElements() : 0);
+        map.put("success", true);//!osDocPage.getContent().isEmpty()
+        map.put("msg", !osDocPage.getContent().isEmpty() ? "" : "记录不存在");
+        map.put("data", osDocPage.getContent());
+        map.put("iTotalRecords", osDocPage.getTotalElements());
+        map.put("iTotalDisplayRecords", osDocPage.getNumberOfElements());
         return map;
     }
 
@@ -213,7 +233,6 @@ public class DocController {
                               ServletRequestDataBinder binder) throws Exception {
 //        binder.registerCustomEditor(Timestamp.class,
 //                new TimeStampPropertyEditor());
-        System.out.println("in initBinder");
     }
 
     @ExceptionHandler(RuntimeException.class)
