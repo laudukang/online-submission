@@ -2,11 +2,13 @@ package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,6 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "os_doc", schema = "online_submission")
 @NamedQuery(name = "OsDoc.findAll", query = "SELECT o FROM OsDoc o")
+@EntityListeners({AuditingEntityListener.class})
 public class OsDoc implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -35,15 +38,19 @@ public class OsDoc implements Serializable {
     private String enTitle;
 
     //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @Column(name = "post_time")
-    private Timestamp postTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date postTime;
 
     private String status;
 
+    @CreatedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "status_time")
-    private Timestamp statusTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date statusTime;
 
     private String subject;
 
@@ -121,11 +128,11 @@ public class OsDoc implements Serializable {
         this.enTitle = enTitle;
     }
 
-    public Timestamp getPostTime() {
+    public Date getPostTime() {
         return this.postTime;
     }
 
-    public void setPostTime(Timestamp postTime) {
+    public void setPostTime(Date postTime) {
         this.postTime = postTime;
     }
 
@@ -137,11 +144,11 @@ public class OsDoc implements Serializable {
         this.status = status;
     }
 
-    public Timestamp getStatusTime() {
+    public Date getStatusTime() {
         return this.statusTime;
     }
 
-    public void setStatusTime(Timestamp statusTime) {
+    public void setStatusTime(Date statusTime) {
         this.statusTime = statusTime;
     }
 

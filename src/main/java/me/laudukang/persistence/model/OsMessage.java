@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name = "os_message")
 @NamedQuery(name = "OsMessage.findAll", query = "SELECT o FROM OsMessage o")
+@EntityListeners({AuditingEntityListener.class})
 public class OsMessage implements Serializable {
     private static final long serialVersionUID = 1L;
 
