@@ -1,6 +1,5 @@
 package me.laudukang.persistence.service.impl;
 
-import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.repository.UserRepository;
 import me.laudukang.persistence.service.IUserService;
@@ -31,25 +30,21 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
     }
 
     @Override
-    public void updateById(OsUser osUser) {
-        OsUser result = userRepository.findOne(osUser.getId());
+    public void updateById(UserDomain userDomain) {
+        OsUser result = userRepository.findOne(userDomain.getId());
         if (null != result) {
-            result.setName(osUser.getName());
-            result.setRemark(osUser.getRemark());
-            result.setAddress(osUser.getAddress());
-            result.setBirth(osUser.getBirth());
-            result.setCity(osUser.getCity());
-            result.setCountry(osUser.getCountry());
-            result.setMobilePhone(osUser.getMobilePhone());
-            result.setOfficePhone(osUser.getOfficePhone());
-            result.setPostcode(osUser.getPostcode());
-            result.setSex(osUser.getSex());
-            result.setProvince(osUser.getProvince());
-            if (!Strings.isNullOrEmpty(osUser.getPassword())) {
-                result.setPassword(osUser.getPassword());
-            }
+            result.setName(userDomain.getName());
+            result.setRemark(userDomain.getRemark());
+            result.setAddress(userDomain.getAddress());
+            result.setBirth(userDomain.getBirth());
+            result.setCity(userDomain.getCity());
+            result.setCountry(userDomain.getCountry());
+            result.setMobilePhone(userDomain.getMobilePhone());
+            result.setOfficePhone(userDomain.getOfficePhone());
+            result.setPostcode(userDomain.getPostcode());
+            result.setSex(userDomain.getSex());
+            result.setProvince(userDomain.getProvince());
             userRepository.save(result);
-            userRepository.flush();
         }
 //        else {
 //            System.out.println("user id=" + osUser.getId() + " not found");
