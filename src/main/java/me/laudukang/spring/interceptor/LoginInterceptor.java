@@ -15,9 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("in LoginInterceptor");
-        request.getSession().setAttribute("userid", 1);
-        request.getSession().setAttribute("adminid", 1);
+        if (!request.getRequestURI().toUpperCase().startsWith("/LOGOUT")
+                && !request.getRequestURI().toUpperCase().startsWith("/ADMIN/LOGOUT")) {
+            request.getSession().setAttribute("userid", 1);
+            request.getSession().setAttribute("adminid", 1);
+            request.getSession().setAttribute("name", "laudukang");
+            request.getSession().setAttribute("account", "751611201@qq.com");
+        }
         return super.preHandle(request, response, handler);
     }
 }

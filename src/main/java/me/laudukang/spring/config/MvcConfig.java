@@ -3,7 +3,6 @@ package me.laudukang.spring.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import me.laudukang.spring.interceptor.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +27,7 @@ import org.springframework.web.servlet.view.JstlView;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * <p>Created with IDEA
@@ -91,9 +91,11 @@ public class MvcConfig extends WebMvcConfigurationSupport {
          * laudukang
          */
         ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         //objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.registerModules(new Hibernate4Module());
+        objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        //objectMapper.registerModules(new Hibernate4Module());
         converter.setObjectMapper(objectMapper);
         return converter;
     }
@@ -126,7 +128,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         //registry.addInterceptor(new DocUploadInterceptor()).addPathPatterns("/upload");//文件上传拦截器
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/*");
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 //    @Bean

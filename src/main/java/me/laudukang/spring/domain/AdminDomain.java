@@ -3,6 +3,9 @@ package me.laudukang.spring.domain;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * <p>Created with IDEA
@@ -12,20 +15,37 @@ import org.hibernate.validator.constraints.NotEmpty;
  * <p>Version: 1.0
  */
 public class AdminDomain {
-    @NotEmpty(message = "账号不能为空")
+    int id;
+    @NotEmpty
     private String account;
-    @NotEmpty(message = "密码不能为空")
+    @NotEmpty
     private String password;
-    //@NotEmpty(message = "验证码不能为空")
-    private String verificationCode;
-
+    private String address;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birth;
+    private String mobilePhone;
     private String name;
+    private String officePhone;
+    private String remark;
+    private String sex;
+    private String subject;
+    private int status;
+    private String reviewer;
+
     private String fromTime;
     private String toTime;
     private int page;
     private int pageSize;
     private String sortDir;
     private String sortCol;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getAccount() {
         return account;
@@ -43,12 +63,28 @@ public class AdminDomain {
         this.password = password;
     }
 
-    public String getVerificationCode() {
-        return verificationCode;
+    public String getAddress() {
+        return address;
     }
 
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
     }
 
     public String getName() {
@@ -57,6 +93,54 @@ public class AdminDomain {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOfficePhone() {
+        return officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
     }
 
     public String getFromTime() {
@@ -80,7 +164,7 @@ public class AdminDomain {
     }
 
     public void setPage(int page) {
-        this.page = page - 1;
+        this.page = page - 1;// page auto decrease 1
     }
 
     public int getPageSize() {

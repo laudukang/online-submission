@@ -11,14 +11,15 @@ import java.util.Map;
  * <p>Version: 1.0
  */
 public class MapUtil {
-    public static Map<String, Object> deleteMap = new HashMap<>(2);
-    public static Map<String, Object> deleteForbiddenMap = new HashMap<>(2);
-    public static Map<String, Object> saveMap = new HashMap<>(2);
-    public static Map<String, Object> updateMap = new HashMap<>(2);
-    public static Map<String, Object> forbiddenOperationMap = new HashMap<>(2);
-    public static Map<String, Object> ableMap = new HashMap<>(2);
-    public static Map<String, Object> userPasswordResetRequstFailMap = new HashMap<>(2);
-    public static Map<String, Object> userPasswordResetRequstSuccessMap = new HashMap<>(2);
+    private static Map<String, Object> deleteMap = new HashMap<>(2);
+    private static Map<String, Object> deleteForbiddenMap = new HashMap<>(2);
+    private static Map<String, Object> saveMap = new HashMap<>(2);
+    private static Map<String, Object> updateSuccessMap = new HashMap<>(2);
+    private static Map<String, Object> updateFailMap = new HashMap<>(2);
+    private static Map<String, Object> forbiddenOperationMap = new HashMap<>(2);
+    private static Map<String, Object> ableMap = new HashMap<>(2);
+    private static Map<String, Object> userPasswordResetRequstFailMap = new HashMap<>(2);
+    private static Map<String, Object> userPasswordResetRequstSuccessMap = new HashMap<>(2);
 
     public static Map<String, Object> getDeleteMap() {
         if (deleteMap.isEmpty()) {
@@ -44,12 +45,20 @@ public class MapUtil {
         return saveMap;
     }
 
-    public static Map<String, Object> getUpdateMap() {
-        if (updateMap.isEmpty()) {
-            updateMap.put("success", true);
-            updateMap.put("msg", "更新成功");
+    public static Map<String, Object> getUpdateFailMap() {
+        if (updateFailMap.isEmpty()) {
+            updateFailMap.put("success", true);
+            updateFailMap.put("msg", "更新成功");
         }
-        return updateMap;
+        return updateFailMap;
+    }
+
+    public static Map<String, Object> getUpdateSuccessMap() {
+        if (updateSuccessMap.isEmpty()) {
+            updateSuccessMap.put("success", true);
+            updateSuccessMap.put("msg", "更新成功");
+        }
+        return updateSuccessMap;
     }
 
     public static Map<String, Object> getForbiddenOperationMap() {

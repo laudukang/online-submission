@@ -17,7 +17,7 @@ public interface IAdminService {
 
     void deleteById(int id);
 
-    void updateById(OsAdmin osAdminToSave);
+    void updateById(AdminDomain adminDomain);
 
     int updatePassword(int id, String password);
 

@@ -232,11 +232,17 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.5</version>
-        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-simple</artifactId>-->
+        <!--<version>1.7.19</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-api</artifactId>-->
+        <!--<version>1.7.19</version>-->
+        <!--</dependency>-->
 
         <!--use to generate StaticMetamodel-->
         <!-- <dependency>
@@ -374,11 +380,10 @@
         <!-- persistence -->
         <hibernate.version>4.3.11.Final</hibernate.version>
         <mysql-connector-java.version>5.1.37</mysql-connector-java.version>
-        <tomcat-dbcp.version>7.0.42</tomcat-dbcp.version>
-
+        <tomcat-dbcp.version>8.0.32</tomcat-dbcp.version>
+        <tomcat.version>8.0.32</tomcat.version>
         <!-- logging -->
-        <org.slf4j.version>1.7.13</org.slf4j.version>
-        <logback.version>1.1.3</logback.version>
+        <!--<logback.version>1.1.3</logback.version>-->
 
         <!-- various -->
         <hibernate-validator.version>5.2.2.Final</hibernate-validator.version>
@@ -398,7 +403,7 @@
         <rest-assured.version>2.4.1</rest-assured.version>
 
         <!-- json -->
-        <jackson2.version>2.7.2</jackson2.version>
+        <jackson2.version>2.6.5</jackson2.version>
 
         <!-- web -->
         <servlet.version>3.0.1</servlet.version>
