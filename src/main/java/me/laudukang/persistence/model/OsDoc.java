@@ -2,6 +2,7 @@ package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -66,7 +67,7 @@ public class OsDoc implements Serializable {
     private String zhTitle;
 
     //bi-directional many-to-one association to OsAuthor
-    //@JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsAuthor> osAuthors = new ArrayList<>();
 

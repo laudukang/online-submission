@@ -18,12 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -64,32 +64,43 @@ public class DocController {
 
     @RequestMapping(value = "newDoc", method = RequestMethod.GET)
     public String newDocPage(Model model) {
-        model.addAttribute("osDoc", new OsDoc());
+        model.addAttribute("docDomain", new DocDomain());
         return "";
     }
 
     @RequestMapping(value = "newDoc", method = RequestMethod.POST)
-    public String newDoc(@ModelAttribute OsDoc osDoc, BindingResult bindingResult, @RequestParam("uploadFile") MultipartFile uploadFile, Model model, HttpSession session) {
-        if (null == uploadFile || uploadFile.isEmpty()) {
-            bindingResult.addError(new FieldError("osDoc", "uploadFile",
-                    "未选中任何文件"));
+    //@RequestParam("uploadFile") MultipartFile uploadFile,
+    public String newDoc(@ModelAttribute @Valid DocDomain docDomain, BindingResult bindingResult, Model model, HttpSession session) {
+
+        if (bindingResult.hasErrors()) {
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                System.out.println(error.getObjectName() + " : "
+                        + error.getField() + " " + error.getDefaultMessage());
+            }
+            return "";
         }
 
+        MultipartFile uploadFile = docDomain.getUploadFile();
         String fileName = uploadFile.getOriginalFilename();
         int index = fileName.lastIndexOf('.');
         String suffix = null;
 
         if (-1 == index || !(suffix = fileName.substring(fileName.lastIndexOf('.'))).equalsIgnoreCase(".PDF")) {
-            bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件类型不匹配"));
+            bindingResult.addError(new FieldError("docDomain", "uploadFile", "文件类型不匹配"));
+        } else {
+            int fileSizeLimit;
+            try {
+                fileSizeLimit = Integer.valueOf(environment.getProperty("file.upload.size"));
+            } catch (Exception e) {
+                fileSizeLimit = 100;
+            }
+            if (uploadFile.getSize() > 1024 * 1024 * fileSizeLimit) {
+                bindingResult.addError(new FieldError("docDomain", "uploadFile", "上传文件不允许超过" + fileSizeLimit + "MB"));
+            }
         }
-        int fileSizeLimit;
-        try {
-            fileSizeLimit = Integer.valueOf(environment.getProperty("file.upload.size"));
-        } catch (Exception e) {
-            fileSizeLimit = 100;
-        }
-        if (uploadFile.getSize() > 1024 * 1024 * fileSizeLimit) {
-            bindingResult.addError(new FieldError("osDoc", "uploadFile", "上传文件不允许超过" + fileSizeLimit + "MB"));
+
+        if (bindingResult.hasErrors()) {
+            return "";
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -104,28 +115,36 @@ public class DocController {
         try {
             uploadFile.transferTo(saveFile);
         } catch (IOException e) {
-            bindingResult.addError(new FieldError("osDoc", "uploadFile", "文件上传失败，未知错误"));
             e.printStackTrace();
-        }
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("osDoc", osDoc);
-            return "redirect:";
+            bindingResult.addError(new FieldError("docDomain", "uploadFile", "文件上传失败，服务器错误"));
+            return "";
         }
 
         int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
-        osDoc.setOsUser(new OsUser(userid));
+
+        OsDoc osDoc = new OsDoc();
+        osDoc.setSubject(docDomain.getSubject());
+        osDoc.setClassification(docDomain.getClassification());
+        osDoc.setEnKeyword(docDomain.getEnKeyword());
+        osDoc.setEnSummary(docDomain.getEnSummary());
+        osDoc.setEnTitle(docDomain.getEnTitle());
+        osDoc.setType(docDomain.getType());
+        osDoc.setZhTitle(docDomain.getZhTitle());
+        osDoc.setZhKeyword(docDomain.getZhKeyword());
+        osDoc.setZhSummary(docDomain.getZhSummary());
         osDoc.setPostTime(Timestamp.valueOf(new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss").format(new Date())));
         osDoc.setStatusTime(Timestamp.valueOf(new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss").format(new Date())));
         osDoc.setStatus(DOC_NEW_PUBLISH);
         osDoc.setPath(newFileName.toString());
+        osDoc.setOsUser(new OsUser(userid));
+
         iDocService.save(osDoc);
         return "";
     }
 
-    @RequestMapping(value = "deleteDoc", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteDoc", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteDocUser(@RequestParam("id") int id) {
         OsDoc tmp = iDocService.findOne(id);
@@ -136,7 +155,7 @@ public class DocController {
         return MapUtil.getDeleteMap();
     }
 
-    @RequestMapping(value = "deleteDocSuper", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteDocSuper", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> deleteDocSuper(@RequestParam("id") int id) {
         iDocService.deleteById(id);
@@ -160,7 +179,10 @@ public class DocController {
 
     @RequestMapping(value = "docsSuper", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
+    public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain, BindingResult bindingResult, HttpSession session) {
+        if (null == session.getAttribute("adminid")) {
+            return MapUtil.getForbiddenOperationMap();
+        }
         Page<OsDoc> osDocPage = iDocService.findAllSuper(docDomain);
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", true);
@@ -177,6 +199,8 @@ public class DocController {
         int userid = 0;
         if (NumberUtils.isNumber(String.valueOf(session.getAttribute("userid")))) {
             userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
+        } else {
+            return MapUtil.getForbiddenOperationMap();
         }
         docDomain.setUserid(userid);
         Page<OsDoc> osDocPage = iDocService.findAllByUserId(docDomain);
@@ -191,7 +215,12 @@ public class DocController {
 
     @RequestMapping(value = "docsReview", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
+    public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain, BindingResult bindingResult, HttpSession session) {
+        if (NumberUtils.isNumber(String.valueOf(session.getAttribute("adminid")))) {
+            docDomain.setAdminid(Integer.valueOf(String.valueOf(session.getAttribute("adminid"))));
+        } else {
+            return MapUtil.getForbiddenOperationMap();
+        }
         Page<OsDoc> osDocPage = iDocService.findByAdminId(docDomain);
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", true);//!osDocPage.getContent().isEmpty()
@@ -226,13 +255,6 @@ public class DocController {
         }
         headers.setContentType(MediaType.TEXT_HTML);
         return new ResponseEntity<>("文件不存在".getBytes(), headers, HttpStatus.BAD_REQUEST);
-    }
-
-    @InitBinder
-    protected void initBinder(HttpServletRequest request,
-                              ServletRequestDataBinder binder) throws Exception {
-//        binder.registerCustomEditor(Timestamp.class,
-//                new TimeStampPropertyEditor());
     }
 
     @ExceptionHandler(RuntimeException.class)

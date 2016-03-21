@@ -37,7 +37,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 @Transactional
 public class DocService extends CustomPageService<OsDoc> implements IDocService {
 
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     final DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
     @Autowired
