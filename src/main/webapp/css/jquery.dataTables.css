@@ -32,6 +32,7 @@ table.dataTable thead td {
   background: #EEF7FD;
   line-height: 20px;
   color: #185697;
+  font-weight: normal;
 }
 table.dataTable thead th:active,
 table.dataTable thead td:active {

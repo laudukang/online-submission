@@ -237,6 +237,10 @@ li {
   border: solid 1px #C4D8ED;
 }
 
+.doc_table_WidthMarginBottom {
+  margin-bottom: 15px;
+}
+
 .doc_table td {
   font-size: 12px;
   border: 1px solid #C4D8ED;
@@ -248,12 +252,30 @@ li {
   color: #222222;
 }
 
+.doc_table th {
+  height: 24px;
+  line-height: 24px;
+  background: #EEF7FD;
+  color: #666666;
+  font-weight: normal;
+  font-size: 12px;
+  border: 1px solid #C4D8ED;
+  padding: 5px;
+  vertical-align: middle;
+}
+
 .doc_table .doc_title {
   height: 24px;
   line-height: 24px;
   background: #EEF7FD;
   color: #666666;
-  font-weight: bold;
+  font-weight: normal;
+}
+
+.doc_table .doc_sec_title {
+  background: #EEF7FD;
+  color: #666666;
+  font-weight: normal;
 }
 
 .doc_table td.doc_td_Active {
@@ -503,7 +525,6 @@ li {
   font-weight: normal;
   float: left;
 }
-
 .submitDoc_authorTable_title a {
   float: right;
   margin-right: 10px;
@@ -516,6 +537,17 @@ li {
 .updatePassword_submitBtn {
   margin: 10px 0 10px 120px;
   width: 155px;
+}
+
+#pdf {
+  height: 500px;
+  margin-bottom: 15px;
+}
+
+#pdf object {
+  display: block;
+  border: 3px #b5daf7 solid;
+  box-sizing: border-box;
 }
 
 /*# sourceMappingURL=main.css.map */

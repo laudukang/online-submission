@@ -19,12 +19,16 @@ doc.docInfo.dataTableEvent = function () {
 			toTime = $('#docList_toTime').val();
 		if (!fromTime && !toTime || fromTime && toTime) {
 			if (toTime < fromTime) {
-				alert("请确保结束时间大于开始时间");
+				$.remindBox({
+					remind: "请确保结束时间大于开始时间"
+				});
 			} else {
 				doc.docInfo.dataTable.fnDraw(true);
 			}
 		} else {
-			alert("不能只填写开始时间或结束时间");
+			$.remindBox({
+				remind: "不能只填写开始时间或结束时间"
+			});
 		}
 	}
 
@@ -150,9 +154,10 @@ doc.user.register = function () {
 			$(this).get(0).setCustomValidity("");
 		}
 	});
-}
+};
 
-
+/*------------------------------系统消息模块-----------------------------*/
+doc.message = {} //用户命名空间
 
 
 
