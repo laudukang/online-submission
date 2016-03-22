@@ -19,8 +19,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DocAdminRepository extends JpaRepository<OsDocAdmin, OsDocAdminPK>, JpaSpecificationExecutor<OsDocAdmin> {
 
-    //@Query("select da from OsDocAdmin da where da.osDoc.id=:id")
-    //OsDocAdmin findOneByDocId(@Param("id") int id);
+    @Query("select da from OsDocAdmin da where da.osDoc.id=:docid and da.osAdmin.id=:adminid")
+    OsDocAdmin findOneByDocAdmin(@Param("docid") int docid, @Param("adminid") int adminid);
 
     @Query("select new me.laudukang.spring.domain.DocAdminDomain(da.osDoc.id,da.osAdmin.id,da.reviewResult,da.reviewTime,da.osAdmin.account) from OsDocAdmin da where da.osDoc.id=:id")
     DocAdminDomain findOneByDocId(@Param("id") int id);

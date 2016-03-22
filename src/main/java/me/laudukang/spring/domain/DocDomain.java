@@ -167,7 +167,7 @@ public class DocDomain {
     }
 
     public void setPage(int page) {
-        this.page = page;
+        this.page = page - 1;// page auto decrease 1
     }
 
     public int getPageSize() {

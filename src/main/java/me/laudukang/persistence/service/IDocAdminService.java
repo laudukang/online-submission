@@ -20,4 +20,6 @@ public interface IDocAdminService {
 
     DocAdminDomain findOneByDocId(int id);
 
+    OsDocAdmin findOneByDocAdmin(int docid, int adminid);
+
 }

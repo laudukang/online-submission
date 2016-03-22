@@ -2,12 +2,15 @@ package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -16,6 +19,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "os_doc_admin")
 @NamedQuery(name = "OsDocAdmin.findAll", query = "SELECT o FROM OsDocAdmin o")
+@EntityListeners({AuditingEntityListener.class})
 public class OsDocAdmin implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -27,11 +31,16 @@ public class OsDocAdmin implements Serializable {
     private String reviewResult;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "review_time")
-    private Timestamp reviewTime;
+    private Date reviewTime;
+
+
+    private String propose;
 
     //bi-directional many-to-one association to OsAdmin
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = true, insertable = false, updatable = false)
     private OsAdmin osAdmin;
@@ -61,12 +70,20 @@ public class OsDocAdmin implements Serializable {
         this.reviewResult = reviewResult;
     }
 
-    public Timestamp getReviewTime() {
+    public Date getReviewTime() {
         return this.reviewTime;
     }
 
-    public void setReviewTime(Timestamp reviewTime) {
+    public void setReviewTime(Date reviewTime) {
         this.reviewTime = reviewTime;
+    }
+
+    public String getPropose() {
+        return propose;
+    }
+
+    public void setPropose(String propose) {
+        this.propose = propose;
     }
 
     public OsAdmin getOsAdmin() {

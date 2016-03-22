@@ -4,8 +4,6 @@ import me.laudukang.persistence.model.OsAuthor;
 import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
-import me.laudukang.spring.config.AsyncConfig;
-import me.laudukang.spring.config.PersistenceJPAConfig;
 import me.laudukang.spring.domain.DocDomain;
 import org.junit.After;
 import org.junit.Before;
@@ -35,12 +33,12 @@ import java.util.GregorianCalendar;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class DocServiceTest {
     @Autowired
-    private IDocService docService;
+    private IDocService iDocService;
     private SimpleDateFormat sdf;
     private PrintUtil printUtil;
     private Pageable pageable;
@@ -72,7 +70,7 @@ public class DocServiceTest {
         osAuthor.setRemark("remark_" + sdf.format(new Date()));
 
         osDoc.addOsAuthor(osAuthor);
-        docService.save(osDoc);
+        iDocService.save(osDoc);
     }
 
     @Test
@@ -94,20 +92,20 @@ public class DocServiceTest {
 
         osDoc.addOsAuthor(osAuthor);
         osDoc.addOsAuthor(osAuthor2);
-        docService.updateById(osDoc);
+        iDocService.updateById(osDoc);
 
     }
 
     @Test
     public void deleteById() {
-        docService.deleteById(9);
+        iDocService.deleteById(9);
     }
 
     @Test
     public void findAllByPage() {
         Calendar fromTime = new GregorianCalendar(2016, 1, 1);
         Calendar toTime = new GregorianCalendar(2016, 3, 19);
-        Page<OsDoc> tmp = docService.findAll("%title%", fromTime.getTime(), toTime.getTime(), pageable);
+        Page<OsDoc> tmp = iDocService.findAll("%title%", fromTime.getTime(), toTime.getTime(), pageable);
         System.out.println(tmp.getContent().size());
     }
 
@@ -124,7 +122,7 @@ public class DocServiceTest {
         docDomain.setUserid(1);
         docDomain.setFromTime("2016-03-01");
         docDomain.setToTime("2016-03-24");
-        Page<OsDoc> tmp = docService.findAllByUserId(docDomain);
+        Page<OsDoc> tmp = iDocService.findAllByUserId(docDomain);
         System.out.println(tmp.getContent().size());
     }
 
@@ -140,7 +138,7 @@ public class DocServiceTest {
         docDomain.setZhKeyword("11;22;33;44;55");
         docDomain.setAdminid(1);
         docDomain.setUserid(1);
-        Page<OsDoc> tmp = docService.findByAdminId(docDomain);
+        Page<OsDoc> tmp = iDocService.findByAdminId(docDomain);
         System.out.println(tmp.getContent().size());
     }
 }

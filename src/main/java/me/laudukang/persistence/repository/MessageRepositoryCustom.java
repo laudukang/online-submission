@@ -12,7 +12,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 public interface MessageRepositoryCustom {
-    List<MessageDomain> findAllByUserId(int id, MessageDomain messageDomain);
+    List<MessageDomain> findAllByUserId(int id);
 
-    List<MessageDomain> findAllByAdminId(int id, MessageDomain messageDomain);
+    List<MessageDomain> findAllByAdminId(int id);
 }

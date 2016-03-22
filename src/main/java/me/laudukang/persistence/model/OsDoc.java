@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -47,7 +48,7 @@ public class OsDoc implements Serializable {
 
     private String status;
 
-    @CreatedDate
+    @LastModifiedDate
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "status_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -74,11 +75,11 @@ public class OsDoc implements Serializable {
     //bi-directional many-to-one association to OsUser
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "user_id")
     private OsUser osUser;
 
     //bi-directional many-to-one association to OsDocAdmin
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "osDoc", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<OsDocAdmin> osDocAdmins = new ArrayList<>();
 

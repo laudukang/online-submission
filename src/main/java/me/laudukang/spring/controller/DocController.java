@@ -49,10 +49,10 @@ public class DocController {
     @Autowired
     private Environment environment;
 
-    public final String DOC_NEW_PUBLISH = "待审阅";
-    public final String DOC_REVIEWING = "审阅中";
-    public final String DOC_REVIEW_RETURN = "退修稿";
-    public final String DOC_REVIEW_PASS = "已采编";
+    private final String DOC_NEW_PUBLISH = "待审阅";
+    private final String DOC_REVIEWING = "审阅中";
+    private final String DOC_REVIEW_RETURN = "退修稿";
+    private final String DOC_REVIEW_PASS = "已采编";
 
     @RequestMapping(value = "docInfo", method = RequestMethod.GET)
     public String docInfoPage(@RequestParam("id") int id, Model model) {

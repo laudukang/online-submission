@@ -5,6 +5,7 @@ import me.laudukang.persistence.repository.MessageRepository;
 import me.laudukang.persistence.service.IMessageService;
 import me.laudukang.spring.domain.MessageDomain;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,7 @@ public class MessageService implements IMessageService {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Async
     @Override
     public OsMessage save(OsMessage osMessage) {
         return messageRepository.save(osMessage);
@@ -34,12 +36,12 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public List<MessageDomain> findAllByUserId(int id, MessageDomain messageDomain) {
-        return messageRepository.findAllByUserId(id, messageDomain);
+    public List<MessageDomain> findAllByUserId(int id) {
+        return messageRepository.findAllByUserId(id);
     }
 
     @Override
-    public List<MessageDomain> findAllByAdminId(int id, MessageDomain messageDomain) {
-        return messageRepository.findAllByAdminId(id, messageDomain);
+    public List<MessageDomain> findAllByAdminId(int id) {
+        return messageRepository.findAllByAdminId(id);
     }
 }

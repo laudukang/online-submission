@@ -48,6 +48,11 @@ public class DocAdminService implements IDocAdminService {
         return docAdminRepository.findOneByDocId(id);
     }
 
+    @Override
+    public OsDocAdmin findOneByDocAdmin(int docid, int adminid) {
+        return docAdminRepository.findOneByDocAdmin(docid, adminid);
+    }
+
     //private Specification<OsDocAdmin> getSpecification(final String account, final String name) {
     //    return (root, query, cb) -> {
     //        Predicate predicate = cb.conjunction();

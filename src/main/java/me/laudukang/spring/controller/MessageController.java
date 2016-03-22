@@ -64,10 +64,10 @@ public class MessageController {
     }
 
     @RequestMapping(value = "userMessages", method = RequestMethod.GET)
-    public String findMessageByUserId(@ModelAttribute MessageDomain messageDomain, Model model, HttpSession session) {
+    public String findMessageByUserId(Model model, HttpSession session) {
         String str;
         if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(str)) {
-            List<MessageDomain> osMessageList = iMessageService.findAllByUserId(Integer.valueOf(str), messageDomain);
+            List<MessageDomain> osMessageList = iMessageService.findAllByUserId(Integer.valueOf(str));
             model.addAttribute("osMessageList", osMessageList);
             model.addAttribute("success", true);
         } else {
@@ -78,10 +78,10 @@ public class MessageController {
     }
 
     @RequestMapping(value = "adminMessages", method = RequestMethod.GET)
-    public String findMessageByAdminId(@ModelAttribute MessageDomain messageDomain, Model model, HttpSession session) {
+    public String findMessageByAdminId(Model model, HttpSession session) {
         String str;
         if (null != session.getAttribute("adminid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("adminid"))) && NumberUtils.isNumber(str)) {
-            List<MessageDomain> osMessageList = iMessageService.findAllByAdminId(Integer.valueOf(str), messageDomain);
+            List<MessageDomain> osMessageList = iMessageService.findAllByAdminId(Integer.valueOf(str));
             model.addAttribute("osMessageList", osMessageList);
             model.addAttribute("success", true);
         } else {

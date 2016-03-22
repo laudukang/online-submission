@@ -4,8 +4,6 @@ import me.laudukang.persistence.model.OsDocAdmin;
 import me.laudukang.persistence.model.OsDocAdminPK;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
-import me.laudukang.spring.config.AsyncConfig;
-import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,12 +29,12 @@ import java.util.Date;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class DocAdminServiceTest {
     @Autowired
-    private IDocAdminService docAdminService;
+    private IDocAdminService iDocAdminService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -65,12 +63,13 @@ public class DocAdminServiceTest {
         OsDocAdminPK osDocAdminPK = new OsDocAdminPK(1, 1);
         osDocAdmin.setId(osDocAdminPK);
         osDocAdmin.setReviewResult("r_" + sdf.format(new Date()));
-        docAdminService.save(osDocAdmin);
+        osDocAdmin.setPropose("拟采用");
+        iDocAdminService.save(osDocAdmin);
     }
 
     @Test
     public void deleteById() {
-        docAdminService.deleteById(new OsDocAdminPK(1, 1));
+        iDocAdminService.deleteById(new OsDocAdminPK(1, 1));
     }
 
     @Test
@@ -79,11 +78,17 @@ public class DocAdminServiceTest {
         OsDocAdminPK osDocAdminPK = new OsDocAdminPK(1, 1);
         osDocAdmin.setId(osDocAdminPK);
         osDocAdmin.setReviewResult("update_" + sdf.format(new Date()));
-        docAdminService.update(osDocAdmin);
+        iDocAdminService.update(osDocAdmin);
     }
 
     @Test
     public void findOneByDocId() {
-        System.out.println(docAdminService.findOneByDocId(1));
+        System.out.println(iDocAdminService.findOneByDocId(1));
+    }
+
+    @Test
+    public void findOneByDocAdmin() {
+        OsDocAdmin osDocAdmin = iDocAdminService.findOneByDocAdmin(1, 1);
+        System.out.println(osDocAdmin.getReviewResult());
     }
 }
