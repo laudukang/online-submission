@@ -155,7 +155,7 @@
                 switch (oData.status) {
                     case "待审查":
                         $('td:eq(6)', nRow).html('<span class="docList_status1">待审查</span>');
-                        $('td:eq(7)', nRow).html('<a href="submitDoc.html"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash"  data-id="' + oData.id + '"></i>');
+                        $('td:eq(7)', nRow).html('<a href="updateDoc.html"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash"  data-id="' + oData.id + '"></i>');
                         break;
                     case "审阅中":
                         $('td:eq(6)', nRow).html('<span class="docList_status2">审阅中</span>');
