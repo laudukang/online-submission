@@ -18,7 +18,7 @@ public interface IMessageService {
 
     void deleteById(int id);
 
-    List<MessageDomain> findAllByUserId(int id);
+    List<MessageDomain> findAllByUserId(int id, MessageDomain messageDomain);
 
-    List<MessageDomain> findAllByAdminId(int id);
+    List<MessageDomain> findAllByAdminId(int id, MessageDomain messageDomain);
 }

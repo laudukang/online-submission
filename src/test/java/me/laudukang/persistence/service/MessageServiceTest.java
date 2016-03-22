@@ -5,8 +5,6 @@ import me.laudukang.persistence.model.OsMessage;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
-import me.laudukang.spring.config.AsyncConfig;
-import me.laudukang.spring.config.PersistenceJPAConfig;
 import me.laudukang.spring.domain.MessageDomain;
 import org.junit.After;
 import org.junit.Before;
@@ -34,7 +32,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class MessageServiceTest {
@@ -84,13 +82,23 @@ public class MessageServiceTest {
 
     @Test
     public void findAllByUserId() {
-        List<MessageDomain> result = iMessageService.findAllByUserId(4);
+        MessageDomain messageDomain = new MessageDomain();
+        messageDomain.setPage(1);
+        messageDomain.setPageSize(10);
+        messageDomain.setSortCol("postTime");
+        messageDomain.setSortDir("ASC");
+        List<MessageDomain> result = iMessageService.findAllByUserId(4, messageDomain);
         printUtil.printListToConsole(result);
     }
 
     @Test
     public void findAllByAdminId() {
-        List<MessageDomain> result = iMessageService.findAllByAdminId(1);
+        MessageDomain messageDomain = new MessageDomain();
+        messageDomain.setPage(1);
+        messageDomain.setPageSize(10);
+        messageDomain.setSortCol("postTime");
+        messageDomain.setSortDir("ASC");
+        List<MessageDomain> result = iMessageService.findAllByAdminId(1, messageDomain);
         printUtil.printListToConsole(result);
     }
 }

@@ -34,12 +34,12 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public List<MessageDomain> findAllByUserId(int id) {
-        return messageRepository.findAllByUserId(id);
+    public List<MessageDomain> findAllByUserId(int id, MessageDomain messageDomain) {
+        return messageRepository.findAllByUserId(id, messageDomain);
     }
 
     @Override
-    public List<MessageDomain> findAllByAdminId(int id) {
-        return messageRepository.findAllByAdminId(id);
+    public List<MessageDomain> findAllByAdminId(int id, MessageDomain messageDomain) {
+        return messageRepository.findAllByAdminId(id, messageDomain);
     }
 }

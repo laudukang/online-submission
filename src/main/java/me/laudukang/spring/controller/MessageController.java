@@ -38,22 +38,25 @@ public class MessageController {
 
     @RequestMapping(value = "saveMessage", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> save(String userid, String adminid, @ModelAttribute OsMessage osMessage, BindingResult bindingResult, HttpSession session) {
-        if (!isNullOrEmpty(userid) && NumberUtils.isNumber(userid)) {
-        } else if (null != session.getAttribute("userid") && !isNullOrEmpty(userid = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(userid)) {
+    public Map<String, Object> save(@RequestParam("userid") String userid, @ModelAttribute MessageDomain messageDomain, BindingResult bindingResult, HttpSession session) {
+        if (isNullOrEmpty(userid) || NumberUtils.isNumber(userid)) {
+            return MapUtil.getForbiddenOperationMap();
         }
         OsUser osUser = new OsUser(Integer.valueOf(userid));
-        if (!isNullOrEmpty(adminid) && NumberUtils.isNumber(adminid)) {
-        } else if (null != session.getAttribute("adminid") && !isNullOrEmpty(adminid = String.valueOf(session.getAttribute("adminid"))) && NumberUtils.isNumber(adminid)) {
-        }
+
+        String adminid = null != session.getAttribute("adminid") ? String.valueOf(session.getAttribute("adminid")) : "1";
         OsAdmin osAdmin = new OsAdmin(Integer.valueOf(adminid));
+
+        OsMessage osMessage = new OsMessage();
         osMessage.setOsUser(osUser);
         osMessage.setOsAdmin(osAdmin);
+        osMessage.setContent(messageDomain.getContent());
+        osMessage.setTitle(messageDomain.getTitle());
         OsMessage osMessage1 = iMessageService.save(osMessage);
         return MapUtil.getSaveMap();
     }
 
-    @RequestMapping(value = "deleteMessage", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteMessage", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> delete(@RequestParam("id") int id) {
         iMessageService.deleteById(id);
@@ -61,10 +64,10 @@ public class MessageController {
     }
 
     @RequestMapping(value = "userMessages", method = RequestMethod.GET)
-    public String findMessageByUserId(Model model, HttpSession session) {
+    public String findMessageByUserId(@ModelAttribute MessageDomain messageDomain, Model model, HttpSession session) {
         String str;
         if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(str)) {
-            List<MessageDomain> osMessageList = iMessageService.findAllByUserId(Integer.valueOf(str));
+            List<MessageDomain> osMessageList = iMessageService.findAllByUserId(Integer.valueOf(str), messageDomain);
             model.addAttribute("osMessageList", osMessageList);
             model.addAttribute("success", true);
         } else {
@@ -75,10 +78,10 @@ public class MessageController {
     }
 
     @RequestMapping(value = "adminMessages", method = RequestMethod.GET)
-    public String findMessageByAdminId(Model model, HttpSession session) {
+    public String findMessageByAdminId(@ModelAttribute MessageDomain messageDomain, Model model, HttpSession session) {
         String str;
         if (null != session.getAttribute("adminid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("adminid"))) && NumberUtils.isNumber(str)) {
-            List<MessageDomain> osMessageList = iMessageService.findAllByAdminId(Integer.valueOf(str));
+            List<MessageDomain> osMessageList = iMessageService.findAllByAdminId(Integer.valueOf(str), messageDomain);
             model.addAttribute("osMessageList", osMessageList);
             model.addAttribute("success", true);
         } else {

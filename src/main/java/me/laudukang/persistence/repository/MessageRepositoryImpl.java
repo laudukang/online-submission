@@ -21,18 +21,22 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<MessageDomain> findAllByUserId(int id) {
-        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osUser.id=:id order by message.postTime";
+    public List<MessageDomain> findAllByUserId(int id, MessageDomain messageDomain) {
+        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osUser.id=:id order by message.postTime " + messageDomain.getSortDir();
         TypedQuery<MessageDomain> query = entityManager.createQuery(queryStr, MessageDomain.class);
         query.setParameter("id", id);
+        query.setFirstResult(messageDomain.getPage() * messageDomain.getPageSize());
+        query.setMaxResults(messageDomain.getPageSize());
         return query.getResultList();
     }
 
     @Override
-    public List<MessageDomain> findAllByAdminId(int id) {
-        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osAdmin.id=:id order by message.postTime";
+    public List<MessageDomain> findAllByAdminId(int id, MessageDomain messageDomain) {
+        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osAdmin.id=:id order by message.postTime " + messageDomain.getSortDir();
         TypedQuery<MessageDomain> query = entityManager.createQuery(queryStr, MessageDomain.class);
         query.setParameter("id", id);
+        query.setFirstResult(messageDomain.getPage() * messageDomain.getPageSize());
+        query.setMaxResults(messageDomain.getPageSize());
         return query.getResultList();
     }
 }

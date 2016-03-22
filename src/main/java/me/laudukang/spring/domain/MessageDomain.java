@@ -21,6 +21,11 @@ public class MessageDomain {
     private String userAccount;
     private String adminAccount;
 
+    private int page;
+    private int pageSize;
+    private String sortDir;
+    private String sortCol;
+
     public MessageDomain() {
     }
 
@@ -84,6 +89,38 @@ public class MessageDomain {
 
     public void setAdminAccount(String adminAccount) {
         this.adminAccount = adminAccount;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page - 1;// page auto decrease 1
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getSortDir() {
+        return sortDir;
+    }
+
+    public void setSortDir(String sortDir) {
+        this.sortDir = sortDir;
+    }
+
+    public String getSortCol() {
+        return sortCol;
+    }
+
+    public void setSortCol(String sortCol) {
+        this.sortCol = sortCol;
     }
 
     @Override
