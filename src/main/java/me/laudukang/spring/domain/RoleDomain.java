@@ -1,5 +1,7 @@
 package me.laudukang.spring.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -10,6 +12,7 @@ package me.laudukang.spring.domain;
 public class RoleDomain {
     private int id;
 
+    @NotEmpty
     private String name;
 
     private String remark;

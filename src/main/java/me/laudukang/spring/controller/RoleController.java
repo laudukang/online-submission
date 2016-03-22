@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,10 @@ public class RoleController {
     }
 
     @RequestMapping(value = "saveRole", method = RequestMethod.POST)
-    public String save(@ModelAttribute RoleDomain roleDomain, BindingResult bindingResult, HttpSession session) {
+    public String save(@ModelAttribute @Valid RoleDomain roleDomain, BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "";
+        }
         OsRole osRole = new OsRole();
         osRole.setName(roleDomain.getName());
         osRole.setRemark(roleDomain.getRemark());
@@ -50,6 +54,7 @@ public class RoleController {
         OsRole osRole = iRoleService.findOne(id);
         Map<String, Object> map = new HashMap<>();
         map.put("data", osRole);
+        map.put("success", true);
         return map;
     }
 
