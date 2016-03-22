@@ -18,7 +18,7 @@
             <table class="doc_table doc_table_WidthMarginBottom">
                 <thead>
                 <tr>
-                    <th colspan="3" style="text-align: left;">审稿信息</th>
+                    <th colspan="4" style="text-align: left;">审稿信息</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -26,26 +26,31 @@
                     <td class="doc_sec_title" style="width: 180px;">审稿时间</td>
                     <td class="doc_sec_title" style="width: 120px;">审稿员</td>
                     <td class="doc_sec_title">评语</td>
+                    <td class="doc_sec_title" style="width: 80px;">建议</td>
                 </tr>
                 <tr>
                     <td>${reviewTime}</td>
                     <td>${name}</td>
                     <td>${reviewResult}</td>
+                    <td>${propose}</td>
                 </tr>
                 <tr>
                     <td>${reviewTime}</td>
                     <td>${name}</td>
                     <td>${reviewResult}</td>
+                    <td>${propose}</td>
                 </tr>
                 <tr>
                     <td>${reviewTime}</td>
                     <td>${name}</td>
                     <td>${reviewResult}</td>
+                    <td>${propose}</td>
                 </tr>
                 <tr>
                     <td>${reviewTime}</td>
                     <td>${name}</td>
                     <td>${reviewResult}</td>
+                    <td>${propose}</td>
                 </tr>
                 </tbody>
             </table>
