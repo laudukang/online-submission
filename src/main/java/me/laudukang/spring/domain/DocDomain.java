@@ -1,8 +1,10 @@
 package me.laudukang.spring.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * <p>Created with IDEA
@@ -13,13 +15,19 @@ import java.sql.Timestamp;
  */
 public class DocDomain {
     private int id;
-    private Timestamp postTime;
-    private String zhTitle;
-    private String zhKeyword;
-    private String type;
-    private String subject;
-    private String status;
     private String classification;
+    private String enKeyword;
+    private String enSummary;
+    private String enTitle;
+    private Date postTime;
+    private String status;
+    private Date statusTime;
+    private String subject;
+    private String type;
+    private String zhKeyword;
+    private String zhSummary;
+    @NotEmpty
+    private String zhTitle;
 
     private String fromTime;
     private String toTime;
@@ -31,8 +39,8 @@ public class DocDomain {
     private int userid;
     private int adminid;
 
-    //@NotEmpty(message = "文件不能为空")
-    private MultipartFile multipartFile;
+    @NotNull(message = "未选中任何文件")
+    private MultipartFile uploadFile;
 
     public int getId() {
         return id;
@@ -42,44 +50,44 @@ public class DocDomain {
         this.id = id;
     }
 
-    public Timestamp getPostTime() {
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
+    }
+
+    public String getEnKeyword() {
+        return enKeyword;
+    }
+
+    public void setEnKeyword(String enKeyword) {
+        this.enKeyword = enKeyword;
+    }
+
+    public String getEnSummary() {
+        return enSummary;
+    }
+
+    public void setEnSummary(String enSummary) {
+        this.enSummary = enSummary;
+    }
+
+    public String getEnTitle() {
+        return enTitle;
+    }
+
+    public void setEnTitle(String enTitle) {
+        this.enTitle = enTitle;
+    }
+
+    public Date getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(Timestamp postTime) {
+    public void setPostTime(Date postTime) {
         this.postTime = postTime;
-    }
-
-    public String getZhTitle() {
-        return zhTitle;
-    }
-
-    public void setZhTitle(String zhTitle) {
-        this.zhTitle = zhTitle;
-    }
-
-    public String getZhKeyword() {
-        return zhKeyword;
-    }
-
-    public void setZhKeyword(String zhKeyword) {
-        this.zhKeyword = zhKeyword;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getStatus() {
@@ -90,12 +98,52 @@ public class DocDomain {
         this.status = status;
     }
 
-    public String getClassification() {
-        return classification;
+    public Date getStatusTime() {
+        return statusTime;
     }
 
-    public void setClassification(String classification) {
-        this.classification = classification;
+    public void setStatusTime(Date statusTime) {
+        this.statusTime = statusTime;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getZhKeyword() {
+        return zhKeyword;
+    }
+
+    public void setZhKeyword(String zhKeyword) {
+        this.zhKeyword = zhKeyword;
+    }
+
+    public String getZhSummary() {
+        return zhSummary;
+    }
+
+    public void setZhSummary(String zhSummary) {
+        this.zhSummary = zhSummary;
+    }
+
+    public String getZhTitle() {
+        return zhTitle;
+    }
+
+    public void setZhTitle(String zhTitle) {
+        this.zhTitle = zhTitle;
     }
 
     public String getFromTime() {
@@ -119,7 +167,7 @@ public class DocDomain {
     }
 
     public void setPage(int page) {
-        this.page = page - 1;
+        this.page = page;
     }
 
     public int getPageSize() {
@@ -162,11 +210,11 @@ public class DocDomain {
         this.adminid = adminid;
     }
 
-    public MultipartFile getMultipartFile() {
-        return multipartFile;
+    public MultipartFile getUploadFile() {
+        return uploadFile;
     }
 
-    public void setMultipartFile(MultipartFile multipartFile) {
-        this.multipartFile = multipartFile;
+    public void setUploadFile(MultipartFile uploadFile) {
+        this.uploadFile = uploadFile;
     }
 }

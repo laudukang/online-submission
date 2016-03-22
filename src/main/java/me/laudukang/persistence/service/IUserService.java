@@ -16,7 +16,7 @@ public interface IUserService {
 
     void save(OsUser osUser);
 
-    void updateById(OsUser osUser);
+    void updateById(UserDomain userDomain);
 
     void deleteById(int id);
 

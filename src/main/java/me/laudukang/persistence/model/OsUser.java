@@ -2,6 +2,7 @@ package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "os_user")
 @NamedQuery(name = "OsUser.findAll", query = "SELECT o FROM OsUser o")
+@EntityListeners({AuditingEntityListener.class})
 public class OsUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
