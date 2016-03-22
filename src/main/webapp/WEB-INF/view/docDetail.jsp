@@ -129,7 +129,8 @@
                         稿件信息：
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
-                        (该稿件于${postTime}投递成功，目前处于【${status}】状态)
+                        (该稿件于${postTime}投递成功，目前处于【${status}】状态)<a class="doc_btn" href="submitDoc.html"
+                                                                  style="float:right;margin-right: 10px">修改</a>
                     </td>
                 </tr>
                 <tr>
