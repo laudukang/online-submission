@@ -28,7 +28,8 @@
                             姓名：
                         </td>
                         <td class="doc_td_Active" style="width: 340px;">
-                            <input type="text" class="doc_text" name="authorDomainList[0].name" value="" required><span
+                            <input type="text" class="doc_text" name="authorDomainList[0].name" value="${osUser.name}"
+                                   required><span
                                 class="doc_table_tip">*</span>
                         </td>
                         <td style="width: 80px;">
@@ -36,10 +37,9 @@
                         </td>
                         <td class="doc_td_Active">
                             <label style="margin-right: 10px;"><input type="radio" name="authorDomainList[0].sex"
-                                                                      checked="checked"
-                                                                      value="男" style="margin-right: 3px">男</label>
+                            ${osUser.sex=="男"?"checked":""} value="男" style="margin-right: 3px">男</label>
                             <label><input type="radio" name="authorDomainList[0].sex" value="女"
-                                          style="margin-right: 3px">女</label>
+                            ${osUser.sex=="女"?"checked":""} style="margin-right: 3px">女</label>
                         </td>
                     </tr>
                     <tr>
@@ -47,13 +47,15 @@
                             出生年月：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="date" class="doc_text" name="authorDomainList[0].birth">
+                            <input type="date" class="doc_text" name="authorDomainList[0].birth"
+                                   value="${osUser.birth}">
                         </td>
                         <td>
                             电子邮箱：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[0].mail" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[0].mail"
+                                   value="${osUser.account}" required
                                    pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"><span
                                 class="doc_table_tip">*</span>
                         </td>
@@ -63,7 +65,8 @@
                             工作电话：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[0].officePhone" value=""
+                            <input type="text" class="doc_text" name="authorDomainList[0].officePhone"
+                                   value="${osUser.officePhone}"
                                    placeholder="如：010-12345678"
                                    pattern="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$">
                         </td>
@@ -71,7 +74,8 @@
                             手机：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[0].mobilePhone" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[0].mobilePhone"
+                                   value="${osUser.mobilePhone}" required
                                    pattern="^1[3|4|5|8]\d{9}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -81,12 +85,15 @@
                         </td>
                         <td class="doc_td_Active">
                             <input type="text" class="doc_text doc_text_Small" name="authorDomainList[0].country"
+                                   value="${osUser.country}"
                                    required/><span
                                 style="padding: 0 5px">国</span>
                             <input type="text" class="doc_text doc_text_Small" name="authorDomainList[0].province"
+                                   value="${osUser.province}"
                                    required/><span
                                 style="padding: 0 5px">省</span>
                             <input type="text" class="doc_text doc_text_Small" name="authorDomainList[0].city"
+                                   value="${osUser.city}"
                                    required/><span
                                 style="padding-left:5px;">市</span>
                             <span class="doc_table_tip">*</span>
@@ -95,7 +102,8 @@
                             邮编：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[0].postcode" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[0].postcode"
+                                   value="${osUser.postcode}" required
                                    pattern="^[1-9]\d{5}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -104,7 +112,8 @@
                             详细地址：
                         </td>
                         <td class="doc_td_Active" colspan="3">
-                            <input type="text" class="doc_text" name="authorDomainList[0].address" value=""
+                            <input type="text" class="doc_text" name="authorDomainList[0].address"
+                                   value="${osUser.address}"
                                    style="width: 568px;"
                                    required><span class="doc_table_tip">*</span>
                         </td>
@@ -143,7 +152,7 @@
                         <td class="doc_td_Active">
                             <select name="type" class="doc_select" required>
                                 <option value="">请选择</option>
-                                <option value="自由稿件">自由稿件</option>
+                                <option value="自由稿件">自由来稿</option>
                                 <option value="特约稿">特约稿</option>
                                 <option value="其他">其他</option>
                             </select>
@@ -204,7 +213,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <input type="text" class="doc_text doc_text_Big" name="zhKeyword" value="" required
-                                   placeholder="请以‘；’分隔关键字" maxlength="255"><span class="doc_table_tip">*</span>
+                                   placeholder="请以‘;’分隔关键字" maxlength="255"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
                     <tr>
@@ -213,7 +222,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <input type="text" class="doc_text doc_text_Big" name="enKeyword" value=""
-                                   placeholder="请以‘；’分隔关键字" maxlength="255">
+                                   placeholder="请以‘;’分隔关键字" maxlength="255">
                         </td>
                     </tr>
                     <tr>
@@ -241,7 +250,7 @@
                         <td>
                             <input type="file" id="submitDoc_updateBtn" value="上传稿件" name="uploadFile" required/>
                             <span class="doc_table_tip">*</span>
-                            <span class="doc_remind_Blue">(仅支持pdf格式，且大小不超过10M)</span>
+                            <span class="doc_remind_Blue">(仅支持pdf格式，且大小不超过100M)</span>
                         </td>
                     </tr>
                     <tr style="border-bottom: 4px solid #C4D8ED;">

@@ -15,8 +15,8 @@
         <h2 class="frame_main_content_path">
             个人中心 &gt; 账户信息</h2>
         <div class="frame_main_center">
-            <form:form action="userInfo" modelAttribute="userDomain" method="post">
-                <%--<form action="userInfo" method="post">--%>
+            <%--<form:form action="userInfo" modelAttribute="userDomain" method="post">--%>
+            <form action="userInfo" method="post">
                 <table class="doc_table account_table">
                     <tbody>
                     <tr>
@@ -29,8 +29,9 @@
                             个人账户：
                         </td>
                         <td class="doc_td_Active">
-                                <%--${userDomain.account}&nbsp;&nbsp;&nbsp;(账户名不允许修改)--%>
-                            <form:input path="account" disabled="true" cssClass="doc_text"></form:input>&nbsp;&nbsp;&nbsp;(账户名不允许修改)
+                            ${userDomain.account}&nbsp;&nbsp;&nbsp;(账户名不允许修改)
+                            <input name="account" hidden value="${userDomain.account}">
+                            <%--<form:input path="account" disabled="true" cssClass="doc_text"></form:input>&nbsp;&nbsp;&nbsp;(账户名不允许修改)--%>
                         </td>
                     </tr>
                     <tr>
@@ -44,8 +45,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <input type="text" class="doc_text" name="name" value="${userDomain.name}" required><span
-                                class="doc_table_tip">*</span>
-                            <form:errors path="name" cssclass="error"></form:errors>
+                                class="doc_table_tip">*${requestScope['org.springframework.validation.BindingResult.userDomain'].getFieldError('name').getDefaultMessage()}</span>
                         </td>
                     </tr>
                     <tr>
@@ -152,8 +152,8 @@
                     </tr>
                     </tbody>
                 </table>
-                <%--</form>--%>
-            </form:form>
+            </form>
+            <%--</form:form>--%>
         </div>
     </div>
 </div>

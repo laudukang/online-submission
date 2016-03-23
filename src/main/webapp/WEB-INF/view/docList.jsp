@@ -88,7 +88,7 @@
                     <span class="doc_filter_item_title">稿件状态：</span>
                     <select id="docList_status" class="doc_select">
                         <option value="">请选择</option>
-                        <option value="待查看">待查看</option>
+                        <option value="待审阅">待审阅</option>
                         <option value="审阅中">审阅中</option>
                         <option value="退修稿">退修稿</option>
                         <option value="已采编">已采编</option>

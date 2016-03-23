@@ -164,7 +164,6 @@ public class UserController implements ApplicationContextAware {
         }
         model.addAttribute("success", isUpdate);
         model.addAttribute("msg", isUpdate ? "更新成功" : "更新失败,用户未登陆");
-        bindingResult.rejectValue("account", "", "成功修改信息");
         return "redirect:userInfo";
     }
 

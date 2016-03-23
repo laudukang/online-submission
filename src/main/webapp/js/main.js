@@ -76,7 +76,7 @@ doc.docInfo.submitDoc = function () {
 		$('.submitDoc_authorBody:eq(0)').clone(true).
 		find('.submitDoc_authorTable_title').html('<h3>第' + index + '作者</h3><a href="javascript:;">删除</a>').end().find('input').val('').each(function (i, value) {
 			value.name = 'authorDomainList[' + (index - 1 ) + '].' + value.name.split('.').pop();
-			console.log(value.name);
+			// console.log(value.name);
 		}).end().
 		appendTo($('.submitDoc_authorTable'));
 	});

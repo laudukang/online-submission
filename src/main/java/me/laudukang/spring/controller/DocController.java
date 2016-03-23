@@ -4,6 +4,7 @@ import me.laudukang.persistence.model.OsAuthor;
 import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IDocService;
+import me.laudukang.persistence.service.IUserService;
 import me.laudukang.spring.domain.AuthorDomain;
 import me.laudukang.spring.domain.DocDomain;
 import me.laudukang.util.MapUtil;
@@ -46,6 +47,8 @@ public class DocController {
     @Autowired
     private IDocService iDocService;
     @Autowired
+    private IUserService iUserService;
+    @Autowired
     private Environment environment;
 
     private final String DOC_NEW_PUBLISH = "待审阅";
@@ -61,8 +64,15 @@ public class DocController {
     }
 
     @RequestMapping(value = "newDoc", method = RequestMethod.GET)
-    public String newDocPage(Model model) {
-        // TODO: 2016/3/23 自动代入用户信息
+    public String newDocPage(Model model, HttpSession session) {
+        String str;
+        if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid")))
+                && NumberUtils.isNumber(str)) {
+            OsUser osUser = iUserService.findOne(Integer.valueOf(str));
+            model.addAttribute("osUser", osUser);
+        } else {
+            model.addAttribute("osUser", new OsUser());
+        }
         model.addAttribute("docDomain", new DocDomain());
         return "submitDoc";
     }

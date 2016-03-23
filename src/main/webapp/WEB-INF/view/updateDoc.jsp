@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -20,107 +20,108 @@
             <form action="updateDoc" method="post" enctype="multipart/form-data">
                 <table class="doc_table submitDoc_authorTable">
                     <c:forEach items="${osDoc.osAuthors}" var="osAuthor" varStatus="obj">
-                    <tbody class="submitDoc_authorBody">
-                    <tr>
-                        <td class="doc_title submitDoc_authorTable_title" colspan="4">
-                            <h3>第${obj.count}作者</h3>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 80px;">
-                            姓名：
-                        </td>
-                        <td class="doc_td_Active" style="width: 340px;">
-                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].name"
-                                   value="${osAuthor.name}" required><span
-                                class="doc_table_tip">*</span>
-                        </td>
-                        <td style="width: 80px;">
-                            性别：
-                        </td>
-                        <td class="doc_td_Active">
-                            <label style="margin-right: 10px;"><input type="radio"
-                                                                      name="authorDomainList[${obj.count-1}].sex" ${osAuthor.sex=="男"?"checked":""}
-                                                                      value="男" style="margin-right: 3px">男</label>
-                            <label><input type="radio"
-                                          name="authorDomainList[${obj.count-1}].sex" ${osAuthor.sex=="女"?"checked":""}
-                                          value="女" style="margin-right: 3px">女</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            出生年月：
-                        </td>
-                        <td class="doc_td_Active">
-                            <input type="date" class="doc_text" name="authorDomainList[${obj.count-1}].birth"
-                                   value="${osAuthor.birth}">
-                        </td>
-                        <td>
-                            电子邮箱：
-                        </td>
-                        <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].account"
-                                   value="${osAuthor.mail}" required
-                                   pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"><span
-                                class="doc_table_tip">*</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            工作电话：
-                        </td>
-                        <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].officePhone"
-                                   value="${osAuthor.officePhone}" placeholder="如：010-12345678"
-                                   pattern="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$">
-                        </td>
-                        <td>
-                            手机：
-                        </td>
-                        <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].mobilePhone"
-                                   value="${osAuthor.mobilePhone}" required
-                                   pattern="^1[3|4|5|8]\d{9}$"><span class="doc_table_tip">*</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            所在地区：
-                        </td>
-                        <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Small"
-                                   name="authorDomainList[${obj.count-1}].country" value="${osAuthor.country}"
-                                   required/><span
-                                style="padding: 0 5px">国</span>
-                            <input type="text" class="doc_text doc_text_Small"
-                                   name="authorDomainList[${obj.count-1}].province" value="${osAuthor.province}"
-                                   required/><span
-                                style="padding: 0 5px">省</span>
-                            <input type="text" class="doc_text doc_text_Small"
-                                   name="authorDomainList[${obj.count-1}].city" value="${osAuthor.city}" required/><span
-                                style="padding-left:5px;">市</span>
-                            <span class="doc_table_tip">*</span>
-                        </td>
-                        <td>
-                            邮编：
-                        </td>
-                        <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].postcode"
-                                   value="${osAuthor.postcode}" required
-                                   pattern="^[1-9]\d{5}$"><span class="doc_table_tip">*</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            详细地址：
-                        </td>
-                        <td class="doc_td_Active" colspan="3">
-                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].address"
-                                   value="${osAuthor.address}" style="width: 568px;"
-                                   required><span class="doc_table_tip">*</span>
-                        </td>
-                    </tr>
-                    </tbody>
+                        <tbody class="submitDoc_authorBody">
+                        <tr>
+                            <td class="doc_title submitDoc_authorTable_title" colspan="4">
+                                <h3>第${obj.count}作者</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 80px;">
+                                姓名：
+                            </td>
+                            <td class="doc_td_Active" style="width: 340px;">
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].name"
+                                       value="${osAuthor.name}" required><span
+                                    class="doc_table_tip">*</span>
+                            </td>
+                            <td style="width: 80px;">
+                                性别：
+                            </td>
+                            <td class="doc_td_Active">
+                                <label style="margin-right: 10px;"><input type="radio"
+                                                                          name="authorDomainList[${obj.count-1}].sex" ${osAuthor.sex=="男"?"checked":""}
+                                                                          value="男" style="margin-right: 3px">男</label>
+                                <label><input type="radio"
+                                              name="authorDomainList[${obj.count-1}].sex" ${osAuthor.sex=="女"?"checked":""}
+                                              value="女" style="margin-right: 3px">女</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                出生年月：
+                            </td>
+                            <td class="doc_td_Active">
+                                <input type="date" class="doc_text" name="authorDomainList[${obj.count-1}].birth"
+                                       value="${osAuthor.birth}">
+                            </td>
+                            <td>
+                                电子邮箱：
+                            </td>
+                            <td class="doc_td_Active">
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].account"
+                                       value="${osAuthor.mail}" required
+                                       pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"><span
+                                    class="doc_table_tip">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                工作电话：
+                            </td>
+                            <td class="doc_td_Active">
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].officePhone"
+                                       value="${osAuthor.officePhone}" placeholder="如：010-12345678"
+                                       pattern="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$">
+                            </td>
+                            <td>
+                                手机：
+                            </td>
+                            <td class="doc_td_Active">
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].mobilePhone"
+                                       value="${osAuthor.mobilePhone}" required
+                                       pattern="^1[3|4|5|8]\d{9}$"><span class="doc_table_tip">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                所在地区：
+                            </td>
+                            <td class="doc_td_Active">
+                                <input type="text" class="doc_text doc_text_Small"
+                                       name="authorDomainList[${obj.count-1}].country" value="${osAuthor.country}"
+                                       required/><span
+                                    style="padding: 0 5px">国</span>
+                                <input type="text" class="doc_text doc_text_Small"
+                                       name="authorDomainList[${obj.count-1}].province" value="${osAuthor.province}"
+                                       required/><span
+                                    style="padding: 0 5px">省</span>
+                                <input type="text" class="doc_text doc_text_Small"
+                                       name="authorDomainList[${obj.count-1}].city" value="${osAuthor.city}"
+                                       required/><span
+                                    style="padding-left:5px;">市</span>
+                                <span class="doc_table_tip">*</span>
+                            </td>
+                            <td>
+                                邮编：
+                            </td>
+                            <td class="doc_td_Active">
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].postcode"
+                                       value="${osAuthor.postcode}" required
+                                       pattern="^[1-9]\d{5}$"><span class="doc_table_tip">*</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                详细地址：
+                            </td>
+                            <td class="doc_td_Active" colspan="3">
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].address"
+                                       value="${osAuthor.address}" style="width: 568px;"
+                                       required><span class="doc_table_tip">*</span>
+                            </td>
+                        </tr>
+                        </tbody>
                     </c:forEach>
                 </table>
                 <a href="javascript:;" id="submitDoc_addAuthorBtn"><i class="icon-plus-sign doc_icon"></i>添加更多作者</a>
@@ -162,7 +163,7 @@
                             <select name="type" class="doc_select" required>
                                 <option value="">请选择</option>
                                 <option value="自由稿件">自由稿件</option>
-                                <option value="特约稿" selected>特约稿</option>
+                                <option value="特约稿">特约稿</option>
                                 <option value="其他">其他</option>
                             </select>
                             <span class="doc_table_tip">*</span>
@@ -232,7 +233,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <input type="text" class="doc_text doc_text_Big" name="enKeyword" value="${osDoc.enKeyword}"
-                                   placeholder="请以‘；’分隔关键字" maxlength="255">
+                                   placeholder="请以‘;’分隔关键字" maxlength="255">
                         </td>
                     </tr>
                     <tr>

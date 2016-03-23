@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -35,7 +36,7 @@
                 <c:if test="${osDoc.osDocAdmins.size()!=0}">
                     <c:forEach items="${osDoc.osDocAdmins}" var="osDocAdmin">
                         <tr>
-                            <td>${osDocAdmin.reviewTime}</td>
+                            <td><fmt:formatDate value="${osDocAdmin.reviewTime}" pattern="yyyy-MM-dd hh:MM:ss"/></td>
                             <td>${osDocAdmin.osAdmin.name!=null&&osDocAdmin.osAdmin.name.trim()!=""?osDocAdmin.osAdmin.name:osDocAdmin.osAdmin.account}</td>
                             <td>${osDocAdmin.reviewResult}</td>
                             <td>${osDocAdmin.propose}</td>
@@ -46,77 +47,77 @@
             </table>
             <table class="doc_table doc_table_WidthMarginBottom">
                 <c:forEach items="${osDoc.osAuthors}" var="osAuthor" varStatus="obj">
-                <tbody>
-                <tr>
-                    <td class="doc_title submitDoc_authorTable_title" colspan="4">
-                        <h3>第${obj.count}作者</h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 80px;">
-                        姓名：
-                    </td>
-                    <td class="doc_td_Active" style="width: 340px;">
-                            ${osAuthor.name}
-                    </td>
-                    <td style="width: 80px;">
-                        性别：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.sex}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        出生年月：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.birth}
-                    </td>
-                    <td>
-                        电子邮箱：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.mail}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        工作电话：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.officePhone}
-                    </td>
-                    <td>
-                        手机：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        所在地区：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.country}国${osAuthor.province}省${osAuthor.city}市
-                    </td>
-                    <td>
-                        邮编：
-                    </td>
-                    <td class="doc_td_Active">
-                            ${osAuthor.postcode}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        详细地址：
-                    </td>
-                    <td class="doc_td_Active" colspan="3">
-                            ${osAuthor.address}
-                    </td>
-                </tr>
-                </tbody>
+                    <tbody>
+                    <tr>
+                        <td class="doc_title submitDoc_authorTable_title" colspan="4">
+                            <h3>第${obj.count}作者</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 80px;">
+                            姓名：
+                        </td>
+                        <td class="doc_td_Active" style="width: 340px;">
+                                ${osAuthor.name}
+                        </td>
+                        <td style="width: 80px;">
+                            性别：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.sex}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            出生年月：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.birth}
+                        </td>
+                        <td>
+                            电子邮箱：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.mail}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            工作电话：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.officePhone}
+                        </td>
+                        <td>
+                            手机：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.mobilePhone}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            所在地区：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.country}&nbsp;国&nbsp;${osAuthor.province}&nbsp;省&nbsp;${osAuthor.city}&nbsp;市
+                        </td>
+                        <td>
+                            邮编：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.postcode}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            详细地址：
+                        </td>
+                        <td class="doc_td_Active" colspan="3">
+                                ${osAuthor.address}
+                        </td>
+                    </tr>
+                    </tbody>
                 </c:forEach>
             </table>
             <table class="doc_table doc_table_WidthMarginBottom">
@@ -126,7 +127,8 @@
                         稿件信息：
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
-                        该稿件于${osDoc.postTime}投递成功，目前处于【${osDoc.status}】状态
+                        该稿件于<fmt:formatDate value="${osDoc.postTime}"
+                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态
                         <c:if test="${osDoc.status=='待审阅'}">
                             <a class="doc_btn" href="updateDoc?id=${osDoc.id}"
                                style="float:right;margin-right: 10px">修改</a>
