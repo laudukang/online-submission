@@ -1,11 +1,13 @@
 package me.laudukang.persistence.service;
 
+import me.laudukang.persistence.model.OsAuthor;
 import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.spring.domain.DocDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -19,7 +21,7 @@ public interface IDocService {
 
     OsDoc findOne(int id);
 
-    void updateById(OsDoc osDoc);
+    void update(OsDoc osDoc, List<OsAuthor> osAuthorList);
 
     void deleteById(int id);
 

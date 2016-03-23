@@ -1,8 +1,10 @@
 package me.laudukang.spring.controller;
 
+import me.laudukang.persistence.model.OsAuthor;
 import me.laudukang.persistence.model.OsDoc;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IDocService;
+import me.laudukang.spring.domain.AuthorDomain;
 import me.laudukang.spring.domain.DocDomain;
 import me.laudukang.util.MapUtil;
 import org.apache.commons.io.FileUtils;
@@ -28,10 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -58,72 +57,52 @@ public class DocController {
     public String docInfoPage(@RequestParam("id") int id, Model model) {
         OsDoc osDoc = iDocService.findOne(id);
         model.addAttribute("osDoc", osDoc);
-        return "";
+        return "docDetail";
     }
-
 
     @RequestMapping(value = "newDoc", method = RequestMethod.GET)
     public String newDocPage(Model model) {
+        // TODO: 2016/3/23 自动代入用户信息
         model.addAttribute("docDomain", new DocDomain());
-        return "";
+        return "submitDoc";
     }
 
     @RequestMapping(value = "newDoc", method = RequestMethod.POST)
-    //@RequestParam("uploadFile") MultipartFile uploadFile,
     public String newDoc(@ModelAttribute @Valid DocDomain docDomain, BindingResult bindingResult, Model model, HttpSession session) {
+
+//        if (bindingResult.hasErrors()) {
+//            for (FieldError error : bindingResult.getFieldErrors()) {
+//                System.out.println(error.getObjectName() + " : "
+//                        + error.getField() + " " + error.getDefaultMessage());
+//            }
+//            return "submitDoc";
+//        }
+
+        MultipartFile uploadFile = docDomain.getUploadFile();
+        String newFileName = null;
+        if (null == uploadFile && uploadFile.getSize() == 0) {
+            bindingResult.addError(new FieldError("docDomain", "uploadFile", "未选中任何文件"));
+        } else {
+            try {
+                newFileName = uploadPDF(uploadFile, bindingResult);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "submitDoc";
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
                 System.out.println(error.getObjectName() + " : "
                         + error.getField() + " " + error.getDefaultMessage());
             }
-            return "";
-        }
-
-        MultipartFile uploadFile = docDomain.getUploadFile();
-        String fileName = uploadFile.getOriginalFilename();
-        int index = fileName.lastIndexOf('.');
-        String suffix = null;
-
-        if (-1 == index || !(suffix = fileName.substring(fileName.lastIndexOf('.'))).equalsIgnoreCase(".PDF")) {
-            bindingResult.addError(new FieldError("docDomain", "uploadFile", "文件类型不匹配"));
-        } else {
-            int fileSizeLimit;
-            try {
-                fileSizeLimit = Integer.valueOf(environment.getProperty("file.upload.size"));
-            } catch (Exception e) {
-                fileSizeLimit = 100;
-            }
-            if (uploadFile.getSize() > 1024 * 1024 * fileSizeLimit) {
-                bindingResult.addError(new FieldError("docDomain", "uploadFile", "上传文件不允许超过" + fileSizeLimit + "MB"));
-            }
-        }
-
-        if (bindingResult.hasErrors()) {
-            return "";
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        StringBuilder newFileName = new StringBuilder()
-                .append(sdf.format(new Date())).append("_")
-                .append(new Random().nextInt(100)).append(suffix);
-        File uploadPath = new File(environment.getProperty("file.upload.path"));
-        if (!uploadPath.exists()) {
-            uploadPath.mkdirs();
-        }
-        File saveFile = new File(environment.getProperty("file.upload.path") + File.separator + newFileName);
-        try {
-            uploadFile.transferTo(saveFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            bindingResult.addError(new FieldError("docDomain", "uploadFile", "文件上传失败，服务器错误"));
-            return "";
+            return "submitDoc";
         }
 
         int userid = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
 
         OsDoc osDoc = new OsDoc();
-        osDoc.setSubject(docDomain.getSubject());
+        osDoc.setSubject("");//暂时忽略该字段
         osDoc.setClassification(docDomain.getClassification());
         osDoc.setEnKeyword(docDomain.getEnKeyword());
         osDoc.setEnSummary(docDomain.getEnSummary());
@@ -140,8 +119,93 @@ public class DocController {
         osDoc.setPath(newFileName.toString());
         osDoc.setOsUser(new OsUser(userid));
 
+        for (AuthorDomain authorDomain : docDomain.getAuthorDomainList()) {
+            if (authorDomain == null) continue;
+            OsAuthor osAuthor = new OsAuthor();
+            osAuthor.setAddress(authorDomain.getAddress());
+            osAuthor.setBirth(authorDomain.getBirth());
+            osAuthor.setCountry(authorDomain.getCountry());
+            osAuthor.setProvince(authorDomain.getProvince());
+            osAuthor.setCity(authorDomain.getCity());
+            osAuthor.setMail(authorDomain.getMail());
+            osAuthor.setMobilePhone(authorDomain.getMobilePhone());
+            osAuthor.setOfficePhone(authorDomain.getOfficePhone());
+            osAuthor.setPostcode(authorDomain.getPostcode());
+            osAuthor.setName(authorDomain.getName());
+            osAuthor.setSex(authorDomain.getSex());
+            osAuthor.setRemark("");//暂时忽略该字段
+            osDoc.addOsAuthor(osAuthor);
+        }
+
         iDocService.save(osDoc);
-        return "";
+        return "redirect:docs";
+    }
+
+    @RequestMapping(value = "updateDoc", method = RequestMethod.GET)
+    public String updateDoc(@RequestParam("id") int id, Model model) {
+        OsDoc osDoc = iDocService.findOne(id);
+        model.addAttribute("osDoc", osDoc);
+        return "updateDoc";
+    }
+
+    @RequestMapping(value = "updateDoc", method = RequestMethod.POST)
+    public String updateDoc(@ModelAttribute @Valid DocDomain docDomain, BindingResult bindingResult, Model model, HttpSession session) {
+        MultipartFile uploadFile = docDomain.getUploadFile();
+        String newFileName;
+        try {
+            newFileName = uploadPDF(uploadFile, bindingResult);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "redirect:updateDoc";
+        }
+        if (bindingResult.hasErrors()) {
+            return "redirect:updateDoc";
+        }
+
+        OsDoc osDoc = iDocService.findOne(docDomain.getId());
+        osDoc.setClassification(docDomain.getClassification());
+        osDoc.setEnKeyword(docDomain.getEnKeyword());
+        osDoc.setEnSummary(docDomain.getEnSummary());
+        osDoc.setEnTitle(docDomain.getEnTitle());
+        osDoc.setType(docDomain.getType());
+        osDoc.setZhTitle(docDomain.getZhTitle());
+        osDoc.setZhKeyword(docDomain.getZhKeyword());
+        osDoc.setZhSummary(docDomain.getZhSummary());
+        osDoc.setStatus(DOC_NEW_PUBLISH);
+        if (uploadFile != null && uploadFile.getSize() != 0) {
+            File oldPDF = new File(environment.getProperty("file.upload.path") + File.separator + osDoc.getPath());
+            oldPDF.deleteOnExit();
+            osDoc.setPath(newFileName);
+        }
+
+        List<OsAuthor> authorDeleteList = osDoc.getOsAuthors();
+        for (OsAuthor osAuthor : authorDeleteList) {
+            osAuthor.setOsDoc(null);
+        }
+
+        List<OsAuthor> osAuthorList = new ArrayList<>(docDomain.getAuthorDomainList().size());
+        for (AuthorDomain authorDomain : docDomain.getAuthorDomainList()) {
+            if (authorDomain == null) continue;
+            OsAuthor osAuthor = new OsAuthor();
+            osAuthor.setAddress(authorDomain.getAddress());
+            osAuthor.setBirth(authorDomain.getBirth());
+            osAuthor.setCountry(authorDomain.getCountry());
+            osAuthor.setProvince(authorDomain.getProvince());
+            osAuthor.setCity(authorDomain.getCity());
+            osAuthor.setMail(authorDomain.getMail());
+            osAuthor.setMobilePhone(authorDomain.getMobilePhone());
+            osAuthor.setOfficePhone(authorDomain.getOfficePhone());
+            osAuthor.setPostcode(authorDomain.getPostcode());
+            osAuthor.setName(authorDomain.getName());
+            osAuthor.setSex(authorDomain.getSex());
+            osAuthor.setRemark("");//暂时忽略该字段
+            osAuthor.setOsDoc(osDoc);
+            osAuthorList.add(osAuthor);
+        }
+        osDoc.setOsAuthors(osAuthorList);
+
+        iDocService.update(osDoc, authorDeleteList);
+        return "redirect:docs";
     }
 
     @RequestMapping(value = "deleteDoc", method = RequestMethod.POST)
@@ -255,6 +319,49 @@ public class DocController {
         }
         headers.setContentType(MediaType.TEXT_HTML);
         return new ResponseEntity<>("文件不存在".getBytes(), headers, HttpStatus.BAD_REQUEST);
+    }
+
+    private String uploadPDF(MultipartFile uploadFile, BindingResult bindingResult) throws IOException {
+        StringBuilder newFileName = new StringBuilder("");
+        if (null != uploadFile && uploadFile.getSize() != 0) {
+            String fileName = uploadFile.getOriginalFilename();
+            String suffix = null;
+            int index = fileName.lastIndexOf('.');
+            if (-1 == index || !(suffix = fileName.substring(fileName.lastIndexOf('.'))).equalsIgnoreCase(".PDF")) {
+                bindingResult.addError(new FieldError("docDomain", "uploadFile", "文件类型不匹配"));
+                return newFileName.toString();
+            } else {
+                int fileSizeLimit;
+                try {
+                    fileSizeLimit = Integer.valueOf(environment.getProperty("file.upload.size"));
+                } catch (Exception e) {
+                    fileSizeLimit = 100;
+                }
+                if (uploadFile.getSize() > 1024 * 1024 * fileSizeLimit) {
+                    bindingResult.addError(new FieldError("docDomain", "uploadFile", "上传文件不允许超过" + fileSizeLimit + "MB"));
+                    return newFileName.toString();
+                }
+            }
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            newFileName.append(sdf.format(new Date()))
+                    .append("_")
+                    .append(new Random().nextInt(100))
+                    .append(suffix);
+            File uploadPath = new File(environment.getProperty("file.upload.path"));
+            if (!uploadPath.exists()) {
+                uploadPath.mkdirs();
+            }
+            File saveFile = new File(environment.getProperty("file.upload.path") + File.separator + newFileName);
+            try {
+                uploadFile.transferTo(saveFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+                bindingResult.addError(new FieldError("docDomain", "uploadFile", "文件上传失败，服务器错误"));
+                throw e;
+            }
+        }
+        return newFileName.toString();
     }
 
     @ExceptionHandler(RuntimeException.class)

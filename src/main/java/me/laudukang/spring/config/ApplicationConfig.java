@@ -15,6 +15,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -74,5 +77,17 @@ public class ApplicationConfig {
             e.printStackTrace();
         }
         return mimeMessage;
+    }
+
+    @Bean
+    public SimpleDateFormat simpleDateFormat() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        return sdf;
+    }
+
+    @Bean
+    public DateFormat dateFormat() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return df;
     }
 }

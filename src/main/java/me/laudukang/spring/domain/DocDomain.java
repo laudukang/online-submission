@@ -3,8 +3,8 @@ package me.laudukang.spring.domain;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -28,6 +28,7 @@ public class DocDomain {
     private String zhSummary;
     @NotEmpty
     private String zhTitle;
+    private List<AuthorDomain> authorDomainList;
 
     private String fromTime;
     private String toTime;
@@ -39,7 +40,6 @@ public class DocDomain {
     private int userid;
     private int adminid;
 
-    @NotNull(message = "未选中任何文件")
     private MultipartFile uploadFile;
 
     public int getId() {
@@ -80,6 +80,14 @@ public class DocDomain {
 
     public void setEnTitle(String enTitle) {
         this.enTitle = enTitle;
+    }
+
+    public List<AuthorDomain> getAuthorDomainList() {
+        return authorDomainList;
+    }
+
+    public void setAuthorDomainList(List<AuthorDomain> authorDomainList) {
+        this.authorDomainList = authorDomainList;
     }
 
     public Date getPostTime() {

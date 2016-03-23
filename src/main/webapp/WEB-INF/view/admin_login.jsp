@@ -12,7 +12,7 @@
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container login" action="#" method="post">
+    <form class="user_container login" action="admin/login" method="post">
         <ul class="user_content">
             <li class="login_item">
                 <h2 class="login_title" style="padding-bottom: 10px;">管理员登录</h2>
@@ -27,7 +27,7 @@
             </li>
             <li class="login_item">
                 <input type="submit" class="doc_btn doc_btn_Blue" value="登录"/>
-                <span class="user_remind remind">${账号或密码出错}</span>
+                <span class="user_remind remind">${requestScope['org.springframework.validation.BindingResult.loginDomain'].getFieldError('account').getDefaultMessage()}</span>
             </li>
             <li class="login_item">
             </li>

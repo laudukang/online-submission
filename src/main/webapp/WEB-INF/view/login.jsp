@@ -12,7 +12,7 @@
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container login" action="#" method="post">
+    <form class="user_container login" action="login" method="post">
         <ul class="user_content">
             <li class="login_item">
                 <h2 class="login_title">用户登录</h2>
@@ -27,11 +27,11 @@
             </li>
             <li class="login_item">
                 <input type="submit" class="doc_btn doc_btn_Blue" value="登录"/>
-                <span class="user_remind remind">${账号或密码出错}</span>
+                <span class="user_remind remind">${requestScope['org.springframework.validation.BindingResult.loginDomain'].getFieldError('account').getDefaultMessage()}</span>
             </li>
             <li class="login_item">
-                <a id="forgivePasswordBtn" class="login_item_leftBtn" href="forgivePassword.html">忘记密码?</a>
-                <a id="registerBtn" class="login_item_rightBtn" href="register.html">立即注册</a>
+                <a id="forgivePasswordBtn" class="login_item_leftBtn" href="resetRequest">忘记密码?</a>
+                <a id="registerBtn" class="login_item_rightBtn" href="register">立即注册</a>
             </li>
         </ul>
     </form>

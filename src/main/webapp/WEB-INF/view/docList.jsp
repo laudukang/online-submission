@@ -150,12 +150,12 @@
             ],
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
-                $('td:eq(2)', nRow).html('<a href="javascript:;" data-id="' + oData.id + '">' + oData.zhTitle + '</a>');
-                $('td:eq(7)', nRow).html('<i class="doc_icon icon-trash" data-id="' + oData.id + '"></i>');
+                $('td:eq(2)', nRow).html('<a href="docInfo?id=' + oData.id + '">' + oData.zhTitle + '</a>');
+                $('td:eq(7)', nRow).html('/');
                 switch (oData.status) {
-                    case "待审查":
-                        $('td:eq(6)', nRow).html('<span class="docList_status1">待审查</span>');
-                        $('td:eq(7)', nRow).html('<a href="updateDoc.html"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash"  data-id="' + oData.id + '"></i>');
+                    case "待审阅":
+                        $('td:eq(6)', nRow).html('<span class="docList_status1">待审阅</span>');
+                        $('td:eq(7)', nRow).html('<a href="updateDoc?id=' + oData.id + '"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><a href="deleteDoc?id=' + oData.id + '"><i class="doc_icon icon-trash"></i></a>');
                         break;
                     case "审阅中":
                         $('td:eq(6)', nRow).html('<span class="docList_status2">审阅中</span>');

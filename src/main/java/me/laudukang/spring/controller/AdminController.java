@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -40,7 +42,11 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 public class AdminController implements ApplicationContextAware {
     @Autowired
     private IAdminService iAdminService;
+    @Autowired
+    private SimpleDateFormat simpleDateFormat;
+
     private ApplicationContext applicationContext;
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -50,38 +56,47 @@ public class AdminController implements ApplicationContextAware {
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public String loginPage(Model model) {
         model.addAttribute("loginDomain", new LoginDomain());
-        return "";
+        return "admin_login";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasFieldErrors()) {
-            return "";
+            return "admin_login";
         }
         OsAdmin osAdmin = iAdminService.login(loginDomain.getAccount(), loginDomain.getPassword());
         if (null != osAdmin) {
             session.setAttribute("adminid", osAdmin.getId());
             session.setAttribute("account", osAdmin.getAccount());
             session.setAttribute("name", null != osAdmin.getName() ? osAdmin.getName() : osAdmin.getAccount());
-            return "welcome";
+            if (osAdmin.getReviewer().equals("1")) {
+                return "redirect:docsReview";//审稿员页面
+
+            } else {
+                return "redirect:docsSuper";//管理员页面
+            }
         }
-        bindingResult.rejectValue("account", "", "账号或密码不对");
-        return "";
+        bindingResult.rejectValue("account", "", "账号或密码不正确");
+        return "admin_login";
     }
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.GET)
     public String updatePasswordPage(Model model) {
         model.addAttribute("passwordDomain", new PasswordDomain());
-        return "index";
+        return "updatePassword";
     }
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
     public String updatePassword(@ModelAttribute @Valid PasswordDomain passwordDomain, BindingResult
             bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasFieldErrors()) {
-            return "index";
+            return "updatePassword";
         }
         boolean isSame = passwordDomain.getNewPassword1().equals(passwordDomain.getNewPassword2());
+        if (!isSame) {
+            bindingResult.rejectValue("newPassword1", "", "新密码前后输入不一致");
+            return "updatePassword";
+        }
         int tmp = 0;
         int id = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
         OsAdmin osAdmin = iAdminService.findOne(id);
@@ -91,7 +106,7 @@ public class AdminController implements ApplicationContextAware {
         bindingResult.rejectValue("password", "", 1 == tmp ? "成功修改密码" : "原密码密码输入不对");
         model.addAttribute("success", 1 == tmp);
         model.addAttribute("msg", 1 == tmp ? "成功修改密码" : "原密码密码输入不对");
-        return "index";
+        return "updatePassword";
     }
 
     @RequestMapping(value = "newAdmin", method = RequestMethod.GET)
@@ -126,7 +141,7 @@ public class AdminController implements ApplicationContextAware {
 
         String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
         //发送注册邮件
-        StringBuffer sb = new StringBuffer(
+        StringBuilder sb = new StringBuilder(
                 "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
                 .append(adminDomain.getAccount())
                 .append(",您好</br>管理员[")
@@ -142,13 +157,15 @@ public class AdminController implements ApplicationContextAware {
                 .append("/?time=")
                 .append(new Date().getTime())
                 .append("\">")
-                .append("点击这里登录")
-                .append("</a></br></body></html>");
+                .append("点击这里登录系统</a></br></br>")
+                .append(simpleDateFormat.format(new Date()))
+                .append("</br></br>系统自动发送邮件，请勿回复</body></html>");
+
         StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]创建了用户[")
                 .append(!isNullOrEmpty(adminDomain.getName()) ? adminDomain.getName() : adminDomain.getAccount()).append("]");
         applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), user, request.getRemoteHost()));
         applicationContext.publishEvent(new EmailEvent(this, adminDomain.getAccount(), "注册成功-网络投稿系统服务邮件", sb.toString()));
-        return "";
+        return "redirect:";//管理员列表页面
     }
 
     @RequestMapping(value = "deleteAdmin", method = RequestMethod.POST)
@@ -170,6 +187,7 @@ public class AdminController implements ApplicationContextAware {
         iAdminService.ableAdmin(id, status);
         return MapUtil.getAbleMap();
     }
+
 //通过详情页面更新信息
 //    @RequestMapping(value = "updateAdminInfo", method = RequestMethod.GET)
 //    public String updateAdminPage(Model model) {
@@ -255,5 +273,16 @@ public class AdminController implements ApplicationContextAware {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/admin/login";
+    }
+
+    //获取审稿员下拉框
+    @RequestMapping(value = "reviewerList", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> reviewerList() {
+        List<OsAdmin> osAdminList = iAdminService.listReviewer();
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("success", true);
+        map.put("data", osAdminList);
+        return map;
     }
 }

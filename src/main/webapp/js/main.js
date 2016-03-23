@@ -64,8 +64,8 @@ doc.docInfo.submitDoc = function () {
 		var fileSuffix = $(this).val().split('.').pop();
 		if (fileSuffix != "pdf") {
 			$(this).get(0).setCustomValidity("文件的格式不符合");
-		} else if (fileSize > 10) {
-			$(this).get(0).setCustomValidity("文件的大小超过了10M");
+		} else if (fileSize > 100 * 1024 * 1024) {
+			$(this).get(0).setCustomValidity("文件的大小超过了100M");
 		} else {
 			$(this).get(0).setCustomValidity("");
 		}
@@ -74,15 +74,22 @@ doc.docInfo.submitDoc = function () {
 	$('#submitDoc_addAuthorBtn').on('click', function () {
 		var index = $('.submitDoc_authorBody').size() + 1;
 		$('.submitDoc_authorBody:eq(0)').clone(true).
-		find('.submitDoc_authorTable_title').html('<h3>第' + index + '作者</h3><a href="javascript:;">删除</a>').end().
-		find('input').val('').end().
+		find('.submitDoc_authorTable_title').html('<h3>第' + index + '作者</h3><a href="javascript:;">删除</a>').end().find('input').val('').each(function (i, value) {
+			value.name = 'authorDomainList[' + (index - 1 ) + '].' + value.name.split('.').pop();
+			console.log(value.name);
+		}).end().
 		appendTo($('.submitDoc_authorTable'));
 	});
 
 	$('.submitDoc_authorTable_title').delegate('a', 'click', function () {
 		$(this).parents('.submitDoc_authorBody').remove();
 		$('.submitDoc_authorBody').each(function (i) {
-			$(this).find('.submitDoc_authorTable_title h3').html('第' + (i + 1) + "作者");
+			$(this).find('.submitDoc_authorTable_title h3').html('第' + (i + 1) + "作者").end().find('input').each(function (j, value) {
+				if (i) {
+					value.name = 'authorDomainList[' + i + '].' + value.name.split('.').pop();
+				}
+			});
+
 		});
 	});
 }

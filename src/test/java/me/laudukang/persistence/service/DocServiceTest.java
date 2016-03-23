@@ -21,9 +21,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 /**
  * <p>Created with IDEA
@@ -75,24 +73,28 @@ public class DocServiceTest {
 
     @Test
     public void updateById() {
-        OsDoc osDoc = new OsDoc();
-        osDoc.setZhTitle("title_" + sdf.format(new Date()));
-        osDoc.setEnTitle("Entitle_" + sdf.format(new Date()));
-        osDoc.setId(7);
+        OsDoc osDoc = iDocService.findOne(12);
+        List<OsAuthor> tmp = osDoc.getOsAuthors();
+        for (OsAuthor t : tmp) {
+            t.setOsDoc(null);
+        }
 
         OsAuthor osAuthor = new OsAuthor();
-        osAuthor.setCity("gd gd");
-        osAuthor.setId(3);
+        osAuthor.setCity("gd");
         osAuthor.setRemark("remark_" + sdf.format(new Date()));
+        osAuthor.setOsDoc(osDoc);
 
         OsAuthor osAuthor2 = new OsAuthor();
-        osAuthor2.setId(4);
-        osAuthor2.setCity("gd gd");
+        osAuthor2.setCity("gd");
         osAuthor2.setRemark("remark_" + sdf.format(new Date()));
+        osAuthor2.setOsDoc(osDoc);
 
-        osDoc.addOsAuthor(osAuthor);
-        osDoc.addOsAuthor(osAuthor2);
-        iDocService.updateById(osDoc);
+        List<OsAuthor> osAuthorList = new ArrayList<>();
+        osAuthorList.add(osAuthor);
+        osAuthorList.add(osAuthor2);
+        osDoc.setOsAuthors(osAuthorList);
+
+        iDocService.update(osDoc, tmp);
 
     }
 
@@ -105,7 +107,7 @@ public class DocServiceTest {
     public void findAllByPage() {
         Calendar fromTime = new GregorianCalendar(2016, 1, 1);
         Calendar toTime = new GregorianCalendar(2016, 3, 19);
-        Page<OsDoc> tmp = iDocService.findAll("%title%", fromTime.getTime(), toTime.getTime(), pageable);
+        Page<OsDoc> tmp = iDocService.findAll("title", fromTime.getTime(), toTime.getTime(), pageable);
         System.out.println(tmp.getContent().size());
     }
 
@@ -117,13 +119,14 @@ public class DocServiceTest {
         docDomain.setSortDir("ASC");
         docDomain.setPage(1);
         docDomain.setPageSize(10);
-        //docDomain.setZhTitle("%title_201%");
+        docDomain.setZhTitle("12");
         docDomain.setAdminid(1);
         docDomain.setUserid(1);
-        docDomain.setFromTime("2016-03-01");
-        docDomain.setToTime("2016-03-24");
+//        docDomain.setFromTime("2016-03-01");
+//        docDomain.setToTime("2016-03-24");
         Page<OsDoc> tmp = iDocService.findAllByUserId(docDomain);
         System.out.println(tmp.getContent().size());
+        System.out.println(tmp.getContent().get(0).getZhTitle());
     }
 
     @Test
@@ -134,7 +137,7 @@ public class DocServiceTest {
         docDomain.setSortDir("ASC");
         docDomain.setPage(1);
         docDomain.setPageSize(10);
-        //docDomain.setZhTitle("%title_2015%");
+        //docDomain.setZhTitle("title_2015");
         docDomain.setZhKeyword("11;22;33;44;55");
         docDomain.setAdminid(1);
         docDomain.setUserid(1);

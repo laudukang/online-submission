@@ -3,8 +3,6 @@ package me.laudukang.persistence.service;
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
-import me.laudukang.spring.config.AsyncConfig;
-import me.laudukang.spring.config.PersistenceJPAConfig;
 import me.laudukang.spring.domain.AdminDomain;
 import org.junit.After;
 import org.junit.Before;
@@ -32,12 +30,12 @@ import java.util.Date;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class AdminServiceTest {
     @Autowired
-    private IAdminService adminService;
+    private IAdminService iAdminService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -65,32 +63,32 @@ public class AdminServiceTest {
         OsAdmin osAdmin = new OsAdmin();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         osAdmin.setAccount("lau_" + sdf.format(new Date()));
-        adminService.save(osAdmin);
+        iAdminService.save(osAdmin);
     }
 
     @Test
     public void updatePassword() {
-        adminService.updatePassword(18, "666");
-        adminService.updatePassword(1, "666");
+        iAdminService.updatePassword(18, "666");
+        iAdminService.updatePassword(1, "666");
     }
 
     @Test
     public void updateById() {
-        OsAdmin osAdmin = new OsAdmin();
-        osAdmin.setId(2);
-        osAdmin.setRemark("remark_" + System.currentTimeMillis());
-        osAdmin.setBirth(new java.sql.Date(new Date().getTime()));
-        adminService.updateById(osAdmin);
+        AdminDomain adminDomain = new AdminDomain();
+        adminDomain.setId(2);
+        adminDomain.setRemark("remark_" + System.currentTimeMillis());
+        adminDomain.setBirth(new java.sql.Date(new Date().getTime()));
+        iAdminService.updateById(adminDomain);
     }
 
     @Test
     public void deleteById() {
-        adminService.deleteById(16);
+        iAdminService.deleteById(16);
     }
 
     @Test
     public void findAllByPage() {
-        //Page<OsAdmin> osAdminPage = adminService.findAll("%lau%", "%lau%", pageable);
+        //Page<OsAdmin> osAdminPage = iAdminService.findAll("%lau%", "%lau%", pageable);
         AdminDomain adminDomain = new AdminDomain();
         adminDomain.setAccount("%lau%");
         adminDomain.setName("%lau%");
@@ -98,7 +96,7 @@ public class AdminServiceTest {
         adminDomain.setPageSize(2);
         adminDomain.setSortCol("id");
         adminDomain.setSortDir("ASC");
-        Page<OsAdmin> osAdminPage = adminService.findAll(adminDomain);
+        Page<OsAdmin> osAdminPage = iAdminService.findAll(adminDomain);
         int size = osAdminPage.getContent().size();
         System.out.println(size);
         if (size > 0)
@@ -110,13 +108,13 @@ public class AdminServiceTest {
 
     @Test
     public void login() {
-        OsAdmin result = adminService.login("lau_2016-02-10 20:03:19", "1234");
+        OsAdmin result = iAdminService.login("lau_2016-02-10 20:03:19", "1234");
         System.out.println(result.getAccount());
     }
 
     @Test
     public void ableAdmin() {
-        System.out.println(adminService.ableAdmin(1, 0));
+        System.out.println(iAdminService.ableAdmin(1, 0));
     }
 
     @Test
@@ -128,7 +126,7 @@ public class AdminServiceTest {
         adminDomain.setPageSize(10);
         adminDomain.setSortCol("id");
         adminDomain.setSortDir("ASC");
-        Page<OsAdmin> osAdminPage = adminService.findAllReviewer(adminDomain);
+        Page<OsAdmin> osAdminPage = iAdminService.findAllReviewer(adminDomain);
         int size = osAdminPage.getContent().size();
         System.out.println(size);
     }

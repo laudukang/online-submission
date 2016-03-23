@@ -12,7 +12,7 @@
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container resetPassword" action="#" method="post">
+    <form class="user_container resetPassword" action="resetPassword" method="post">
         <ul class="user_content">
             <li class="resetPassword_item">
                 <h2 class="resetPassword_title">重置密码</h2>
@@ -28,7 +28,7 @@
             </li>
             <li class="resetPassword_item">
                 <input type="submit" class="doc_btn doc_btn_Blue" value="重置"/>
-                <span class="user_remind remind">重置密码失败</span>
+                <span class="user_remind remind">${msg}</span>
             </li>
         </ul>
     </form>
@@ -47,6 +47,12 @@
         $('#password1').val($.md5($('#password1').val()));
         $('#password2').val($.md5($('#password2').val()));
     });
+
+    //    doc.tool.success(window.location.search,function(){
+    //    },function(msg){
+    //        $('.user_remind').html(msg);
+    //    });
+
 </script>
 </body>
 </html>

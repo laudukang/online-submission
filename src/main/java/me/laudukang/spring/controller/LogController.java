@@ -25,7 +25,7 @@ public class LogController {
     @Autowired
     private ILogService iLogService;
 
-    @RequestMapping(value = "deleteLog", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteLog", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> delete(@RequestParam("id") int id) {
         iLogService.deleteById(id);

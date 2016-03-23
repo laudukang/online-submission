@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,18 +64,25 @@ public class MessageController {
         return MapUtil.getDeleteMap();
     }
 
-    @RequestMapping(value = "userMessages", method = RequestMethod.GET)
-    public String findMessageByUserId(Model model, HttpSession session) {
+    @RequestMapping(value = "userMessages", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> findMessageByUserId(Model model, HttpSession session) {
+        Map<String, Object> map = new HashMap<>(2);
         String str;
         if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(str)) {
             List<MessageDomain> osMessageList = iMessageService.findAllByUserId(Integer.valueOf(str));
-            model.addAttribute("osMessageList", osMessageList);
-            model.addAttribute("success", true);
+            map.put("success", true);
+            map.put("data", osMessageList);
         } else {
-            model.addAttribute("success", false);
-            model.addAttribute("msg", "非法操作");
+            map.put("success", true);
+            map.put("msg", "非法操作");
         }
-        return "";
+        return map;
+    }
+
+    @RequestMapping(value = "userMessages", method = RequestMethod.GET)
+    public String findMessageByUserIdPage(Model model, HttpSession session) {
+        return "message";
     }
 
     @RequestMapping(value = "adminMessages", method = RequestMethod.GET)

@@ -12,18 +12,18 @@
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container register" action="#" method="post">
+    <form class="user_container register" action="register" method="post">
         <ul class="user_content">
             <li class="register_item">
                 <h2 class="register_title">用户注册</h2>
-                <a class="register_item_rightBtn" href="login.html">登录</a>
+                <a class="register_item_rightBtn" href="login">登录</a>
             </li>
             <li class="register_item">
-                <input type="text" name="mail" class="doc_text doc_text_Large" placeholder="请输入有效邮箱" required
+                <input type="text" name="account" class="doc_text doc_text_Large" placeholder="请输入有效邮箱" required
                        pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"/>
             </li>
             <li class="register_item">
-                <input type="password" id="password1" name="password1" class="doc_text doc_text_Large"
+                <input type="password" id="password1" name="password" class="doc_text doc_text_Large"
                        placeholder="密码(6到16位有效字符)" required pattern="[\w]{6,16}"/>
             </li>
             <li class="register_item">
@@ -32,7 +32,7 @@
             </li>
             <li class="register_item">
                 <input type="submit" class="doc_btn doc_btn_Blue" value="注册"/>
-                <span class="user_remind remind">${该邮箱已被注册}</span>
+                <span class="user_remind remind">${requestScope['org.springframework.validation.BindingResult.userDomain'].getFieldError('account').getDefaultMessage()}</span>
             </li>
         </ul>
     </form>

@@ -29,7 +29,7 @@
             <div class="frame_main_nav_title_Bg"></div>
         </div>
         <ul class="frame_main_nav_list">
-            <li><a href="#">系统信息</a></li>
+            <li><a href="userMessages">系统信息</a></li>
         </ul>
     </div>
 </div>

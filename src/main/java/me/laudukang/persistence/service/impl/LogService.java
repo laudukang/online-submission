@@ -18,7 +18,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.Future;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
@@ -34,9 +33,10 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 @Transactional
 public class LogService extends CustomPageService<OsLog> implements ILogService {
 
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-    final DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-
+    @Autowired
+    SimpleDateFormat simpleDateFormat;
+    @Autowired
+    DateFormat dateFormat;
     @Autowired
     private LogRepository logRepository;
 
@@ -93,7 +93,7 @@ public class LogService extends CustomPageService<OsLog> implements ILogService 
                 predicate.getExpressions().add(cb.like(root.get("content").as(String.class), logDomain.getContent().trim()));
             if (!isNullOrEmpty(logDomain.getFromTime()) && !isNullOrEmpty(logDomain.getToTime())) {
                 try {
-                    predicate.getExpressions().add(cb.between(root.get("time"), new Date(df.parse(logDomain.getFromTime()).getTime()), new Date(df.parse(logDomain.getToTime()).getTime())));
+                    predicate.getExpressions().add(cb.between(root.get("time"), new Date(dateFormat.parse(logDomain.getFromTime()).getTime()), new Date(dateFormat.parse(logDomain.getToTime()).getTime())));
 
                 } catch (ParseException e) {
                     e.printStackTrace();

@@ -2,7 +2,6 @@ package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -40,15 +39,15 @@ public class OsDocAdmin implements Serializable {
     private String propose;
 
     //bi-directional many-to-one association to OsAdmin
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id", nullable = true, insertable = false, updatable = false)
+    @JoinColumn(name = "admin_id", insertable = false, updatable = false)
     private OsAdmin osAdmin;
 
     //bi-directional many-to-one association to OsDoc
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_id", nullable = true, insertable = false, updatable = false)
+    @JoinColumn(name = "doc_id", insertable = false, updatable = false)
     private OsDoc osDoc;
 
     public OsDocAdmin() {

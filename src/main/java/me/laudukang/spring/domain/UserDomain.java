@@ -2,7 +2,6 @@ package me.laudukang.spring.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 public class UserDomain {
     private int id;
-    @NotEmpty
+
     private String account;
     private String address;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -26,7 +25,7 @@ public class UserDomain {
     private String mobilePhone;
     private String name;
     private String officePhone;
-    @NotEmpty
+
     private String password;
     private String postcode;
     private String province;

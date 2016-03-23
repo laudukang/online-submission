@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * <p>Time: 23:37
  * <p>Version: 1.0
  */
-@Repository("docRepository")
+@Repository
 public interface DocRepository extends JpaRepository<OsDoc, Integer>, JpaSpecificationExecutor<OsDoc> {
     //Page<OsDoc> findByOsUserIdEquals(int id, Pageable pageable);
 

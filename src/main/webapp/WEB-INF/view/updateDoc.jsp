@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -13,14 +14,16 @@
     <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
-            稿件中心 &gt; 稿件修改 &gt; ${稿件名}</h2>
+
+            稿件中心 &gt; 稿件修改 &gt; ${osDoc.zhTitle}</h2>
         <div class="frame_main_center">
-            <form action="#" method="post">
+            <form action="updateDoc" method="post" enctype="multipart/form-data">
                 <table class="doc_table submitDoc_authorTable">
+                    <c:forEach items="${osDoc.osAuthors}" var="osAuthor" varStatus="obj">
                     <tbody class="submitDoc_authorBody">
                     <tr>
                         <td class="doc_title submitDoc_authorTable_title" colspan="4">
-                            <h3>第1作者</h3>
+                            <h3>第${obj.count}作者</h3>
                         </td>
                     </tr>
                     <tr>
@@ -28,16 +31,20 @@
                             姓名：
                         </td>
                         <td class="doc_td_Active" style="width: 340px;">
-                            <input type="text" class="doc_text" name="name" value="" required><span
+                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].name"
+                                   value="${osAuthor.name}" required><span
                                 class="doc_table_tip">*</span>
                         </td>
                         <td style="width: 80px;">
                             性别：
                         </td>
                         <td class="doc_td_Active">
-                            <label style="margin-right: 10px;"><input type="radio" name="sex" checked="checked"
+                            <label style="margin-right: 10px;"><input type="radio"
+                                                                      name="authorDomainList[${obj.count-1}].sex" ${osAuthor.sex=="男"?"checked":""}
                                                                       value="男" style="margin-right: 3px">男</label>
-                            <label><input type="radio" name="sex" value="女" style="margin-right: 3px">女</label>
+                            <label><input type="radio"
+                                          name="authorDomainList[${obj.count-1}].sex" ${osAuthor.sex=="女"?"checked":""}
+                                          value="女" style="margin-right: 3px">女</label>
                         </td>
                     </tr>
                     <tr>
@@ -45,13 +52,15 @@
                             出生年月：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="date" class="doc_text" name="birth">
+                            <input type="date" class="doc_text" name="authorDomainList[${obj.count-1}].birth"
+                                   value="${osAuthor.birth}">
                         </td>
                         <td>
                             电子邮箱：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="account" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].account"
+                                   value="${osAuthor.mail}" required
                                    pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"><span
                                 class="doc_table_tip">*</span>
                         </td>
@@ -61,14 +70,16 @@
                             工作电话：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="officePhone" value="" placeholder="如：010-12345678"
+                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].officePhone"
+                                   value="${osAuthor.officePhone}" placeholder="如：010-12345678"
                                    pattern="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$">
                         </td>
                         <td>
                             手机：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="mobilePhone" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].mobilePhone"
+                                   value="${osAuthor.mobilePhone}" required
                                    pattern="^1[3|4|5|8]\d{9}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -77,11 +88,16 @@
                             所在地区：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Small" name="country" required/><span
+                            <input type="text" class="doc_text doc_text_Small"
+                                   name="authorDomainList[${obj.count-1}].country" value="${osAuthor.country}"
+                                   required/><span
                                 style="padding: 0 5px">国</span>
-                            <input type="text" class="doc_text doc_text_Small" name="province" required/><span
+                            <input type="text" class="doc_text doc_text_Small"
+                                   name="authorDomainList[${obj.count-1}].province" value="${osAuthor.province}"
+                                   required/><span
                                 style="padding: 0 5px">省</span>
-                            <input type="text" class="doc_text doc_text_Small" name="city" required/><span
+                            <input type="text" class="doc_text doc_text_Small"
+                                   name="authorDomainList[${obj.count-1}].city" value="${osAuthor.city}" required/><span
                                 style="padding-left:5px;">市</span>
                             <span class="doc_table_tip">*</span>
                         </td>
@@ -89,7 +105,8 @@
                             邮编：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="postcode" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].postcode"
+                                   value="${osAuthor.postcode}" required
                                    pattern="^[1-9]\d{5}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -98,11 +115,13 @@
                             详细地址：
                         </td>
                         <td class="doc_td_Active" colspan="3">
-                            <input type="text" class="doc_text" name="address" value="" style="width: 568px;"
+                            <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].address"
+                                   value="${osAuthor.address}" style="width: 568px;"
                                    required><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
                     </tbody>
+                    </c:forEach>
                 </table>
                 <a href="javascript:;" id="submitDoc_addAuthorBtn"><i class="icon-plus-sign doc_icon"></i>添加更多作者</a>
                 <table class="doc_table submitDoc_docTable">
@@ -113,6 +132,7 @@
                         </td>
                         <td class="doc_title doc_td_Active doc_remind_Blue">
                             (该稿件于2016-03-10 15:30:00投递成功，目前处于【待审阅】状态)
+                            <input type="hidden" name="id" value="${osDoc.id}">
                         </td>
                     </tr>
                     <tr>
@@ -120,7 +140,8 @@
                             中文标题：
                         </td>
                         <td class="doc_td_Active" style="width: 340px;">
-                            <input type="text" class="doc_text doc_text_Big" name="zhTitle" value="" required
+                            <input type="text" class="doc_text doc_text_Big" name="zhTitle" value="${osDoc.zhTitle}"
+                                   required
                                    maxlength="255"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -129,7 +150,8 @@
                             英文标题：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Big" name="enTitle" maxlength="255">
+                            <input type="text" class="doc_text doc_text_Big" name="enTitle" maxlength="255"
+                                   value="${osDoc.enTitle}">
                         </td>
                     </tr>
                     <tr>
@@ -140,7 +162,7 @@
                             <select name="type" class="doc_select" required>
                                 <option value="">请选择</option>
                                 <option value="自由稿件">自由稿件</option>
-                                <option value="特约稿">特约稿</option>
+                                <option value="特约稿" selected>特约稿</option>
                                 <option value="其他">其他</option>
                             </select>
                             <span class="doc_table_tip">*</span>
@@ -199,8 +221,9 @@
                             中文关键字：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Big" name="zhKeyword" value="" required
-                                   placeholder="请以‘；’分隔关键字" maxlength="255"><span class="doc_table_tip">*</span>
+                            <input type="text" class="doc_text doc_text_Big" name="zhKeyword" value="${osDoc.zhKeyword}"
+                                   required
+                                   placeholder="请以‘;’分隔关键字" maxlength="255"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
                     <tr>
@@ -208,7 +231,7 @@
                             英文关键字：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Big" name="enKeyword" value=""
+                            <input type="text" class="doc_text doc_text_Big" name="enKeyword" value="${osDoc.enKeyword}"
                                    placeholder="请以‘；’分隔关键字" maxlength="255">
                         </td>
                     </tr>
@@ -218,7 +241,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <textarea name="zhSummary" class="doc_textarea" style="width: 551px" maxlength="255"
-                                      placeholder="最多输入255个字符"></textarea>
+                                      placeholder="最多输入255个字符">${osDoc.zhSummary}</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -227,7 +250,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <textarea name="enSummary" class="doc_textarea" style="width: 551px" maxlength="255"
-                                      placeholder="最多输入255个字符"></textarea>
+                                      placeholder="最多输入255个字符">${osDoc.enSummary}</textarea>
                         </td>
                     </tr>
                     <tr>
@@ -235,9 +258,8 @@
                             上传附件：
                         </td>
                         <td>
-                            <input type="file" id="submitDoc_updateBtn" value="上传稿件" name="uploadFile" required/>
-                            <span class="doc_table_tip">*</span>
-                            <span class="doc_remind_Blue">(仅支持pdf格式，且大小不超过10M)</span>
+                            <input type="file" id="submitDoc_updateBtn" value="上传稿件" name="uploadFile"/>
+                            <span class="doc_remind_Blue">(仅支持pdf格式，且大小不超过100M)</span>
                         </td>
                     </tr>
                     <tr style="border-bottom: 4px solid #C4D8ED;">

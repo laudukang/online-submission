@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -38,4 +40,7 @@ public interface AdminRepository extends JpaRepository<OsAdmin, Integer>, AdminR
     @Query("update OsAdmin u set u.status=:status where u.id=:id")
     @Modifying
     int ableAdmin(@Param("id") int id, @Param("status") int status);
+
+    @Query("select admin from OsAdmin admin where admin.reviewer='1'")
+    List<OsAdmin> listReviewer();
 }

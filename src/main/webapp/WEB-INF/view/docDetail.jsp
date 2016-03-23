@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -13,7 +14,7 @@
     <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
-            稿件中心 &gt; 稿件查询 &gt; ${稿件名字}</h2>
+            稿件中心 &gt; 稿件查询 &gt; ${osDoc.zhTitle}</h2>
         <div class="frame_main_center">
             <table class="doc_table doc_table_WidthMarginBottom">
                 <thead>
@@ -28,37 +29,27 @@
                     <td class="doc_sec_title">评语</td>
                     <td class="doc_sec_title" style="width: 80px;">建议</td>
                 </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
+                <c:if test="${osDoc.osDocAdmins.size()==0}">
+                    <td colspan="4" style="text-align: center" class="doc_remind_Blue">稿件待审阅</td>
+                </c:if>
+                <c:if test="${osDoc.osDocAdmins.size()!=0}">
+                    <c:forEach items="${osDoc.osDocAdmins}" var="osDocAdmin">
+                        <tr>
+                            <td>${osDocAdmin.reviewTime}</td>
+                            <td>${osDocAdmin.osAdmin.name!=null&&osDocAdmin.osAdmin.name.trim()!=""?osDocAdmin.osAdmin.name:osDocAdmin.osAdmin.account}</td>
+                            <td>${osDocAdmin.reviewResult}</td>
+                            <td>${osDocAdmin.propose}</td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
                 </tbody>
             </table>
             <table class="doc_table doc_table_WidthMarginBottom">
+                <c:forEach items="${osDoc.osAuthors}" var="osAuthor" varStatus="obj">
                 <tbody>
                 <tr>
                     <td class="doc_title submitDoc_authorTable_title" colspan="4">
-                        <h3>第1作者</h3>
+                        <h3>第${obj.count}作者</h3>
                     </td>
                 </tr>
                 <tr>
@@ -66,13 +57,13 @@
                         姓名：
                     </td>
                     <td class="doc_td_Active" style="width: 340px;">
-                        ${name}
+                            ${osAuthor.name}
                     </td>
                     <td style="width: 80px;">
                         性别：
                     </td>
                     <td class="doc_td_Active">
-                        ${sex}
+                            ${osAuthor.sex}
                     </td>
                 </tr>
                 <tr>
@@ -80,13 +71,13 @@
                         出生年月：
                     </td>
                     <td class="doc_td_Active">
-                        ${birth}
+                            ${osAuthor.birth}
                     </td>
                     <td>
                         电子邮箱：
                     </td>
                     <td class="doc_td_Active">
-                        ${account}
+                            ${osAuthor.mail}
                     </td>
                 </tr>
                 <tr>
@@ -94,13 +85,13 @@
                         工作电话：
                     </td>
                     <td class="doc_td_Active">
-                        ${officePhone}
+                            ${osAuthor.officePhone}
                     </td>
                     <td>
                         手机：
                     </td>
                     <td class="doc_td_Active">
-                        ${name}
+                            ${osAuthor.name}
                     </td>
                 </tr>
                 <tr>
@@ -108,13 +99,13 @@
                         所在地区：
                     </td>
                     <td class="doc_td_Active">
-                        ${country}国${province}省${city}市
+                            ${osAuthor.country}国${osAuthor.province}省${osAuthor.city}市
                     </td>
                     <td>
                         邮编：
                     </td>
                     <td class="doc_td_Active">
-                        ${postcode}
+                            ${osAuthor.postcode}
                     </td>
                 </tr>
                 <tr>
@@ -122,10 +113,11 @@
                         详细地址：
                     </td>
                     <td class="doc_td_Active" colspan="3">
-                        ${address}
+                            ${osAuthor.address}
                     </td>
                 </tr>
                 </tbody>
+                </c:forEach>
             </table>
             <table class="doc_table doc_table_WidthMarginBottom">
                 <tbody>
@@ -134,8 +126,11 @@
                         稿件信息：
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
-                        (该稿件于${postTime}投递成功，目前处于【${status}】状态)<a class="doc_btn" href="updateDoc.html"
-                                                                  style="float:right;margin-right: 10px">修改</a>
+                        该稿件于${osDoc.postTime}投递成功，目前处于【${osDoc.status}】状态
+                        <c:if test="${osDoc.status=='待审阅'}">
+                            <a class="doc_btn" href="updateDoc?id=${osDoc.id}"
+                               style="float:right;margin-right: 10px">修改</a>
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
@@ -143,7 +138,7 @@
                         中文标题：
                     </td>
                     <td class="doc_td_Active" style="width: 340px;">
-                        ${zhTitle}
+                        ${osDoc.zhTitle}
                     </td>
                 </tr>
                 <tr>
@@ -151,7 +146,7 @@
                         英文标题：
                     </td>
                     <td class="doc_td_Active">
-                        ${enTitle}
+                        ${osDoc.enTitle}
                     </td>
                 </tr>
                 <tr>
@@ -159,7 +154,7 @@
                         投稿类型：
                     </td>
                     <td class="doc_td_Active">
-                        ${type}
+                        ${osDoc.type}
                     </td>
                 </tr>
                 <tr>
@@ -167,7 +162,7 @@
                         稿件类别：
                     </td>
                     <td class="doc_td_Active">
-                        ${classification}
+                        ${osDoc.classification}
                     </td>
                 </tr>
                 <tr>
@@ -175,7 +170,7 @@
                         中文关键字：
                     </td>
                     <td class="doc_td_Active">
-                        ${zhKeyword}
+                        ${osDoc.zhKeyword}
                     </td>
                 </tr>
                 <tr>
@@ -183,7 +178,7 @@
                         英文关键字：
                     </td>
                     <td class="doc_td_Active">
-                        ${enKeyword}
+                        ${osDoc.enKeyword}
                     </td>
                 </tr>
                 <tr>
@@ -191,7 +186,7 @@
                         中文摘要：
                     </td>
                     <td class="doc_td_Active">
-                        ${zhSummary}
+                        ${osDoc.zhSummary}
                     </td>
                 </tr>
                 <tr style="border-bottom: 4px solid #C4D8ED;">
@@ -199,7 +194,7 @@
                         英文摘要：
                     </td>
                     <td class="doc_td_Active">
-                        ${enSummary}
+                        ${osDoc.enSummary}
                     </td>
                 </tr>
                 </tbody>
@@ -214,7 +209,7 @@
 <script src="js/main.js"></script>
 <script>
     $(function () {
-        var pdfObject = new PDFObject({url: "/OnlineSubmission/update/test.pdf"}).embed("pdf");
+        var pdfObject = new PDFObject({url: "/upload/" + "${osDoc.path}"}).embed("pdf");
     });
 </script>
 </body>

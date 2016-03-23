@@ -3,13 +3,13 @@ package me.laudukang.persistence.service;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
-import me.laudukang.spring.config.AsyncConfig;
-import me.laudukang.spring.config.PersistenceJPAConfig;
+import me.laudukang.spring.domain.UserDomain;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -30,12 +30,12 @@ import java.util.Date;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Transactional
 @Rollback(false)
 public class UserServiceTest {
     @Autowired
-    private IUserService userService;
+    private IUserService iUserService;
     private PrintUtil printUtil;
     private Pageable pageable;
     private SimpleDateFormat sdf;
@@ -63,26 +63,26 @@ public class UserServiceTest {
         OsUser osUser = new OsUser();
         osUser.setAccount("account_" + sdf.format(new Date()));
         osUser.setPassword("123");
-        userService.save(osUser);
+        iUserService.save(osUser);
     }
 
     @Test
     public void updateById() {
-        OsUser osUser = new OsUser();
-        osUser.setId(4);
-        osUser.setName("update_" + sdf.format(new Date()));
-        osUser.setPassword("123");
-        userService.updateById(osUser);
+        UserDomain userDomain = new UserDomain();
+        userDomain.setId(4);
+        userDomain.setName("update_" + sdf.format(new Date()));
+        userDomain.setPassword("123");
+        iUserService.updateById(userDomain);
     }
 
     @Test
     public void deleteById() {
-        userService.deleteById(3);
+        iUserService.deleteById(3);
     }
 
     @Test
     public void findOne() {
-        OsUser osUser = userService.findOne(1);
+        OsUser osUser = iUserService.findOne(1);
         try {
             com.google.common.base.Preconditions.checkNotNull(osUser, "Warning:user is null");
             System.out.println("user.name=" + osUser.getName());
@@ -93,8 +93,20 @@ public class UserServiceTest {
 
     @Test
     public void login() {
-        OsUser result = userService.login("lau", "123");
+        OsUser result = iUserService.login("lau", "123");
         System.out.println(result.getAccount());
     }
 
+    @Test
+    public void findAll() {
+        UserDomain userDomain = new UserDomain();
+        userDomain.setAccount("lau");
+        userDomain.setName("lau");
+        userDomain.setSortCol("id");
+        userDomain.setSortDir("ASC");
+        userDomain.setPage(1);
+        userDomain.setPageSize(10);
+        Page<OsUser> page = iUserService.findAll(userDomain);
+        System.out.println(page.getContent().size());
+    }
 }

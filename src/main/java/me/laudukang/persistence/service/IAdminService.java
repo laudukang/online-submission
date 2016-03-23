@@ -4,6 +4,8 @@ import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.spring.domain.AdminDomain;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -24,6 +26,8 @@ public interface IAdminService {
     Page<OsAdmin> findAll(AdminDomain adminDomain);
 
     Page<OsAdmin> findAllReviewer(AdminDomain adminDomain);
+
+    List<OsAdmin> listReviewer();
 
     boolean existAccount(String account);
 

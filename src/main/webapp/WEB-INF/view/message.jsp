@@ -38,8 +38,7 @@
         doc.message.dataTable = $('#messageTable').dataTable({
             "bServerSide": false,  //启动服务端分页、排序，搜索等功能
             "paging": false,
-            "sAjaxSource": 'message.json',  //ajax请求路径
-            "aaSorting": [[1, 'desc']],  //初始化时默认的排序字段
+            "sAjaxSource": 'userMessages',  //ajax请求路径
             //修改参数
             "fnServerParams": function (aoData) {
             },
@@ -47,7 +46,7 @@
             //格式化列
             "aoColumns": [
                 {"mData": "id", "bSortable": false},
-                {"mData": "postTime"},
+                {"mData": "postTime", "bSortable": false},
                 {"mData": "title", "bSortable": false},
                 {"mData": "content", "bSortable": false}
             ],

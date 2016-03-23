@@ -1,5 +1,6 @@
 package me.laudukang.spring.controller;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IUserService;
 import me.laudukang.spring.domain.LoginDomain;
@@ -16,11 +17,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,7 +43,10 @@ public class UserController implements ApplicationContextAware {
 
     @Autowired
     private IUserService iUserService;
+    @Autowired
+    SimpleDateFormat simpleDateFormat;
     private ApplicationContext applicationContext;
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -50,42 +56,42 @@ public class UserController implements ApplicationContextAware {
     @RequestMapping(value = {"/", "login"}, method = RequestMethod.GET)
     public String loginPage(Model model) {
         model.addAttribute("loginDomain", new LoginDomain());
-        return "";
+        return "login";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "";
+            return "login";
         }
         OsUser tmp = iUserService.login(loginDomain.getAccount(), loginDomain.getPassword());
         if (null != tmp) {
             session.setAttribute("userid", tmp.getId()); //user.id,user.account,user.name
             session.setAttribute("account", tmp.getAccount());
             session.setAttribute("name", null != tmp.getName() ? tmp.getName() : tmp.getAccount());
-            return "redirect:";
+            return "redirect:docs";
         }
         bindingResult.rejectValue("account", "", "账号或密码不正确");
         model.addAttribute("success", false);
         model.addAttribute("msg", "账号或密码不正确");
-        return "";
+        return "login";
     }
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.GET)
     public String updatePasswordPage(Model model) {
         model.addAttribute("passwordDomain", new PasswordDomain());
-        return "index";
+        return "updatePassword";
     }
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
     public String updatePassword(@ModelAttribute @Valid PasswordDomain passwordDomain, BindingResult bindingResult, HttpSession session, Model model) {
         if (bindingResult.hasErrors()) {
-            return "";
+            return "updatePassword";
         }
         boolean isSame = passwordDomain.getNewPassword1().equals(passwordDomain.getNewPassword2());
         if (!isSame) {
             bindingResult.rejectValue("newPassword1", "", "新密码前后输入不一致");
-            return "";
+            return "updatePassword";
         }
         int tmp = 0;
         int id = Integer.valueOf(String.valueOf(session.getAttribute("userid")));
@@ -96,7 +102,7 @@ public class UserController implements ApplicationContextAware {
         bindingResult.rejectValue("password", "", 1 == tmp ? "成功修改密码" : "原密码密码输入不对");
         model.addAttribute("success", 1 == tmp);
         model.addAttribute("msg", 1 == tmp ? "成功修改密码" : "原密码输入错误");
-        return "";
+        return "redirect:updatePassword";
     }
 
     @RequestMapping(value = "userInfo", method = RequestMethod.GET)
@@ -125,7 +131,7 @@ public class UserController implements ApplicationContextAware {
             model.addAttribute("userDomain", userDomain);
             return "account";
         }
-        return "redirect:/login";
+        return "redirect:login";
     }
 
 //    @RequestMapping(value = "updateUserInfo", method = RequestMethod.GET)
@@ -137,7 +143,15 @@ public class UserController implements ApplicationContextAware {
     @RequestMapping(value = "userInfo", method = RequestMethod.POST)
     public String updateUserInfo(@ModelAttribute @Valid UserDomain userDomain, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "";
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                System.out.println(error.getObjectName() + " : "
+                        + error.getField() + " " + error.getDefaultMessage());
+            }
+            return "account";
+        }
+        if (isNullOrEmpty(userDomain.getName())) {
+            bindingResult.rejectValue("name", "", "姓名不能为空");
+            return "account";
         }
         String str;
         int id;
@@ -157,17 +171,29 @@ public class UserController implements ApplicationContextAware {
     @RequestMapping(value = "register", method = RequestMethod.GET)
     public String newUserPage(Model model) {
         model.addAttribute("userDomain", new UserDomain());
-        return "";
+        return "register";
     }
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public String newUser(@ModelAttribute @Valid UserDomain userDomain, BindingResult bindingResult, Model model, HttpServletRequest request, HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "";
+            return "register";
+        }
+        if (isNullOrEmpty(userDomain.getAccount())) {
+            bindingResult.rejectValue("account", "", "账号不能为空");
+            return "register";
+        }
+        if (!isEmail(userDomain.getAccount())) {
+            bindingResult.rejectValue("account", "", "邮箱格式不正确");
+            return "register";
+        }
+        if (isNullOrEmpty(userDomain.getPassword())) {
+            bindingResult.rejectValue("password", "", "密码不能为空");
+            return "register";
         }
         if (iUserService.existAccount(userDomain.getAccount())) {
             bindingResult.rejectValue("account", "", "改邮箱账号已经存在");
-            return "";
+            return "register";
         }
         OsUser osUser = new OsUser();
         osUser.setAccount(userDomain.getAccount());
@@ -190,7 +216,7 @@ public class UserController implements ApplicationContextAware {
         model.addAttribute("msg", "保存成功");
 
         //发送注册邮件
-        StringBuffer sb = new StringBuffer(
+        StringBuilder sb = new StringBuilder(
                 "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
                 .append(userDomain.getAccount())
                 .append(",您好</br>感谢使用网络投稿系统</br>")
@@ -204,8 +230,9 @@ public class UserController implements ApplicationContextAware {
                 .append("/?time=")
                 .append(new Date().getTime())
                 .append("\">")
-                .append("点击这里登录")
-                .append("</a></br></body></html>");
+                .append("点击这里登录系统</a></br>")
+                .append(simpleDateFormat.format(new Date()))
+                .append("</br>系统自动发送邮件，请勿回复</body></html>");
         EmailEvent emailEvent = new EmailEvent(this, userDomain.getAccount(), "注册成功-网络投稿系统服务邮件", sb.toString());
         applicationContext.publishEvent(emailEvent);
 
@@ -236,14 +263,20 @@ public class UserController implements ApplicationContextAware {
         return MapUtil.getDeleteMap();
     }
 
+    @RequestMapping(value = "resetRequest", method = RequestMethod.GET)
+    public String resetRequestPage(Model model) {
+        model.addAttribute("userDomain", new UserDomain());
+        return "forgivePassword";
+    }
+
     @RequestMapping(value = "resetRequest", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> resetRequest(@RequestParam("account") String account, HttpServletRequest request) {
+    public String resetRequest(@ModelAttribute UserDomain userDomain, BindingResult bindingResult, HttpServletRequest request, Model model) {
+        String account = userDomain.getAccount();
         OsUser osUser = iUserService.findByAccount(account);
         if (null != osUser) {
             osUser.setStatus("resetting");
             iUserService.save(osUser);
-            StringBuffer sb = new StringBuffer(
+            StringBuilder sb = new StringBuilder(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
                     .append(!isNullOrEmpty(osUser.getName()) ? osUser.getName() : osUser.getAccount())
                     .append(",您好</br><b>温馨提示</b>：重置密码链接只能使用一次，24小时内有效</br>")
@@ -260,22 +293,25 @@ public class UserController implements ApplicationContextAware {
                     .append("&time=")
                     .append(new Date().getTime())
                     .append("\">")
-                    .append("点击这里进入重置密码页面,如非本人操作请忽略")
-                    .append("</a></body></html>");
+                    .append("点击这里进入重置密码页面,如非本人操作请忽略</a></br>")
+                    .append(simpleDateFormat.format(new Date()))
+                    .append("</br>系统自动发送邮件，请勿回复</body></html>");
 
             EmailEvent emailEvent = new EmailEvent(this, account, "重置密码申请-网络投稿系统服务邮件", sb.toString());
             applicationContext.publishEvent(emailEvent);
-            return MapUtil.getUserPasswordResetRequstSuccessMap();
+            bindingResult.rejectValue("account", "", "邮件已发送");
+            return "forgivePassword";
         }
-        return MapUtil.getUserPasswordResetRequstFailMap();
+        bindingResult.rejectValue("account", "", "该邮箱未按注册，请确认");
+        return "forgivePassword";
     }
 
     @RequestMapping(value = "resetPassword", method = RequestMethod.GET)
     public String resetPasswordPage(@RequestParam("account") String account, @RequestParam("time") String time, HttpSession session, Model model) {
         if (NumberUtils.isNumber(time)) {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(Integer.valueOf(time) + 24 * 60 * 60 * 1000);
-            if (calendar.getTime().before(new Date()) && !isNullOrEmpty(account)) {
+            calendar.setTimeInMillis(Long.valueOf(time) + 24 * 60 * 60 * 1000);
+            if (calendar.getTime().after(new Date()) && !isNullOrEmpty(account)) {
                 session.setAttribute("accountTmp", account);
                 return "resetPassword";//返回重置密码页面
             }
@@ -290,7 +326,7 @@ public class UserController implements ApplicationContextAware {
         String account = null != session.getAttribute("accountTmp") ? String.valueOf(session.getAttribute("accountTmp")) : "";
         if (!isNullOrEmpty(account)) {
             OsUser osUser = iUserService.findByAccount(account);
-            if ("resetting".equals(osUser.getStatus())) {
+            if (null != osUser && "resetting".equals(osUser.getStatus())) {
                 osUser.setPassword(password);
                 osUser.setStatus("normal");
                 iUserService.save(osUser);
@@ -302,7 +338,7 @@ public class UserController implements ApplicationContextAware {
         }
         model.addAttribute("success", false);
         model.addAttribute("msg", "非法操作");
-        return "redirect:login";
+        return "resetPassword";
     }
 
     @RequestMapping(value = "logout")
@@ -318,4 +354,10 @@ public class UserController implements ApplicationContextAware {
         ex.printStackTrace();
     }
 
+    // email规则
+    private static final String EMAIL = "^[a-zA-Z0-9]+([_.]?[a-zA-Z0-9])*@([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]{2,3}$";
+
+    private boolean isEmail(String email) {
+        return !Strings.isNullOrEmpty(email) && email.matches(EMAIL);
+    }
 }

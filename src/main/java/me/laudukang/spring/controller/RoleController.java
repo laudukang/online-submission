@@ -44,6 +44,9 @@ public class RoleController {
 
     @RequestMapping(value = "updateRole", method = RequestMethod.POST)
     public String update(@ModelAttribute RoleDomain roleDomain, BindingResult bindingResult, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "";
+        }
         iRoleService.updateById(roleDomain, roleDomain.getOsPermissions());
         return "redirect:roles";
     }

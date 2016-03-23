@@ -29,7 +29,7 @@
                         <td class="doc_td_Active">
                             <input type="password" class="doc_text doc_text_Big" id="password" name="password" required
                                    placeholder="请输入6-16位有效字符" pattern="^[\w]{6,16}$" maxlength="16"><span
-                                class="doc_table_tip">*</span>
+                                class="doc_table_tip">*${requestScope['org.springframework.validation.BindingResult.passwordDomain'].getFieldError('password').getDefaultMessage()}</span>
                         </td>
                     </tr>
                     <tr>
@@ -39,7 +39,7 @@
                         <td class="doc_td_Active">
                             <input type="password" class="doc_text doc_text_Big" name="newPassword1" id="newPassword1"
                                    required placeholder="请输入6-16位有效字符" pattern="^[\w]{6,16}$" maxlength="16"><span
-                                class="doc_table_tip">*</span>
+                                class="doc_table_tip">*${requestScope['org.springframework.validation.BindingResult.passwordDomain'].getFieldError('newPassword1').getDefaultMessage()}</span>
                         </td>
                     </tr>
                     <tr>
@@ -49,7 +49,7 @@
                         <td class="doc_td_Active">
                             <input type="password" class="doc_text doc_text_Big" name="newPassword2" id="newPassword2"
                                    required placeholder="请确认密码" pattern="^[\w]{6,16}$" maxlength="16"><span
-                                class="doc_table_tip">*</span>
+                                class="doc_table_tip">*${requestScope['org.springframework.validation.BindingResult.passwordDomain'].getFieldError('newPassword2').getDefaultMessage()}</span>
                         </td>
                     </tr>
                     <tr style="border-bottom: 4px solid #C4D8ED;">

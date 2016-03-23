@@ -1,8 +1,6 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.spring.config.ApplicationConfig;
-import me.laudukang.spring.config.AsyncConfig;
-import me.laudukang.spring.config.PersistenceJPAConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +17,15 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
  * <p>Version: 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class, PersistenceJPAConfig.class, AsyncConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {ApplicationConfig.class}, loader = AnnotationConfigContextLoader.class)
 @Rollback(false)
 public class CustomEmailServiceTest {
     @Autowired
-    private ICustomEmailService customEmailService;
+    private ICustomEmailService iCustomEmailService;
 
     @Test
     public void sendMail() {
-        customEmailService.send("751611201@qq.com", "subject 751611201", "hello laudukang");
+        iCustomEmailService.send("751611201@qq.com", "subject 751611201", "hello laudukang");
     }
 
 }

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -26,8 +28,10 @@ public class CustomPageService<T> implements ICustomPageService {
     public Specification<T> getSpecification(String account, String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            predicate.getExpressions().add(cb.like(root.get("account").as(String.class), account));
-            predicate.getExpressions().add(cb.like(root.get("name").as(String.class), name));
+            if (!isNullOrEmpty(account))
+                predicate.getExpressions().add(cb.like(root.get("account").as(String.class), "%" + account.trim() + "%"));
+            if (!isNullOrEmpty(name))
+                predicate.getExpressions().add(cb.like(root.get("name").as(String.class), "%" + name.trim() + "%"));
             return predicate;
         };
     }

@@ -15,7 +15,7 @@
         <h2 class="frame_main_content_path">
             稿件中心 &gt; 我要投稿</h2>
         <div class="frame_main_center">
-            <form action="#" method="post">
+            <form action="newDoc" method="post" ENCTYPE="multipart/form-data">
                 <table class="doc_table submitDoc_authorTable">
                     <tbody class="submitDoc_authorBody">
                     <tr>
@@ -28,16 +28,18 @@
                             姓名：
                         </td>
                         <td class="doc_td_Active" style="width: 340px;">
-                            <input type="text" class="doc_text" name="name" value="" required><span
+                            <input type="text" class="doc_text" name="authorDomainList[0].name" value="" required><span
                                 class="doc_table_tip">*</span>
                         </td>
                         <td style="width: 80px;">
                             性别：
                         </td>
                         <td class="doc_td_Active">
-                            <label style="margin-right: 10px;"><input type="radio" name="sex" checked="checked"
+                            <label style="margin-right: 10px;"><input type="radio" name="authorDomainList[0].sex"
+                                                                      checked="checked"
                                                                       value="男" style="margin-right: 3px">男</label>
-                            <label><input type="radio" name="sex" value="女" style="margin-right: 3px">女</label>
+                            <label><input type="radio" name="authorDomainList[0].sex" value="女"
+                                          style="margin-right: 3px">女</label>
                         </td>
                     </tr>
                     <tr>
@@ -45,13 +47,13 @@
                             出生年月：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="date" class="doc_text" name="birth">
+                            <input type="date" class="doc_text" name="authorDomainList[0].birth">
                         </td>
                         <td>
                             电子邮箱：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="account" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[0].mail" value="" required
                                    pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"><span
                                 class="doc_table_tip">*</span>
                         </td>
@@ -61,14 +63,15 @@
                             工作电话：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="officePhone" value="" placeholder="如：010-12345678"
+                            <input type="text" class="doc_text" name="authorDomainList[0].officePhone" value=""
+                                   placeholder="如：010-12345678"
                                    pattern="^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$">
                         </td>
                         <td>
                             手机：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="mobilePhone" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[0].mobilePhone" value="" required
                                    pattern="^1[3|4|5|8]\d{9}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -77,11 +80,14 @@
                             所在地区：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text doc_text_Small" name="country" required/><span
+                            <input type="text" class="doc_text doc_text_Small" name="authorDomainList[0].country"
+                                   required/><span
                                 style="padding: 0 5px">国</span>
-                            <input type="text" class="doc_text doc_text_Small" name="province" required/><span
+                            <input type="text" class="doc_text doc_text_Small" name="authorDomainList[0].province"
+                                   required/><span
                                 style="padding: 0 5px">省</span>
-                            <input type="text" class="doc_text doc_text_Small" name="city" required/><span
+                            <input type="text" class="doc_text doc_text_Small" name="authorDomainList[0].city"
+                                   required/><span
                                 style="padding-left:5px;">市</span>
                             <span class="doc_table_tip">*</span>
                         </td>
@@ -89,7 +95,7 @@
                             邮编：
                         </td>
                         <td class="doc_td_Active">
-                            <input type="text" class="doc_text" name="postcode" value="" required
+                            <input type="text" class="doc_text" name="authorDomainList[0].postcode" value="" required
                                    pattern="^[1-9]\d{5}$"><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -98,7 +104,8 @@
                             详细地址：
                         </td>
                         <td class="doc_td_Active" colspan="3">
-                            <input type="text" class="doc_text" name="address" value="" style="width: 568px;"
+                            <input type="text" class="doc_text" name="authorDomainList[0].address" value=""
+                                   style="width: 568px;"
                                    required><span class="doc_table_tip">*</span>
                         </td>
                     </tr>
@@ -108,15 +115,12 @@
                 <table class="doc_table submitDoc_docTable">
                     <tbody>
                     <tr>
-                        <td style="width: 80px;" class="doc_title">
+                        <td colspan="2" class="doc_title">
                             稿件信息：
-                        </td>
-                        <td class="doc_title doc_td_Active doc_remind_Blue">
-                            (该稿件于2016-03-10 15:30:00投递成功，目前处于【待审阅】状态)
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style="width: 80px;">
                             中文标题：
                         </td>
                         <td class="doc_td_Active" style="width: 340px;">

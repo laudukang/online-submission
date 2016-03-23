@@ -1,68 +1,35 @@
-package me.laudukang.persistence.model;
+package me.laudukang.spring.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
-
 /**
- * The persistent class for the os_author database table.
+ * <p>Created with IDEA
+ * <p>Author: laudukang
+ * <p>Date: 2016/3/23
+ * <p>Time: 14:18
+ * <p>Version: 1.0
  */
-@Entity
-@Table(name = "os_author", schema = "online_submission")
-@NamedQuery(name = "OsAuthor.findAll", query = "SELECT o FROM OsAuthor o")
-public class OsAuthor implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class AuthorDomain {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String address;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private Date birth;
-
     private String city;
-
     private String country;
-
-    @Column(name = "mobile_phone")
     private String mobilePhone;
-
     private String name;
-
-    @Column(name = "office_phone")
     private String officePhone;
-
     private String postcode;
-
     private String province;
-
     private String remark;
-
-    @Column(name = "sex", nullable = true, length = 2, columnDefinition = "char")
     private String sex;
-
     private String mail;
 
-    //bi-directional many-to-one association to OsDoc
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_id")
-    private OsDoc osDoc;
-
-    public OsAuthor() {
-    }
-
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
@@ -70,7 +37,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
     public void setAddress(String address) {
@@ -78,7 +45,7 @@ public class OsAuthor implements Serializable {
     }
 
     public Date getBirth() {
-        return this.birth;
+        return birth;
     }
 
     public void setBirth(Date birth) {
@@ -86,7 +53,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getCity() {
-        return this.city;
+        return city;
     }
 
     public void setCity(String city) {
@@ -94,7 +61,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getCountry() {
-        return this.country;
+        return country;
     }
 
     public void setCountry(String country) {
@@ -102,7 +69,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getMobilePhone() {
-        return this.mobilePhone;
+        return mobilePhone;
     }
 
     public void setMobilePhone(String mobilePhone) {
@@ -110,7 +77,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -118,7 +85,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getOfficePhone() {
-        return this.officePhone;
+        return officePhone;
     }
 
     public void setOfficePhone(String officePhone) {
@@ -126,7 +93,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getPostcode() {
-        return this.postcode;
+        return postcode;
     }
 
     public void setPostcode(String postcode) {
@@ -134,7 +101,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getProvince() {
-        return this.province;
+        return province;
     }
 
     public void setProvince(String province) {
@@ -142,7 +109,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getRemark() {
-        return this.remark;
+        return remark;
     }
 
     public void setRemark(String remark) {
@@ -150,7 +117,7 @@ public class OsAuthor implements Serializable {
     }
 
     public String getSex() {
-        return this.sex;
+        return sex;
     }
 
     public void setSex(String sex) {
@@ -163,18 +130,5 @@ public class OsAuthor implements Serializable {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public OsDoc getOsDoc() {
-        return this.osDoc;
-    }
-
-    public void setOsDoc(OsDoc osDoc) {
-        this.osDoc = osDoc;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE, true);
     }
 }

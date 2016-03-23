@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -89,6 +90,11 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     @Override
     public Page<OsAdmin> findAllReviewer(AdminDomain adminDomain) {
         return adminRepository.findAll(getReviewerSpecification(adminDomain.getAccount(), adminDomain.getName()), getPageRequest(adminDomain.getPage(), adminDomain.getPageSize(), adminDomain.getSortCol(), adminDomain.getSortDir()));
+    }
+
+    @Override
+    public List<OsAdmin> listReviewer() {
+        return adminRepository.listReviewer();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import me.laudukang.spring.interceptor.LoginInterceptor;
+import me.laudukang.spring.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -63,6 +64,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
         registry.addResourceHandler("/upload/**").addResourceLocations("/upload/");
         registry.addResourceHandler("/font/**").addResourceLocations("/font/");
+        registry.addResourceHandler("/favicon.ico");
     }
 
     /**
@@ -129,6 +131,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         //registry.addInterceptor(new DocUploadInterceptor()).addPathPatterns("/upload");//文件上传拦截器
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 //    @Bean

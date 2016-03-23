@@ -17,10 +17,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!request.getRequestURI().toUpperCase().startsWith("/LOGOUT")
                 && !request.getRequestURI().toUpperCase().startsWith("/ADMIN/LOGOUT")) {
-            request.getSession().setAttribute("userid", 1);
-            request.getSession().setAttribute("adminid", 1);
-            request.getSession().setAttribute("name", "laudukang");
-            request.getSession().setAttribute("account", "751611201@qq.com");
+            //request.getSession().setAttribute("userid", 1);
+            //request.getSession().setAttribute("adminid", 1);
+            //request.getSession().setAttribute("name", "laudukang");
+            //request.getSession().setAttribute("account", "751611201@qq.com");
         }
         return super.preHandle(request, response, handler);
     }
