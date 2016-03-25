@@ -152,6 +152,58 @@ li {
   overflow: auto;
 }
 
+.doc_box {
+  position: absolute;
+  left: 50%;
+  top: 120px;
+  width: 440px;
+  margin-left: -200px;
+  z-index: 1000;
+  background-color: #FFF;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.3);
+}
+
+.doc_box header {
+  height: 30px;
+  line-height: 30px;
+  background-color: #358edd;
+  border-radius: 4px 4px 0 0;
+}
+
+.doc_box header h2 {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 30px;
+  color: #fff;
+  text-align: left;
+  padding-left: 12px;
+}
+
+.doc_box .doc_header_closeBtn {
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.doc_box .doc_header_closeBtn:hover {
+  color: #ff9900;
+}
+
+.doc_box .doc_box_body {
+  padding: 24px 24px 10px;
+  min-height: 80px;
+}
+
+.doc_box .doc_box_footer {
+  text-align: right;
+  padding: 4px 8px;
+  background-color: #F8F8F8;
+  border-top: 1px solid #DCE1E6;
+}
+
 .remindBox_cover, .confirmBox_cover {
   z-index: 500;
 }
@@ -555,6 +607,55 @@ li {
   box-sizing: border-box;
 }
 
+.docInfo_reviewTable_submitBtn {
+  margin: 10px 0 10px 85px;
+  width: 120px;
+  text-align: center;
+}
+
+.docInfo_propose_remind, .reviewResult_remind {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.docInfo_sendDocBox .doc_box_body .doc_icon {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.docInfo_sendDocBox .doc_box_footer a {
+  margin-right: 8px;
+}
+
+.docInfo_sendDocBox_left {
+  float: left;
+  width: 110px;
+}
+
+.docInfo_sendDocBox_right {
+  overflow: hidden;
+}
+
+.docInfo_sendDocBox_item {
+  margin-bottom: 15px;
+}
+
+.docInfo_sendDocBox_item .doc_btn {
+  margin-left: 80px;
+  margin-bottom: 50px;
+}
+
+.docInfo_sendDocBox_item .doc_icon {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.docInfo_sendDocBox_item_title {
+  display: inline-block;
+  line-height: 26px;
+  margin-right: 8px;
+}
+
 .user_header {
   margin-top: 50px;
 }
@@ -634,7 +735,6 @@ li {
 .login_item:nth-child(3) {
   margin-bottom: 30px;
 }
-
 .login_item:nth-child(4) {
   margin-bottom: 10px;
 }
@@ -695,15 +795,12 @@ li {
   margin-bottom: 15px;
   overflow: hidden;
 }
-
 .forgivePassword_item:nth-child(2) {
   margin-bottom: 10px;
 }
-
 .forgivePassword_item:nth-child(4) {
   margin-bottom: 10px;
 }
-
 .forgivePassword_item .forgivePassword_title {
   float: left;
   font-weight: normal;
@@ -723,11 +820,9 @@ li {
   margin-bottom: 15px;
   overflow: hidden;
 }
-
 .resetPassword_item:nth-child(2) {
   margin-bottom: 10px;
 }
-
 .resetPassword_item .resetPassword_title {
   float: left;
   font-weight: normal;

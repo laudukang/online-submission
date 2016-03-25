@@ -45,7 +45,7 @@ doc.docInfo.dataTableEvent = function () {
 //删除稿件
 doc.docInfo.deleteDoc = function (id) {
 	doc.tool.getJSON({
-		url: "data.json",
+		url: "deleteDoc",
 		data: {'id': id},
 		success: function () {
 			doc.docInfo.dataTable.fnDraw(true);
@@ -55,6 +55,123 @@ doc.docInfo.deleteDoc = function (id) {
 		}
 	});
 }
+
+doc.docInfo.sendDoc = function () {
+	var originData = []
+	var selectData = [];
+	var docId = '';
+	doc.docInfo.dataTable.delegate('.icon-signout', 'click', function () {
+		docId = $(this).data('id');
+		doc.tool.getJSON({
+			url: "reviewer.json",
+			success: function (res) {
+				$('#docInfo_sendDocBox_cover').show();
+				var p = 0;
+				while (p < res.data.length) {
+					originData.push(res.data[p++]);
+				}
+				selectData = res.data;
+				var optionHtml = getSelectedContent(res.data);
+				$('.docInfo_sendDocBox_right').append('<div class="docInfo_sendDocBox_item"> <select class="doc_select docInfo_sendDocBox_item_select">' + optionHtml.join('') + ' </select> <i class="doc_icon icon-plus-sign"></i>');
+			},
+			error: {
+				remind: "获取审稿员数据失败"
+			}
+		});
+	});
+
+	$('.doc_header_closeBtn,.docInfo_sendDocBox_cancelBtn').on('click', function () {
+		$('#docInfo_sendDocBox_cover').hide().find('.docInfo_sendDocBox_right').html('');
+	});
+
+	$('.docInfo_sendDocBox_submitBtn').on('click', function () {
+		var reviewerid = [];
+		$('.docInfo_sendDocBox_item_select').each(function (i, value) {
+			if ($(this).val()) {
+				reviewerid.push($(this).val());
+			}
+		});
+		doc.tool.getJSON({
+			url: "data.json",
+			data: {'docid': docId, "reviewerid": reviewerid},
+			success: function (res) {
+				$('#docInfo_sendDocBox_cover').hide().find('.docInfo_sendDocBox_right').html('');
+				doc.docInfo.dataTable.fnDraw(true);
+				$.remindBox({
+					remind: "成功派发"
+				});
+			},
+			error: {
+				remind: "派发审稿员失败"
+			}
+		});
+	});
+
+	$('.docInfo_sendDocBox_right').delegate('.icon-minus-sign', 'click', function () {
+		var value = $(this).siblings('.doc_select').val();
+		var optionHtml = addSelectData(value);
+		$(this).parent().siblings().find('.doc_select').append(optionHtml).end().end().remove();
+	});
+
+	$('.docInfo_sendDocBox_right').delegate('.icon-plus-sign', 'click', function () {
+		$(this).removeClass('icon-plus-sign').addClass('icon-minus-sign').siblings('.doc_remind_Red').remove();
+		var item = $('<div class="docInfo_sendDocBox_item"></div>').append('<select class="doc_select docInfo_sendDocBox_item_select">' + getSelectedContent(deleteSelectData()).join('') + '</select>');
+		item.append(' <i class="doc_icon icon-plus-sign"></i>').appendTo($('.docInfo_sendDocBox_right'));
+	});
+
+	function addSelectData(value) {
+		var optionHtml = '';
+		for (var k = 0, len = originData.length; k < len; k++) {
+			if (originData[k].id == value) {
+				selectData.push(originData[k]);
+				optionHtml = '<option value="' + originData[k].id + '">' + originData[k].account + '-' + originData[k].name + '</option>';
+				break;
+			}
+		}
+		return optionHtml;
+	}
+
+	function deleteSelectData() {
+		var arr = [];
+		$('.docInfo_sendDocBox_item_select').each(function (i, elem) {
+			var value = $(elem).val();
+			if (value) {
+				arr.push($(elem).val());
+			}
+		});
+		for (var i = 0; i < selectData.length; i++) {
+			for (var j = 0; j < arr.length; j++) {
+				if (selectData[i].id == arr[j]) {
+					selectData.splice(i, 1);
+				}
+			}
+		}
+		return selectData;
+	}
+
+	function getSelectedContent(data) {
+		var optionHtml = doc.tool.getOptionsOfSelect(data);
+		return optionHtml;
+	}
+
+	var option = '';
+	$('.docInfo_sendDocBox_right').delegate('.doc_select', 'focus', function () {
+		if ($(this).val()) {
+			option = $(this).find('option:selected').clone();
+		}
+	});
+	$('.docInfo_sendDocBox_right').delegate('.doc_select', 'change', function () {
+		var value = $(this).val();
+		if (value) {
+			$(this).parent().siblings().find('.doc_select').find('option').each(function (i, elem) {
+				if (elem.value == value) {
+					$(elem).remove();
+				}
+			}).end().append(option);
+			$(this).blur();
+		}
+	});
+};
 
 //发送投稿
 doc.docInfo.submitDoc = function () {
@@ -92,8 +209,7 @@ doc.docInfo.submitDoc = function () {
 
 		});
 	});
-}
-
+};
 
 //修改用户昵称
 doc.docInfo.account = function () {
