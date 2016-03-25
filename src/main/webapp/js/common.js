@@ -157,7 +157,7 @@ doc.tool = {
 	getOptionsOfSelect: function (data) {
 		var arr = [];
 		$.each(data, function (i, value) {
-			arr[i] = '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+			arr[i] = '<option value="' + data[i].id + '">' + data[i].account + '-' + data[i].name + '</option>';
 		});
 		return arr;
 	},
