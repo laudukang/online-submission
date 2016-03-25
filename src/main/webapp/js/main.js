@@ -45,8 +45,7 @@ doc.docInfo.dataTableEvent = function () {
 //删除稿件
 doc.docInfo.deleteDoc = function (id) {
 	doc.tool.getJSON({
-		url: "deleteDoc",
-		data: {'id': id},
+		url: "deleteDoc/" + id,
 		success: function () {
 			doc.docInfo.dataTable.fnDraw(true);
 		},
