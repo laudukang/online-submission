@@ -32,4 +32,6 @@ public interface IDocService {
     Page<OsDoc> findAllByUserId(DocDomain docDomain);
 
     Page<OsDoc> findByAdminId(DocDomain docDomain);
+
+    Page<OsDoc> findDistributedDoc(DocDomain docDomain);
 }

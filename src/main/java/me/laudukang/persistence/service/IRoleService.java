@@ -5,6 +5,8 @@ import me.laudukang.spring.domain.RoleDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -23,4 +25,6 @@ public interface IRoleService {
     void updateById(RoleDomain roleDomain, int[] osPermissions);
 
     Page<OsRole> findAll(Pageable pageable);
+
+    List<OsRole> findRoleByAdminId(int id);
 }

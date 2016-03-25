@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -14,8 +15,12 @@
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
             稿件中心 &gt; 我要投稿</h2>
+        <c:if test="${ empty osUser.name or empty osUser.mobilePhone or empty osUser.country or empty osUser.province or empty osUser.city or empty osUser.address or empty osUser.postcode}">
+            <c:out value="osuser has empty value"></c:out>
+        </c:if>
+        <%--todo 信息补全提示--%>
         <div class="frame_main_center">
-            <form action="newDoc" method="post" ENCTYPE="multipart/form-data">
+            <form action="${home}/newDoc" method="post" enctype="multipart/form-data">
                 <table class="doc_table submitDoc_authorTable">
                     <tbody class="submitDoc_authorBody">
                     <tr>
@@ -265,9 +270,9 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         doc.docInfo.submitDoc();

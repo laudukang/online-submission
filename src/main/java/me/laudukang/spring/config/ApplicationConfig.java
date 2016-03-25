@@ -30,7 +30,7 @@ import java.util.Properties;
 @Configuration
 @EnableSpringDataWebSupport
 @PropertySource({"classpath:system.properties"})
-@Import({PersistenceJPAConfig.class, AsyncConfig.class})
+@Import({AsyncConfig.class, ShiroConfig.class})
 //@EnableWebMvc
 //@EnableTransactionManagement
 //@ComponentScan(basePackages = {"me.laudukang.spring.config"})

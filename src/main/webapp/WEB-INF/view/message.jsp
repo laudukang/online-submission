@@ -3,10 +3,10 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/jquery.dataTables.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -29,16 +29,16 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jquery.dataTables.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jquery.dataTables.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         doc.message.dataTable = $('#messageTable').dataTable({
             "bServerSide": false,  //启动服务端分页、排序，搜索等功能
             "paging": false,
-            "sAjaxSource": 'userMessages',  //ajax请求路径
+            "sAjaxSource": '${home}${loginType=='0'?'/userMessages':'/admin/userMessages'}',  //ajax请求路径
             //修改参数
             "fnServerParams": function (aoData) {
             },

@@ -10,53 +10,15 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/jquery.dataTables.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
-<div class="frame_header">
-    <div class="frame_header_banner">
-        <a class="frame_header_logo" href="index.html">
-            <img src="images/online/logo.png" alt="在线投稿系统">
-            <h2 class="frame_header_title">在线投稿系统</h2>
-        </a>
-        <div class="frame_header_account">
-            <span>用户名：欢迎你！</span>
-            <a href="message.html">系统信息</a>
-            <a href="updatePassword.html">修改密码</a>
-            <a href="#">安全退出</a>
-        </div>
-    </div>
-</div>
+<%@include file="header.jsp" %>
 <div class="frame_main">
-    <div class="frame_main_nav_wrap" id="docNav">
-        <div class="frame_main_nav">
-            <div class="frame_main_nav_title">
-                <strong>稿件中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_docList.html">稿件审阅</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>个人中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_account.html">账号信息</a></li>
-                <li><a href="admin_updatePassword.html">修改密码</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>系统中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_message.html">系统信息</a></li>
-            </ul>
-        </div>
-    </div>
+    <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
             稿件中心 &gt; 稿件查询</h2>
@@ -149,15 +111,15 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jquery.dataTables.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jquery.dataTables.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         doc.docInfo.dataTable = $('#docTable').dataTable({
             "bServerSide": true,  //启动服务端分页、排序，搜索等功能
-            "sAjaxSource": 'doc.json',  //ajax请求路径
+            "sAjaxSource": '${home}/admin/review',  //ajax请求路径
             "aaSorting": [[1, 'desc']],  //初始化时默认的排序字段
             //修改参数
             "fnServerParams": function (aoData) {
@@ -183,8 +145,8 @@
             ],
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
-                $('td:eq(2)', nRow).html('<a href="review_docDetail.html" data-id="' + oData.id + '">' + oData.zhTitle + '</a>');
-                $('td:eq(6)', nRow).html('<a href="review_docDetail.html"><i class="doc_icon icon-pencil" title="审阅" data-id="' + oData.id + '"></a></i>');
+                $('td:eq(2)', nRow).html('<a href="${home}/admin/reviewDocInfo/' + oData.id + '" data-id="' + oData.id + '">' + oData.zhTitle + '</a>');
+                $('td:eq(6)', nRow).html('<a href="${home}/admin/reviewDocInfo/' + oData.id + '"><i class="doc_icon icon-pencil" title="审阅" data-id="' + oData.id + '"></a></i>');
                 return nRow;
             }
         }).show();

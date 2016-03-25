@@ -43,7 +43,7 @@ public class DocAdminController implements ApplicationContextAware {
     private final String DOC_REVIEW_RETURN = "退修稿";
     private final String DOC_REVIEW_PASS = "已采编";
 
-    @RequestMapping(value = "distribute", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/distribute", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> saveDistribute(@RequestParam("docid") int docid, @RequestParam("reviewerid") int reviewerid,
                                               HttpServletRequest request, HttpSession session) {
@@ -66,10 +66,9 @@ public class DocAdminController implements ApplicationContextAware {
         return MapUtil.getSaveMap();
     }
 
-    @RequestMapping(value = "saveReview", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> saveReview(@RequestParam("docid") int docid, @RequestParam("reviewResult") String reviewResult,
-                                          @RequestParam("propose") String propose, HttpSession session, HttpServletRequest request) {
+    @RequestMapping(value = "admin/saveReview", method = RequestMethod.POST)
+    public String saveReview(@RequestParam("id") int docid, @RequestParam("reviewResult") String reviewResult,
+                             @RequestParam("propose") String propose, HttpSession session, HttpServletRequest request) {
         int adminid = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
         OsDocAdmin osDocAdmin = iDocAdminService.findOneByDocAdmin(docid, adminid);
         osDocAdmin.setReviewResult(reviewResult);
@@ -86,6 +85,6 @@ public class DocAdminController implements ApplicationContextAware {
         String account = null != session.getAttribute("name") ? String.valueOf(session.getAttribute("name")) : "ADMIN";
         applicationContext.publishEvent(new DocEvent(this, docid, adminid, propose, reviewResult, account, "reviewResult", url.toString()));
 
-        return MapUtil.getSaveMap();
+        return "redirect:/admin/reviewDocInfo/" + docid;
     }
 }

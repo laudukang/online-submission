@@ -5,9 +5,9 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -30,14 +30,14 @@
                     <td class="doc_sec_title">评语</td>
                     <td class="doc_sec_title" style="width: 80px;">建议</td>
                 </tr>
-                <c:if test="${osDoc.osDocAdmins.size()==0}">
+                <c:if test="${empty osDoc.osDocAdmins}">
                     <td colspan="4" style="text-align: center" class="doc_remind_Blue">稿件待审阅</td>
                 </c:if>
-                <c:if test="${osDoc.osDocAdmins.size()!=0}">
+                <c:if test="${not empty osDoc.osDocAdmins}">
                     <c:forEach items="${osDoc.osDocAdmins}" var="osDocAdmin">
                         <tr>
                             <td><fmt:formatDate value="${osDocAdmin.reviewTime}" pattern="yyyy-MM-dd hh:MM:ss"/></td>
-                            <td>${osDocAdmin.osAdmin.name!=null&&osDocAdmin.osAdmin.name.trim()!=""?osDocAdmin.osAdmin.name:osDocAdmin.osAdmin.account}</td>
+                            <td>${not empty osDocAdmin.osAdmin.name?osDocAdmin.osAdmin.name:osDocAdmin.osAdmin.account}</td>
                             <td>${osDocAdmin.reviewResult}</td>
                             <td>${osDocAdmin.propose}</td>
                         </tr>
@@ -128,9 +128,9 @@
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
                         该稿件于<fmt:formatDate value="${osDoc.postTime}"
-                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态
+                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态，状态变更会有邮件通知
                         <c:if test="${osDoc.status=='待审阅'}">
-                            <a class="doc_btn" href="updateDoc?id=${osDoc.id}"
+                            <a class="doc_btn" href="${home}/updateDoc?id=${osDoc.id}"
                                style="float:right;margin-right: 10px">修改</a>
                         </c:if>
                     </td>
@@ -205,13 +205,13 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/pdfobject.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/pdfobject.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
-        var pdfObject = new PDFObject({url: "/upload/" + "${osDoc.path}"}).embed("pdf");
+        var pdfObject = new PDFObject({url: "${home}/upload/${osDoc.path}"}).embed("pdf");
     });
 </script>
 </body>

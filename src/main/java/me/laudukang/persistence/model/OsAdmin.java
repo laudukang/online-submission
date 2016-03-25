@@ -68,8 +68,17 @@ public class OsAdmin implements Serializable {
 
     //bi-directional many-to-many association to OsRole
     @JsonBackReference
-    @ManyToMany(mappedBy = "osAdmins")
-    private List<OsRole> osRoles = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "os_admin_role"
+            , joinColumns = {
+            @JoinColumn(name = "admin_id")
+    }
+            , inverseJoinColumns = {
+            @JoinColumn(name = "role_id")
+    }
+    )
+    private List<OsRole> osRoles;
 
     public OsAdmin() {
     }

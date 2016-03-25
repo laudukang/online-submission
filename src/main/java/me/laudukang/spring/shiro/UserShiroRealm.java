@@ -1,5 +1,6 @@
 package me.laudukang.spring.shiro;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IUserService;
 import org.apache.shiro.SecurityUtils;
@@ -40,7 +41,7 @@ public class UserShiroRealm extends AuthorizingRealm {
             setAttributeInSession("userid", osUser.getId());
             setAttributeInSession("account", osUser.getAccount());
             setAttributeInSession("loginType", "0");
-            setAttributeInSession("name", null != osUser.getName() ? osUser.getName() : osUser.getAccount());
+            setAttributeInSession("name", !Strings.isNullOrEmpty(osUser.getName()) ? osUser.getName() : osUser.getAccount());
             return new SimpleAuthenticationInfo(osUser.getId(), osUser.getPassword(), getName());
         }
         return null;

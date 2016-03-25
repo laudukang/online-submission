@@ -1,15 +1,10 @@
-<%@ page language="java" isErrorPage="true"
-         import="java.io.PrintWriter"
-         pageEncoding="UTF-8" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" isErrorPage="true" import="java.io.PrintWriter" pageEncoding="UTF-8" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>网络投稿系统-Exception</title>
-    <link rel="shortcut icon" href="<c:url value="/" />favicon.ico"/>
+    <link rel="shortcut icon" href="${home}/favicon.ico"/>
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="description" content="Exception">
@@ -20,7 +15,7 @@
 <div align="center">
     <br> <br>
     <h1>We are sorry for there are some errors occurred.</h1>
-    <br> <a href="<c:url value="/" />">返回首页</a>
+    <br> <a href="${pageContext.request.contextPath}">返回首页</a>
     <hr>
     <%
         Exception ex = (Exception) request.getAttribute("ex");

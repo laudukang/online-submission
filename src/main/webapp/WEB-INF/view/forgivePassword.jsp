@@ -3,16 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <header class="user_header">
-    <h1>在线投稿系统</h1>
+    <h1>网络投稿系统</h1>
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container forgivePassword" action="resetRequest" method="post">
+    <form class="user_container forgivePassword" action="${home}/resetRequest" method="post">
         <ul class="user_content">
             <li class="forgivePassword_item">
                 <h2 class="forgivePassword_title">找回密码</h2>

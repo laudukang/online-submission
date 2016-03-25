@@ -1,12 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/jquery.dataTables.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -115,15 +116,15 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jquery.dataTables.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jquery.dataTables.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         doc.docInfo.dataTable = $('#docTable').dataTable({
             "bServerSide": true,  //启动服务端分页、排序，搜索等功能
-            "sAjaxSource": 'docs',  //ajax请求路径
+            "sAjaxSource": '${home}/docs',  //ajax请求路径
             "aaSorting": [[1, 'desc']],  //初始化时默认的排序字段
             //修改参数
             "fnServerParams": function (aoData) {
@@ -150,12 +151,12 @@
             ],
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
-                $('td:eq(2)', nRow).html('<a href="docInfo?id=' + oData.id + '">' + oData.zhTitle + '</a>');
+                $('td:eq(2)', nRow).html('<a href="${home}/docInfo/' + oData.id + '">' + oData.zhTitle + '</a>');
                 $('td:eq(7)', nRow).html('/');
                 switch (oData.status) {
                     case "待审阅":
                         $('td:eq(6)', nRow).html('<span class="docList_status1">待审阅</span>');
-                        $('td:eq(7)', nRow).html('<a href="updateDoc?id=' + oData.id + '"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><a href="deleteDoc?id=' + oData.id + '"><i class="doc_icon icon-trash"></i></a>');
+                        $('td:eq(7)', nRow).html('<a href="updateDoc?id=' + oData.id + '"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash" data-id=' + oData.id + '></i>');
                         break;
                     case "审阅中":
                         $('td:eq(6)', nRow).html('<span class="docList_status2">审阅中</span>');

@@ -1,5 +1,6 @@
 package me.laudukang.spring.shiro;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
@@ -61,7 +62,8 @@ public class AdminShiroRealm extends AuthorizingRealm {
             setAttributeInSession("adminid", osAdmin.getId());
             setAttributeInSession("account", osAdmin.getAccount());
             setAttributeInSession("loginType", "1");
-            setAttributeInSession("name", null != osAdmin.getName() ? osAdmin.getName() : osAdmin.getAccount());
+            setAttributeInSession("isReviewer", "1".equals(osAdmin.getReviewer()));
+            setAttributeInSession("name", !Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount());
             return new SimpleAuthenticationInfo(osAdmin.getId(), osAdmin.getPassword(), getName());
 
         }

@@ -72,11 +72,12 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean adminShiroFilter() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManagerAdmin());
-        shiroFilterFactoryBean.setLoginUrl("/admin/");
+        shiroFilterFactoryBean.setLoginUrl("/admin/login");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         shiroFilterFactoryBean.setSuccessUrl("/admin/docs");
         Map<String, String> filterChainDefinitionMapping = new HashMap<>();
         filterChainDefinitionMapping.put("/admin/docs", "authc");
+        filterChainDefinitionMapping.put("/admin", "anon");
         filterChainDefinitionMapping.put("/admin/login", "anon");
         filterChainDefinitionMapping.put("/admin/logout", "logout");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMapping);

@@ -1,5 +1,6 @@
 package me.laudukang.spring.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +20,10 @@ public class DocDomain {
     private String enKeyword;
     private String enSummary;
     private String enTitle;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date postTime;
     private String status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date statusTime;
     private String subject;
     private String type;
@@ -29,6 +32,7 @@ public class DocDomain {
     @NotEmpty
     private String zhTitle;
     private List<AuthorDomain> authorDomainList;
+    private String name;
 
     private String fromTime;
     private String toTime;
@@ -152,6 +156,14 @@ public class DocDomain {
 
     public void setZhTitle(String zhTitle) {
         this.zhTitle = zhTitle;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getFromTime() {

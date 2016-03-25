@@ -1,7 +1,9 @@
 package me.laudukang.persistence.service.impl;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.repository.AdminRepository;
+import me.laudukang.persistence.repository.PermissionRepository;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.spring.domain.AdminDomain;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,8 @@ import java.util.List;
 public class AdminService extends CustomPageService<OsAdmin> implements IAdminService {
     @Autowired
     private AdminRepository adminRepository;
-
+    @Autowired
+    private PermissionRepository permissionRepository;
 
     @Override
     public void updateById(AdminDomain adminDomain) {
@@ -38,7 +41,7 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
             osAdmin.setOfficePhone(adminDomain.getOfficePhone());
             osAdmin.setRemark(adminDomain.getRemark());
             osAdmin.setSex(adminDomain.getSex());
-            osAdmin.setSubject(adminDomain.getSubject());
+//            osAdmin.setSubject(adminDomain.getSubject());
 //            if (!Strings.isNullOrEmpty(adminDomain.getPassword())) {
 //                osAdmin.setPassword(osAdminToSave.getPassword());
 //            }
@@ -100,6 +103,11 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     @Override
     public int ableAdmin(int id, int status) {
         return adminRepository.ableAdmin(id, status);
+    }
+
+    @Override
+    public OsRole findReviewerRole() {
+        return permissionRepository.findByDocReviewName().getOsRole();
     }
 
     private Specification<OsAdmin> getReviewerSpecification(final String account, final String name) {

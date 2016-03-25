@@ -14,8 +14,7 @@ public class TimeStampPropertyEditor extends PropertyEditorSupport {
     private String pattern = "yyyy-MM-dd";
 
     private final String[] formater_pattern = new String[]{"yyyy-MM-dd",
-            "yyyy-MM-dd HH:mm:ss"};// "yyyy-MM-dd HH:mm:ss.S",
-    // "yyyy-MM-dd HH:mm:ss" };
+            "yyyy-MM-dd HH:mm:ss"};// "yyyy-MM-dd HH:mm:ss.S","yyyy-MM-dd HH:mm:ss" };
 
     public TimeStampPropertyEditor() {
     }

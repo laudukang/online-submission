@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.model.OsRole;
 import me.laudukang.spring.domain.AdminDomain;
 import org.springframework.data.domain.Page;
 
@@ -38,4 +39,6 @@ public interface IAdminService {
     OsAdmin findOne(int id);
 
     int ableAdmin(int id, int status);
+
+    OsRole findReviewerRole();
 }

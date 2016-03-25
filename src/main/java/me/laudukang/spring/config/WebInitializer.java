@@ -1,16 +1,17 @@
 package me.laudukang.spring.config;
 
+import me.laudukang.util.CleanupContextListener;
+import me.laudukang.util.MySessionListener;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.util.IntrospectorCleanupListener;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 import java.util.EnumSet;
 
 /**
@@ -24,34 +25,44 @@ import java.util.EnumSet;
 public class WebInitializer implements WebApplicationInitializer {
 
     @Override
-    public void onStartup(javax.servlet.ServletContext sc) throws ServletException {
+    public void onStartup(ServletContext servletContext) throws ServletException {
+
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationConfig.class);
         //rootContext.scan("me.laudukang.spring.config");
-        sc.addListener(new ContextLoaderListener(rootContext));
+        servletContext.addListener(IntrospectorCleanupListener.class);
+        servletContext.addListener(new MySessionListener());
+        servletContext.addListener(new ContextLoaderListener(rootContext));
+        servletContext.addListener(new CleanupContextListener());
 
-        OpenEntityManagerInViewFilter openEntityManagerInViewFilter = new OpenEntityManagerInViewFilter();
+        //Shiro
+        DelegatingFilterProxy adminShiroFilter = new DelegatingFilterProxy();
+        adminShiroFilter.setTargetFilterLifecycle(true);
+        FilterRegistration filterRegistrationDelegatingFilterProxy2 = servletContext.addFilter("adminShiroFilter", adminShiroFilter);
+        filterRegistrationDelegatingFilterProxy2.addMappingForUrlPatterns(null, true, "/admin/*");
+
+        DelegatingFilterProxy shiroFilter = new DelegatingFilterProxy();
+        shiroFilter.setTargetFilterLifecycle(true);
+        FilterRegistration filterRegistrationDelegatingFilterProxy = servletContext.addFilter("shiroFilter", shiroFilter);
+        filterRegistrationDelegatingFilterProxy.addMappingForUrlPatterns(null, false, "/*");
+
 
         //CharacterEncodingFilter
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
         characterEncodingFilter.setEncoding("UTF-8");
         characterEncodingFilter.setForceEncoding(true);
         FilterRegistration filterRegistration =
-                sc.addFilter("characterEncodingFilter", characterEncodingFilter);
+                servletContext.addFilter("characterEncodingFilter", characterEncodingFilter);
         filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
 
-        FilterRegistration filterRegistration1 =
-                sc.addFilter("openEntityManagerInViewFilter", openEntityManagerInViewFilter);
-        //filterRegistration1.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
-        filterRegistration1.addMappingForUrlPatterns(null, false, "/*");
+        //OpenEntityManagerInViewFilter
+        OpenEntityManagerInViewFilter openEntityManagerInViewFilter = new OpenEntityManagerInViewFilter();
+        FilterRegistration filterRegistrationOpenEntityManagerInViewFilter =
+                servletContext.addFilter("openEntityManagerInViewFilter", openEntityManagerInViewFilter);
+        //filterRegistrationOpenEntityManagerInViewFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        filterRegistrationOpenEntityManagerInViewFilter.addMappingForUrlPatterns(null, false, "/*");
 
-        //follow can be deleted
-        //sc.addFilter("hibernateFilter", OpenSessionInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");
-
-        //maybe follow will be use
-        // sc.addFilter("OpenEntityManagerInViewFilter", org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter.class).addMappingForUrlPatterns(null, false, "/*");
-
-        //springmvc上下文
+        //Spring MVC
         AnnotationConfigWebApplicationContext springMvcContext = new AnnotationConfigWebApplicationContext();
         springMvcContext.register(MvcConfig.class);
 
@@ -59,10 +70,11 @@ public class WebInitializer implements WebApplicationInitializer {
         DispatcherServlet dispatcherServlet = new DispatcherServlet(springMvcContext);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
-        ServletRegistration.Dynamic dynamic = sc.addServlet("dispatcherServlet", dispatcherServlet);
+        ServletRegistration.Dynamic dynamic = servletContext.addServlet("dispatcherServlet", dispatcherServlet);
         dynamic.setLoadOnStartup(1);
         dynamic.addMapping("/");
 
 
     }
+
 }

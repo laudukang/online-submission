@@ -1,7 +1,9 @@
 package me.laudukang.spring.controller;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAuthor;
 import me.laudukang.persistence.model.OsDoc;
+import me.laudukang.persistence.model.OsDocAdmin;
 import me.laudukang.persistence.model.OsUser;
 import me.laudukang.persistence.service.IDocService;
 import me.laudukang.persistence.service.IUserService;
@@ -33,8 +35,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -56,17 +56,24 @@ public class DocController {
     private final String DOC_REVIEW_RETURN = "退修稿";
     private final String DOC_REVIEW_PASS = "已采编";
 
-    @RequestMapping(value = "docInfo", method = RequestMethod.GET)
-    public String docInfoPage(@RequestParam("id") int id, Model model) {
+    @RequestMapping(value = {"docInfo/{id}", "admin/docInfo/{id}"}, method = RequestMethod.GET)
+    public String docInfoPage(@PathVariable("id") int id, Model model) {
         OsDoc osDoc = iDocService.findOne(id);
         model.addAttribute("osDoc", osDoc);
         return "docDetail";
     }
 
+    @RequestMapping(value = "admin/reviewDocInfo/{id}", method = RequestMethod.GET)
+    public String docInfoReviewPage(@PathVariable("id") int id, Model model) {
+        OsDoc osDoc = iDocService.findOne(id);
+        model.addAttribute("osDoc", osDoc);
+        return "review_docDetail";
+    }
+
     @RequestMapping(value = "newDoc", method = RequestMethod.GET)
     public String newDocPage(Model model, HttpSession session) {
         String str;
-        if (null != session.getAttribute("userid") && !isNullOrEmpty(str = String.valueOf(session.getAttribute("userid")))
+        if (null != session.getAttribute("userid") && !Strings.isNullOrEmpty(str = String.valueOf(session.getAttribute("userid")))
                 && NumberUtils.isNumber(str)) {
             OsUser osUser = iUserService.findOne(Integer.valueOf(str));
             model.addAttribute("osUser", osUser);
@@ -148,7 +155,7 @@ public class DocController {
         }
 
         iDocService.save(osDoc);
-        return "redirect:docs";
+        return "redirect:/docs";
     }
 
     @RequestMapping(value = "updateDoc", method = RequestMethod.GET)
@@ -166,10 +173,10 @@ public class DocController {
             newFileName = uploadPDF(uploadFile, bindingResult);
         } catch (IOException e) {
             e.printStackTrace();
-            return "redirect:updateDoc";
+            return "updateDoc";
         }
         if (bindingResult.hasErrors()) {
-            return "redirect:updateDoc";
+            return "updateDoc";
         }
 
         OsDoc osDoc = iDocService.findOne(docDomain.getId());
@@ -215,12 +222,12 @@ public class DocController {
         osDoc.setOsAuthors(osAuthorList);
 
         iDocService.update(osDoc, authorDeleteList);
-        return "redirect:docs";
+        return "redirect:/docs";
     }
 
-    @RequestMapping(value = "deleteDoc", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteDoc/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> deleteDocUser(@RequestParam("id") int id) {
+    public Map<String, Object> deleteDocUser(@PathVariable("id") int id) {
         OsDoc tmp = iDocService.findOne(id);
         if (null != tmp && !DOC_NEW_PUBLISH.equals(tmp.getStatus())) {
             return MapUtil.getDeleteForbiddenMap();
@@ -236,22 +243,59 @@ public class DocController {
         return MapUtil.getDeleteMap();
     }
 
-    @RequestMapping(value = "docs", method = RequestMethod.GET)
+    @RequestMapping(value = {"docs"}, method = RequestMethod.GET)
     public String docsUserPage() {
         return "docList";
     }
 
-    @RequestMapping(value = "docsReview", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/review", method = RequestMethod.GET)
     public String docsReviewPage() {
-        return "docList";
+        return "review_reviewList";
     }
 
-    @RequestMapping(value = "docsSuper", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/docs", method = RequestMethod.GET)
     public String docsSuperPage() {
-        return "docList";
+        return "admin_docList";
     }
 
-    @RequestMapping(value = "docsSuper", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/distributedDocs", method = RequestMethod.GET)
+    public String distributedDocsPage() {
+        return "admin_sendedList";
+    }
+
+    @RequestMapping(value = "admin/distributedDocs", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> distributedDocs(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
+        Page<OsDoc> osDocPage = iDocService.findDistributedDoc(docDomain);
+        List<DocDomain> docDomainList = new ArrayList<>(osDocPage.getContent().size());
+        for (OsDoc osDoc : osDocPage.getContent()) {
+            DocDomain domain = new DocDomain();
+            domain.setId(osDoc.getId());
+            domain.setZhTitle(osDoc.getZhTitle());
+            domain.setPostTime(osDoc.getPostTime());
+            domain.setStatus(osDoc.getStatus());
+            domain.setClassification(osDoc.getClassification());
+            domain.setType(osDoc.getType());
+            StringBuilder stringBuilder = new StringBuilder();
+            for (OsDocAdmin osDocAdmin : osDoc.getOsDocAdmins()) {
+                stringBuilder.append(!Strings.isNullOrEmpty(osDocAdmin.getOsAdmin().getName())
+                        ? osDocAdmin.getOsAdmin().getName() : osDocAdmin.getOsAdmin().getAccount()).append(";");
+            }
+            int index = stringBuilder.lastIndexOf(";");
+            if (-1 != index)
+                domain.setName(stringBuilder.substring(0, index));
+            docDomainList.add(domain);
+        }
+        Map<String, Object> map = new HashMap<>(5);
+        map.put("success", true);
+        map.put("msg", !osDocPage.getContent().isEmpty() ? "" : "记录不存在");
+        map.put("data", docDomainList);
+        map.put("iTotalRecords", osDocPage.getTotalElements());
+        map.put("iTotalDisplayRecords", osDocPage.getNumberOfElements());
+        return map;
+    }
+
+    @RequestMapping(value = "admin/docs", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain, BindingResult bindingResult, HttpSession session) {
         if (null == session.getAttribute("adminid")) {
@@ -287,7 +331,7 @@ public class DocController {
         return map;
     }
 
-    @RequestMapping(value = "docsReview", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/review", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> docsReview(@ModelAttribute DocDomain docDomain, BindingResult bindingResult, HttpSession session) {
         if (NumberUtils.isNumber(String.valueOf(session.getAttribute("adminid")))) {
@@ -297,7 +341,7 @@ public class DocController {
         }
         Page<OsDoc> osDocPage = iDocService.findByAdminId(docDomain);
         Map<String, Object> map = new HashMap<>(5);
-        map.put("success", true);//!osDocPage.getContent().isEmpty()
+        map.put("success", true);
         map.put("msg", !osDocPage.getContent().isEmpty() ? "" : "记录不存在");
         map.put("data", osDocPage.getContent());
         map.put("iTotalRecords", osDocPage.getTotalElements());
@@ -318,7 +362,7 @@ public class DocController {
                 File file = new File(docPath);
                 if (!file.exists()) throw new IOException();
                 String downloadFileName;
-                if (isNullOrEmpty(osDoc.getZhTitle()))
+                if (Strings.isNullOrEmpty(osDoc.getZhTitle()))
                     downloadFileName = new String(osDoc.getPath().getBytes("gb2312"), "iso-8859-1");
                 else downloadFileName = new String((osDoc.getZhTitle() + ".pdf").getBytes("gb2312"), "iso-8859-1");
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);

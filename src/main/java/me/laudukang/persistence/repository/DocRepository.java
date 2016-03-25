@@ -18,4 +18,7 @@ public interface DocRepository extends JpaRepository<OsDoc, Integer>, JpaSpecifi
 
     //@Query("select doc from OsDoc doc join doc.osDocAdmins da where doc.id=da.osDoc.id and da.osAdmin.id=:adminid")
     //Page<OsDoc> findByAdminId(@Param("adminid") int id, Pageable pageable);
+
+//    @Query("select distinct doc from OsDoc doc left join doc.osDocAdmins da where doc.id=da.osDoc.id")
+//    Page<OsDoc> getDistributedDocList(Pageable pageable);
 }

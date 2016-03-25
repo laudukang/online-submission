@@ -44,6 +44,7 @@ public class UserService extends CustomPageService<OsUser> implements IUserServi
             result.setPostcode(userDomain.getPostcode());
             result.setSex(userDomain.getSex());
             result.setProvince(userDomain.getProvince());
+            result.setRemark(userDomain.getRemark());
             userRepository.save(result);
         }
 //        else {

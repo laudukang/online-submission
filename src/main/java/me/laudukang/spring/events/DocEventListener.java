@@ -1,5 +1,6 @@
 package me.laudukang.spring.events;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.*;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.persistence.service.ICustomEmailService;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * <p>Created with IDEA
@@ -58,23 +57,23 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
 
             StringBuilder content = new StringBuilder(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
-                    .append(!isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount())
-                    .append(",您好</br>管理员[")
+                    .append(!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount())
+                    .append(",您好<br>管理员[")
                     .append(event.getAccount())
-                    .append("]邀请您审阅稿件:</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中文标题:")
-                    .append(!isNullOrEmpty(osDoc.getZhTitle()) ? osDoc.getZhTitle() : "")
-                    .append("</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关键词:")
-                    .append(!isNullOrEmpty(osDoc.getZhKeyword()) ? osDoc.getZhKeyword() : "")
-                    .append("</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中文摘要:")
-                    .append(!isNullOrEmpty(osDoc.getZhSummary()) ? osDoc.getZhSummary() : "")
-                    .append("</br><a href=\"")
+                    .append("]邀请您审阅稿件:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中文标题:")
+                    .append(!Strings.isNullOrEmpty(osDoc.getZhTitle()) ? osDoc.getZhTitle() : "")
+                    .append("<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关键词:")
+                    .append(!Strings.isNullOrEmpty(osDoc.getZhKeyword()) ? osDoc.getZhKeyword() : "")
+                    .append("<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中文摘要:")
+                    .append(!Strings.isNullOrEmpty(osDoc.getZhSummary()) ? osDoc.getZhSummary() : "")
+                    .append("<br><a href=\"")
                     .append(event.getUrl())
                     .append("/admin/login?time=")
                     .append(new Date().getTime())
                     .append("\">")
-                    .append("详情信息请登录系统查看</a></br>")
+                    .append("详情信息请登录系统查看</a><br>")
                     .append(simpleDateFormat.format(new Date()))
-                    .append("</br>系统自动发送邮件，请勿回复</body></html>");
+                    .append("<br>系统自动发送邮件，请勿回复</body></html>");
             iCustomEmailService.send(osAdmin.getAccount(), suject.toString(), content.toString());
 
             OsMessage osMessage = new OsMessage();
@@ -93,26 +92,26 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
                     .append(event.getPropose());
             StringBuilder content = new StringBuilder(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
-                    .append(!isNullOrEmpty(osUser.getName()) ? osUser.getName() : osUser.getAccount())
-                    .append(",您好</br>您的稿件[")
+                    .append(!Strings.isNullOrEmpty(osUser.getName()) ? osUser.getName() : osUser.getAccount())
+                    .append(",您好<br>您的稿件[")
                     .append(osDoc.getZhTitle())
-                    .append("]有新的审阅结果:</br></br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                    .append("]有新的审阅结果:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建议:")
                     .append(event.getPropose())
-                    .append("</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                    .append("<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评语:")
                     .append(event.getReviewResult())
-                    .append("</br></br><a href=\"")
+                    .append("<br><a href=\"")
                     .append(event.getUrl())
                     .append("/login?time=")
                     .append(new Date().getTime())
                     .append("\">")
-                    .append("详情信息请登录系统查看</a></br>")
+                    .append("详情信息请登录系统查看</a><br>")
                     .append(simpleDateFormat.format(new Date()))
-                    .append("</br>系统自动发送邮件，请勿回复</body></html>");
+                    .append("<br>系统自动发送邮件，请勿回复</body></html>");
             iCustomEmailService.send(osUser.getAccount(), subject.toString(), content.toString());
 
             OsMessage osMessage = new OsMessage();
             osMessage.setTitle("稿件[" + osDoc.getZhTitle() + "]有了新的动态");
-            osMessage.setContent("审稿员[" + (!isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()) + "]的审阅结果为:" + event.getPropose());
+            osMessage.setContent("审稿员[" + (!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()) + "]的审阅结果为:" + event.getPropose());
             osMessage.setOsUser(osUser);
             iMessageService.save(osMessage);
 

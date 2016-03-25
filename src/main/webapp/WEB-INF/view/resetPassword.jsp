@@ -3,16 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
 <header class="user_header">
-    <h1>在线投稿系统</h1>
+    <h1>网络投稿系统</h1>
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container resetPassword" action="resetPassword" method="post">
+    <form class="user_container resetPassword" action="${pageContext.request.contextPath}/resetPassword" method="post">
         <ul class="user_content">
             <li class="resetPassword_item">
                 <h2 class="resetPassword_title">重置密码</h2>
@@ -33,8 +33,8 @@
         </ul>
     </form>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jQuery.md5.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/js/jQuery.md5.js"></script>
 <script>
     $('#password2').on('change', function () {
         if ($(this).val() != $('#password1').val()) {

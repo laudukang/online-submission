@@ -90,4 +90,9 @@ public class RoleService extends CustomPageService<OsLog> implements IRoleServic
     public Page<OsRole> findAll(Pageable pageable) {
         return roleRepository.findAll(pageable);
     }
+
+    @Override
+    public List<OsRole> findRoleByAdminId(int id) {
+        return roleRepository.findRoleByAdminId(id);
+    }
 }

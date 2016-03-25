@@ -35,16 +35,16 @@ public class OsRole implements Serializable {
 
     //bi-directional many-to-many association to OsAdmin
     @JsonBackReference
-    @ManyToMany
-    @JoinTable(
-            name = "os_admin_role"
-            , joinColumns = {
-            @JoinColumn(name = "role_id")
-    }
-            , inverseJoinColumns = {
-            @JoinColumn(name = "admin_id")
-    }
-    )
+    @ManyToMany(mappedBy = "osRoles")
+//    @JoinTable(
+//            name = "os_admin_role"
+//            , joinColumns = {
+//            @JoinColumn(name = "role_id")
+//    }
+//            , inverseJoinColumns = {
+//            @JoinColumn(name = "admin_id")
+//    }
+//    )
     private List<OsAdmin> osAdmins;
 
     public OsRole() {

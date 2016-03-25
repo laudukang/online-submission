@@ -21,6 +21,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -64,7 +65,7 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
         registry.addResourceHandler("/upload/**").addResourceLocations("/upload/");
         registry.addResourceHandler("/font/**").addResourceLocations("/font/");
-        registry.addResourceHandler("/favicon.ico");
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("/");
     }
 
     /**
@@ -134,6 +135,12 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/403").setViewName("403");
+    }
+
 //    @Bean
 //    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
 //        SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();

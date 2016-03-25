@@ -4,8 +4,8 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -16,7 +16,7 @@
             个人中心 &gt; 账户信息</h2>
         <div class="frame_main_center">
             <%--<form:form action="userInfo" modelAttribute="userDomain" method="post">--%>
-            <form action="userInfo" method="post">
+            <form action="${home}/userInfo" method="post">
                 <table class="doc_table account_table">
                     <tbody>
                     <tr>
@@ -30,7 +30,7 @@
                         </td>
                         <td class="doc_td_Active">
                             ${userDomain.account}&nbsp;&nbsp;&nbsp;(账户名不允许修改)
-                            <input name="account" hidden value="${userDomain.account}">
+                            <input name="account" value="${userDomain.account}" hidden>
                             <%--<form:input path="account" disabled="true" cssClass="doc_text"></form:input>&nbsp;&nbsp;&nbsp;(账户名不允许修改)--%>
                         </td>
                     </tr>
@@ -157,9 +157,9 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         doc.tool.success(window.location.search,function(msg){

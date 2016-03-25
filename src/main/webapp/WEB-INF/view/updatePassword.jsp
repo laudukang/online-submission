@@ -3,8 +3,8 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -14,7 +14,7 @@
         <h2 class="frame_main_content_path">
             个人中心 &gt; 修改密码</h2>
         <div class="frame_main_center">
-            <form action="updatePassword" method="post" id="updatePassword_form">
+            <form action="${home}${loginType=='1'?'/admin':''}/updatePassword" method="post" id="updatePassword_form">
                 <table class="doc_table updatePassword_table">
                     <tbody>
                     <tr>
@@ -63,10 +63,10 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jQuery.md5.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jQuery.md5.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         $('#newPassword2').on('change', function () {

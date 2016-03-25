@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service.impl;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.*;
 import me.laudukang.persistence.repository.AuthorRepository;
 import me.laudukang.persistence.repository.DocRepository;
@@ -21,8 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * <p>Created with IDEA
@@ -89,6 +88,12 @@ public class DocService extends CustomPageService<OsDoc> implements IDocService 
                 getPageRequest(docDomain.getPage(), docDomain.getPageSize(), docDomain.getSortCol(), docDomain.getSortDir()));
     }
 
+    @Override
+    public Page<OsDoc> findDistributedDoc(DocDomain docDomain) {
+        return docRepository.findAll(getDistributedDocSpecification(docDomain),
+                getPageRequest(docDomain.getPage(), docDomain.getPageSize(), docDomain.getSortCol(), docDomain.getSortDir()));
+    }
+
     private Specification<OsDoc> getSpecification(final String zhTitle, final Date fromTime, final Date toTime) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
@@ -101,19 +106,19 @@ public class DocService extends CustomPageService<OsDoc> implements IDocService 
     private Specification<OsDoc> getAdminSpecification(final DocDomain docDomain) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            if (!isNullOrEmpty(docDomain.getZhTitle()))
+            if (!Strings.isNullOrEmpty(docDomain.getZhTitle()))
                 predicate.getExpressions().add(cb.like(root.get("zhTitle").as(String.class), "%" + docDomain.getZhTitle().trim() + "%"));
-            if (!isNullOrEmpty(docDomain.getClassification()))
+            if (!Strings.isNullOrEmpty(docDomain.getClassification()))
                 predicate.getExpressions().add(cb.equal(root.get("classification").as(String.class), docDomain.getClassification()));
-            //if (!isNullOrEmpty(docDomain.getSubject()))
+            //if (!Strings.isNullOrEmpty(docDomain.getSubject()))
             //    predicate.getExpressions().add(cb.like(root.get("subject").as(String.class), "%"+docDomain.getSubject()+"%"));
-            if (!isNullOrEmpty(docDomain.getZhKeyword()))
+            if (!Strings.isNullOrEmpty(docDomain.getZhKeyword()))
                 predicate.getExpressions().add(cb.like(root.get("zhKeyword").as(String.class), "%" + docDomain.getZhKeyword().trim() + "%"));
-            if (!isNullOrEmpty(docDomain.getType()))
+            if (!Strings.isNullOrEmpty(docDomain.getType()))
                 predicate.getExpressions().add(cb.equal(root.get("type").as(String.class), docDomain.getType()));
-            if (!isNullOrEmpty(docDomain.getStatus()))
+            if (!Strings.isNullOrEmpty(docDomain.getStatus()))
                 predicate.getExpressions().add(cb.equal(root.get("status").as(String.class), docDomain.getStatus()));
-            if (!isNullOrEmpty(docDomain.getFromTime()) && !isNullOrEmpty(docDomain.getToTime())) {
+            if (!Strings.isNullOrEmpty(docDomain.getFromTime()) && !Strings.isNullOrEmpty(docDomain.getToTime())) {
                 try {
                     predicate.getExpressions().add(cb.between(root.get("postTime"), new Date(dateFormat.parse(docDomain.getFromTime()).getTime()), new Date(dateFormat.parse(docDomain.getToTime()).getTime())));
 
@@ -134,19 +139,19 @@ public class DocService extends CustomPageService<OsDoc> implements IDocService 
     private Specification<OsDoc> getSuperSpecification(final DocDomain docDomain) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            if (!isNullOrEmpty(docDomain.getZhTitle()))
+            if (!Strings.isNullOrEmpty(docDomain.getZhTitle()))
                 predicate.getExpressions().add(cb.like(root.get("zhTitle").as(String.class), "%" + docDomain.getZhTitle().trim() + "%"));
-            if (!isNullOrEmpty(docDomain.getClassification()))
+            if (!Strings.isNullOrEmpty(docDomain.getClassification()))
                 predicate.getExpressions().add(cb.equal(root.get("classification").as(String.class), docDomain.getClassification()));
-            //if (!isNullOrEmpty(docDomain.getSubject()))
+            //if (!Strings.isNullOrEmpty(docDomain.getSubject()))
             //    predicate.getExpressions().add(cb.like(root.get("subject").as(String.class), "%"+docDomain.getSubject()+"%"));
-            if (!isNullOrEmpty(docDomain.getZhKeyword()))
+            if (!Strings.isNullOrEmpty(docDomain.getZhKeyword()))
                 predicate.getExpressions().add(cb.like(root.get("zhKeyword").as(String.class), "%" + docDomain.getZhKeyword().trim() + "%"));
-            if (!isNullOrEmpty(docDomain.getType()))
+            if (!Strings.isNullOrEmpty(docDomain.getType()))
                 predicate.getExpressions().add(cb.equal(root.get("type").as(String.class), docDomain.getType()));
-            if (!isNullOrEmpty(docDomain.getStatus()))
+            if (!Strings.isNullOrEmpty(docDomain.getStatus()))
                 predicate.getExpressions().add(cb.equal(root.get("status").as(String.class), docDomain.getStatus()));
-            if (!isNullOrEmpty(docDomain.getFromTime()) && !isNullOrEmpty(docDomain.getToTime())) {
+            if (!Strings.isNullOrEmpty(docDomain.getFromTime()) && !Strings.isNullOrEmpty(docDomain.getToTime())) {
                 try {
                     predicate.getExpressions().add(cb.between(root.get("postTime"), new Date(dateFormat.parse(docDomain.getFromTime()).getTime()), new Date(dateFormat.parse(docDomain.getToTime()).getTime())));
 
@@ -163,19 +168,19 @@ public class DocService extends CustomPageService<OsDoc> implements IDocService 
             Predicate predicate = cb.conjunction();
             if (0 != docDomain.getUserid())
                 predicate.getExpressions().add(cb.equal(root.<OsUser>get("osUser").get("id").as(Integer.class), docDomain.getUserid()));
-            if (!isNullOrEmpty(docDomain.getZhTitle()))
+            if (!Strings.isNullOrEmpty(docDomain.getZhTitle()))
                 predicate.getExpressions().add(cb.like(root.get("zhTitle").as(String.class), "%" + docDomain.getZhTitle().trim() + "%"));
-            if (!isNullOrEmpty(docDomain.getClassification()))
+            if (!Strings.isNullOrEmpty(docDomain.getClassification()))
                 predicate.getExpressions().add(cb.equal(root.get("classification").as(String.class), docDomain.getClassification()));
-            //if (!isNullOrEmpty(docDomain.getSubject()))
+            //if (!Strings.isNullOrEmpty(docDomain.getSubject()))
             //    predicate.getExpressions().add(cb.like(root.get("subject").as(String.class), "%"+docDomain.getSubject()+"%"));
-            if (!isNullOrEmpty(docDomain.getZhKeyword()))
+            if (!Strings.isNullOrEmpty(docDomain.getZhKeyword()))
                 predicate.getExpressions().add(cb.like(root.get("zhKeyword").as(String.class), "%" + docDomain.getZhKeyword() + "%"));
-            if (!isNullOrEmpty(docDomain.getType()))
+            if (!Strings.isNullOrEmpty(docDomain.getType()))
                 predicate.getExpressions().add(cb.equal(root.get("type").as(String.class), docDomain.getType()));
-            if (!isNullOrEmpty(docDomain.getStatus()))
+            if (!Strings.isNullOrEmpty(docDomain.getStatus()))
                 predicate.getExpressions().add(cb.equal(root.get("status").as(String.class), docDomain.getStatus()));
-            if (!isNullOrEmpty(docDomain.getFromTime()) && !isNullOrEmpty(docDomain.getToTime())) {
+            if (!Strings.isNullOrEmpty(docDomain.getFromTime()) && !Strings.isNullOrEmpty(docDomain.getToTime())) {
                 try {
                     predicate.getExpressions().add(cb.between(root.get("postTime"), new Date(dateFormat.parse(docDomain.getFromTime()).getTime()), new Date(dateFormat.parse(docDomain.getToTime()).getTime())));
                 } catch (ParseException e) {
@@ -186,4 +191,30 @@ public class DocService extends CustomPageService<OsDoc> implements IDocService 
         };
     }
 
+    private Specification<OsDoc> getDistributedDocSpecification(final DocDomain docDomain) {
+        return (root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            query.groupBy(root.get("id"));
+            if (!Strings.isNullOrEmpty(docDomain.getZhTitle()))
+                predicate.getExpressions().add(cb.like(root.get("zhTitle").as(String.class), "%" + docDomain.getZhTitle().trim() + "%"));
+            if (!Strings.isNullOrEmpty(docDomain.getClassification()))
+                predicate.getExpressions().add(cb.equal(root.get("classification").as(String.class), docDomain.getClassification()));
+            if (!Strings.isNullOrEmpty(docDomain.getType()))
+                predicate.getExpressions().add(cb.equal(root.get("type").as(String.class), docDomain.getType()));
+            if (!Strings.isNullOrEmpty(docDomain.getStatus()))
+                predicate.getExpressions().add(cb.equal(root.get("status").as(String.class), docDomain.getStatus()));
+            if (!Strings.isNullOrEmpty(docDomain.getFromTime()) && !Strings.isNullOrEmpty(docDomain.getToTime())) {
+                try {
+                    predicate.getExpressions().add(cb.between(root.get("postTime"), new Date(dateFormat.parse(docDomain.getFromTime()).getTime()), new Date(dateFormat.parse(docDomain.getToTime()).getTime())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            ListJoin<OsDoc, OsDocAdmin> osDocAdminListJoin = root.join(root.getModel().getList("osDocAdmins", OsDocAdmin.class), JoinType.INNER);
+            if (!Strings.isNullOrEmpty(docDomain.getName())) {
+                predicate.getExpressions().add(cb.like(osDocAdminListJoin.<OsAdmin>get("osAdmin").get("name").as(String.class), "%" + docDomain.getName() + "%"));
+            }
+            return predicate;
+        };
+    }
 }

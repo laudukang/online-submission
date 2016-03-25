@@ -1,18 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:url value="${pageContext.request.contextPath}" var="home" scope="session"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
+    <link rel="shortcut icon" href="${home}/favicon.ico"/>
 </head>
 <body>
 <header class="user_header">
-    <h1>在线投稿系统</h1>
+    <h1>网络投稿系统</h1>
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container login" action="admin/login" method="post">
+    <form class="user_container login" action="${home}/admin/login" method="post">
         <ul class="user_content">
             <li class="login_item">
                 <h2 class="login_title" style="padding-bottom: 10px;">管理员登录</h2>
@@ -34,8 +37,8 @@
         </ul>
     </form>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jQuery.md5.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jQuery.md5.js"></script>
 <script>
     $(function () {
         $('.login').on('submit', function () {

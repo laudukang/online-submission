@@ -6,21 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2016/3/25 0025
-  Time: 11:58
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
     <style>
         body {
             position: relative;
@@ -28,50 +22,12 @@
     </style>
 </head>
 <body>
-<div class="frame_header">
-    <div class="frame_header_banner">
-        <a class="frame_header_logo" href="index.html">
-            <img src="images/online/logo.png" alt="在线投稿系统">
-            <h2 class="frame_header_title">在线投稿系统</h2>
-        </a>
-        <div class="frame_header_account">
-            <span>用户名：欢迎你！</span>
-            <a href="message.html">系统信息</a>
-            <a href="updatePassword.html">修改密码</a>
-            <a href="#">安全退出</a>
-        </div>
-    </div>
-</div>
+<%@include file="header.jsp" %>
 <div class="frame_main">
-    <div class="frame_main_nav_wrap" id="docNav">
-        <div class="frame_main_nav">
-            <div class="frame_main_nav_title">
-                <strong>稿件中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_docList.html">稿件审阅</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>个人中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_account.html">账号信息</a></li>
-                <li><a href="admin_updatePassword.html">修改密码</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>系统中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_message.html">系统信息</a></li>
-            </ul>
-        </div>
-    </div>
+    <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
-            稿件中心 &gt; 稿件查询 &gt; ${稿件名字}</h2>
+            稿件中心 &gt; 稿件查询 &gt; ${osDoc.zhTitle}</h2>
         <div class="frame_main_center">
             <table class="doc_table doc_table_WidthMarginBottom doc_table_review">
                 <thead>
@@ -86,104 +42,99 @@
                     <td class="doc_sec_title">评语</td>
                     <td class="doc_sec_title" style="width: 80px;">建议</td>
                 </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
-                <tr>
-                    <td>${reviewTime}</td>
-                    <td>${name}</td>
-                    <td>${reviewResult}</td>
-                    <td>${propose}</td>
-                </tr>
+                <c:if test="${empty osDoc.osDocAdmins}">
+                    <td colspan="4" style="text-align: center" class="doc_remind_Blue">稿件待审阅</td>
+                </c:if>
+                <c:if test="${not empty osDoc.osDocAdmins}">
+                    <c:forEach items="${osDoc.osDocAdmins}" var="osDocAdmin">
+                        <c:if test="${osDocAdmin.osAdmin.id==adminid}">
+                            <c:set value="${osDocAdmin.propose}" var="tmpPropose"></c:set>
+                            <c:set value="${osDocAdmin.reviewResult}" var="tmpReviewResult"></c:set>
+                        </c:if>
+                        <tr>
+                            <td><fmt:formatDate value="${osDocAdmin.reviewTime}" pattern="yyyy-MM-dd hh:MM:ss"/></td>
+                            <td>${not empty osDocAdmin.osAdmin.name?osDocAdmin.osAdmin.name:osDocAdmin.osAdmin.account}</td>
+                            <td>${osDocAdmin.reviewResult}</td>
+                            <td>${osDocAdmin.propose}</td>
+                        </tr>
+                    </c:forEach>
+                </c:if>
                 </tbody>
             </table>
             <table class="doc_table doc_table_WidthMarginBottom">
-                <tbody>
-                <tr>
-                    <td class="doc_title submitDoc_authorTable_title" colspan="4">
-                        <h3>第1作者</h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 80px;">
-                        姓名：
-                    </td>
-                    <td class="doc_td_Active" style="width: 340px;">
-                        ${name}
-                    </td>
-                    <td style="width: 80px;">
-                        性别：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${sex}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        出生年月：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${birth}
-                    </td>
-                    <td>
-                        电子邮箱：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${account}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        工作电话：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${officePhone}
-                    </td>
-                    <td>
-                        手机：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${name}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        所在地区：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${country}国${province}省${city}市
-                    </td>
-                    <td>
-                        邮编：
-                    </td>
-                    <td class="doc_td_Active">
-                        ${postcode}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        详细地址：
-                    </td>
-                    <td class="doc_td_Active" colspan="3">
-                        ${address}
-                    </td>
-                </tr>
-                </tbody>
+                <c:forEach items="${osDoc.osAuthors}" var="osAuthor" varStatus="obj">
+                    <tbody>
+                    <tr>
+                        <td class="doc_title submitDoc_authorTable_title" colspan="4">
+                            <h3>第${obj.count}作者</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 80px;">
+                            姓名：
+                        </td>
+                        <td class="doc_td_Active" style="width: 340px;">
+                                ${osAuthor.name}
+                        </td>
+                        <td style="width: 80px;">
+                            性别：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.sex}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            出生年月：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.birth}
+                        </td>
+                        <td>
+                            电子邮箱：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.mail}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            工作电话：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.officePhone}
+                        </td>
+                        <td>
+                            手机：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.mobilePhone}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            所在地区：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.country}&nbsp;国&nbsp;${osAuthor.province}&nbsp;省&nbsp;${osAuthor.city}&nbsp;市
+                        </td>
+                        <td>
+                            邮编：
+                        </td>
+                        <td class="doc_td_Active">
+                                ${osAuthor.postcode}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            详细地址：
+                        </td>
+                        <td class="doc_td_Active" colspan="3">
+                                ${osAuthor.address}
+                        </td>
+                    </tr>
+                    </tbody>
+                </c:forEach>
             </table>
             <table class="doc_table doc_table_WidthMarginBottom">
                 <tbody>
@@ -192,7 +143,8 @@
                         稿件信息：
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
-                        (该稿件于${postTime}投递成功，目前处于【${status}】状态)
+                        该稿件于<fmt:formatDate value="${osDoc.postTime}"
+                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态
                     </td>
                 </tr>
                 <tr>
@@ -200,7 +152,7 @@
                         中文标题：
                     </td>
                     <td class="doc_td_Active" style="width: 340px;">
-                        ${zhTitle}
+                        ${osDoc.zhTitle}
                     </td>
                 </tr>
                 <tr>
@@ -208,7 +160,7 @@
                         英文标题：
                     </td>
                     <td class="doc_td_Active">
-                        ${enTitle}
+                        ${osDoc.enTitle}
                     </td>
                 </tr>
                 <tr>
@@ -216,7 +168,7 @@
                         投稿类型：
                     </td>
                     <td class="doc_td_Active">
-                        ${type}
+                        ${osDoc.type}
                     </td>
                 </tr>
                 <tr>
@@ -224,7 +176,7 @@
                         稿件类别：
                     </td>
                     <td class="doc_td_Active">
-                        ${classification}
+                        ${osDoc.classification}
                     </td>
                 </tr>
                 <tr>
@@ -232,7 +184,7 @@
                         中文关键字：
                     </td>
                     <td class="doc_td_Active">
-                        ${zhKeyword}
+                        ${osDoc.zhKeyword}
                     </td>
                 </tr>
                 <tr>
@@ -240,7 +192,7 @@
                         英文关键字：
                     </td>
                     <td class="doc_td_Active">
-                        ${enKeyword}
+                        ${osDoc.enKeyword}
                     </td>
                 </tr>
                 <tr>
@@ -248,7 +200,7 @@
                         中文摘要：
                     </td>
                     <td class="doc_td_Active">
-                        ${zhSummary}
+                        ${osDoc.zhSummary}
                     </td>
                 </tr>
                 <tr>
@@ -256,18 +208,18 @@
                         英文摘要：
                     </td>
                     <td class="doc_td_Active">
-                        ${enSummary}
+                        ${osDoc.enSummary}
                     </td>
                 </tr>
                 </tbody>
             </table>
             <div id="pdf" class="docInfo_pdf"></div>
-            <form action="#" method="post">
+            <form action="${home}/admin/saveReview" method="post">
                 <table class="doc_table doc_table_WidthMarginBottom docInfo_reviewTable">
                     <tbody>
                     <tr>
                         <td colspan="2" class="doc_title">
-                            评审稿件：<span class="doc_remind_Blue docInfo_resultInfo">${成功评阅}</span>
+                            评审稿件：<span class="doc_remind_Blue docInfo_resultInfo"> ${msg}</span>
                         </td>
                     </tr>
                     <tr>
@@ -276,11 +228,11 @@
                         </td>
                         <td class="doc_td_Active">
                             <select name="propose" class="doc_select" required>
-                                <option value="">请选择</option>
+                                <option value="${not empty tmpPropose?tmpPropose:''}">${not empty tmpPropose?tmpPropose:'请选择'}</option>
                                 <option value="拟采编">拟采编</option>
                                 <option value="拟退稿">拟退稿</option>
                             </select>
-                            <input type="hidden" name="id" value="${id}"/>
+                            <input type="hidden" name="id" value=" ${osDoc.id}"/>
                         </td>
                     </tr>
                     <tr>
@@ -289,12 +241,12 @@
                         </td>
                         <td class="doc_td_Active">
                             <textarea class="doc_textarea" name="reviewResult"
-                                      style="height: 100px;width: 550px;">${reviewResult}</textarea>
+                                      style="height: 100px;width: 550px;">${tmpReviewResult}</textarea>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="border-bottom: 4px solid #C4D8ED;">
-                            <input type="submit" class="doc_btn docInfo_reviewTable_submitBtn">提&nbsp;&nbsp;&nbsp;&nbsp;交</input>
+                            <input type="submit" class="doc_btn docInfo_reviewTable_submitBtn"></input>
                         </td>
                     </tr>
                     </tbody>
@@ -303,13 +255,13 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/pdfobject.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/pdfobject.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
-        var pdfObject = new PDFObject({url: "/OnlineSubmission/update/test.pdf"}).embed("pdf");
+        var pdfObject = new PDFObject({url: "${home}/upload/${osDoc.path}"}).embed("pdf");
     });
 </script>
 </body>

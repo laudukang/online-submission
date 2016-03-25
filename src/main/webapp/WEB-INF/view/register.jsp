@@ -3,20 +3,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <header class="user_header">
-    <h1>在线投稿系统</h1>
+    <h1>网络投稿系统</h1>
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container register" action="register" method="post">
+    <form class="user_container register" action="${home}/register" method="post">
         <ul class="user_content">
             <li class="register_item">
                 <h2 class="register_title">用户注册</h2>
-                <a class="register_item_rightBtn" href="login">登录</a>
+                <a class="register_item_rightBtn" href="${home}/login">登录</a>
             </li>
             <li class="register_item">
                 <input type="text" name="account" class="doc_text doc_text_Large" placeholder="请输入有效邮箱" required
@@ -37,8 +37,8 @@
         </ul>
     </form>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jQuery.md5.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jQuery.md5.js"></script>
 <script>
     $('#password2').on('change', function () {
         if ($(this).val() != $('#password1').val()) {

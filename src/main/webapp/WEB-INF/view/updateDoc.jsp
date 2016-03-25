@@ -1,12 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -14,10 +15,9 @@
     <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
-
             稿件中心 &gt; 稿件修改 &gt; ${osDoc.zhTitle}</h2>
         <div class="frame_main_center">
-            <form action="updateDoc" method="post" enctype="multipart/form-data">
+            <form action="${home}/updateDoc" method="post" enctype="multipart/form-data">
                 <table class="doc_table submitDoc_authorTable">
                     <c:forEach items="${osDoc.osAuthors}" var="osAuthor" varStatus="obj">
                         <tbody class="submitDoc_authorBody">
@@ -132,7 +132,8 @@
                             稿件信息：
                         </td>
                         <td class="doc_title doc_td_Active doc_remind_Blue">
-                            (该稿件于2016-03-10 15:30:00投递成功，目前处于【待审阅】状态)
+                            该稿件于<fmt:formatDate value="${osDoc.postTime}"
+                                                pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态，状态变更会有邮件通知
                             <input type="hidden" name="id" value="${osDoc.id}">
                         </td>
                     </tr>
@@ -161,8 +162,8 @@
                         </td>
                         <td class="doc_td_Active">
                             <select name="type" class="doc_select" required>
-                                <option value="">请选择</option>
-                                <option value="自由稿件">自由稿件</option>
+                                <option value="${ not empty osDoc.type?osDoc.type :''}">${ not empty osDoc.type?osDoc.type :'请选择'}</option>
+                                <option value="自由来稿">自由来稿</option>
                                 <option value="特约稿">特约稿</option>
                                 <option value="其他">其他</option>
                             </select>
@@ -175,7 +176,7 @@
                         </td>
                         <td class="doc_td_Active">
                             <select name="classification" class="doc_select" required>
-                                <option value="">请选择</option>
+                                <option value="${ not empty osDoc.classification?osDoc.classification :''}">${ not empty osDoc.classification?osDoc.classification :'请选择'}</option>
                                 <option value="小说">小说</option>
                                 <option value="文学">文学</option>
                                 <option value="文学">文学</option>
@@ -275,9 +276,9 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
         doc.docInfo.submitDoc();

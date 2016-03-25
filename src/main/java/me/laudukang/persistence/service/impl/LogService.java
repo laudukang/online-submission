@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service.impl;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsLog;
 import me.laudukang.persistence.repository.LogRepository;
 import me.laudukang.persistence.service.ILogService;
@@ -19,8 +20,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Future;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * <p>Created with IDEA
@@ -89,9 +88,9 @@ public class LogService extends CustomPageService<OsLog> implements ILogService 
     private Specification<OsLog> getSpecification(LogDomain logDomain) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            if (!isNullOrEmpty(logDomain.getContent()))
+            if (!Strings.isNullOrEmpty(logDomain.getContent()))
                 predicate.getExpressions().add(cb.like(root.get("content").as(String.class), logDomain.getContent().trim()));
-            if (!isNullOrEmpty(logDomain.getFromTime()) && !isNullOrEmpty(logDomain.getToTime())) {
+            if (!Strings.isNullOrEmpty(logDomain.getFromTime()) && !Strings.isNullOrEmpty(logDomain.getToTime())) {
                 try {
                     predicate.getExpressions().add(cb.between(root.get("time"), new Date(dateFormat.parse(logDomain.getFromTime()).getTime()), new Date(dateFormat.parse(logDomain.getToTime()).getTime())));
 

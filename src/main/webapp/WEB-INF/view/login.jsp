@@ -1,18 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:url value="${pageContext.request.contextPath}" var="home" scope="session"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
+    <link rel="shortcut icon" href="${home}/favicon.ico"/>
 </head>
 <body>
 <header class="user_header">
-    <h1>在线投稿系统</h1>
+    <h1>网络投稿系统</h1>
 </header>
 <div class="user_wrap">
     <div class="user_bg"></div>
-    <form class="user_container login" action="login" method="post">
+    <form class="user_container login" action="${home}/login" method="post">
         <ul class="user_content">
             <li class="login_item">
                 <h2 class="login_title">用户登录</h2>
@@ -30,14 +33,14 @@
                 <span class="user_remind remind">${requestScope['org.springframework.validation.BindingResult.loginDomain'].getFieldError('account').getDefaultMessage()}</span>
             </li>
             <li class="login_item">
-                <a id="forgivePasswordBtn" class="login_item_leftBtn" href="resetRequest">忘记密码?</a>
-                <a id="registerBtn" class="login_item_rightBtn" href="register">立即注册</a>
+                <a id="forgivePasswordBtn" class="login_item_leftBtn" href="${home}/resetRequest">忘记密码?</a>
+                <a id="registerBtn" class="login_item_rightBtn" href="${home}/register">立即注册</a>
             </li>
         </ul>
     </form>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/jQuery.md5.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/jQuery.md5.js"></script>
 <script>
     $(function () {
         $('.login').on('submit', function () {
@@ -45,6 +48,7 @@
             $(this).find('input[name="password"]').val($.md5(password));
         });
     });
+    //TODO 提示注册成功信息
 </script>
 </body>
 </html>

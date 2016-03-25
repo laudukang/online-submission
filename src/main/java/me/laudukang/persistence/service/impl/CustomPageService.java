@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service.impl;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.service.ICustomPageService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -7,8 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 /**
  * <p>Created with IDEA
@@ -28,9 +27,9 @@ public class CustomPageService<T> implements ICustomPageService {
     public Specification<T> getSpecification(String account, String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            if (!isNullOrEmpty(account))
+            if (!Strings.isNullOrEmpty(account))
                 predicate.getExpressions().add(cb.like(root.get("account").as(String.class), "%" + account.trim() + "%"));
-            if (!isNullOrEmpty(name))
+            if (!Strings.isNullOrEmpty(name))
                 predicate.getExpressions().add(cb.like(root.get("name").as(String.class), "%" + name.trim() + "%"));
             return predicate;
         };

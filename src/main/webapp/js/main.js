@@ -91,7 +91,7 @@ doc.docInfo.sendDoc = function () {
 			}
 		});
 		doc.tool.getJSON({
-			url: "data.json",
+			url: "admin/distribute",
 			data: {'docid': docId, "reviewerid": reviewerid},
 			success: function (res) {
 				$('#docInfo_sendDocBox_cover').hide().find('.docInfo_sendDocBox_right').html('');
