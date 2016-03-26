@@ -5,9 +5,11 @@ import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.AbstractApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
 
@@ -23,20 +25,25 @@ import java.util.concurrent.Executor;
 @ComponentScan({"me.laudukang.spring.events"})
 public class AsyncConfig implements AsyncConfigurer {
 
-    @Bean(name = "threadPoolTaskExecutor")
-    public Executor threadPoolTaskExecutor() {
-        return new ThreadPoolTaskExecutor();
+    @Bean
+    public Executor simpleAsyncTaskExecutor() {
+        return new SimpleAsyncTaskExecutor();
+    }
+
+    @Bean
+    public AbstractApplicationEventMulticaster applicationEventMulticaster() {
+        SimpleApplicationEventMulticaster simpleApplicationEventMulticaster = new SimpleApplicationEventMulticaster();
+        simpleApplicationEventMulticaster.setTaskExecutor(simpleAsyncTaskExecutor());
+        return simpleApplicationEventMulticaster;
     }
 
     @Override
     public Executor getAsyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(7);
-        executor.setMaxPoolSize(42);
-        executor.setQueueCapacity(11);
-        executor.setThreadNamePrefix("MyExecutor-");
-        executor.initialize();
-        return executor;
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        simpleAsyncTaskExecutor.setDaemon(true);
+        simpleAsyncTaskExecutor.setConcurrencyLimit(10);
+        simpleAsyncTaskExecutor.setThreadNamePrefix("simpleAsyncTaskExecutor");
+        return simpleAsyncTaskExecutor;
     }
 
     @Override
