@@ -48,7 +48,10 @@
             $(this).find('input[name="password"]').val($.md5(password));
         });
     });
-    //TODO 提示注册成功信息
+    doc.tool.success(window.location.search, function () {
+    }, function (msg) {
+        $('.user_remind').html(msg);
+    });
 </script>
 </body>
 </html>

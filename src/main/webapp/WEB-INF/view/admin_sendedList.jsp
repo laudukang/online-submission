@@ -121,26 +121,6 @@
     </div>
 </div>
 
-<div class="doc_cover" id="docInfo_sendDocBox_cover" style="display: none;">
-    <article class="doc_box docInfo_sendDocBox">
-        <header>
-            <h2>派发稿件</h2>
-            <i class="icon-remove doc_header_closeBtn"></i>
-        </header>
-        <div class="doc_box_body">
-            <div class="docInfo_sendDocBox_left">
-                <span class="docInfo_sendDocBox_item_title">请选择审稿人：</span>
-            </div>
-            <div class="docInfo_sendDocBox_right">
-            </div>
-        </div>
-        <div class="doc_box_footer">
-            <a href="javascript:;" class="doc_btn docInfo_sendDocBox_submitBtn" style="text-align:center;">确&nbsp;&nbsp;定</a>
-            <a href="javascript:;" class="doc_btn docInfo_sendDocBox_cancelBtn" style="text-align:center;">取&nbsp;&nbsp;消</a>
-        </div>
-    </article>
-</div>
-
 <script src="${home}/js/jquery.js"></script>
 <script src="${home}/js/jquery.dataTables.js"></script>
 <script src="${home}/js/common.js"></script>
@@ -193,7 +173,6 @@
         doc.docInfo.dataTableEvent();
         doc.app.remindBoxEvent();
         doc.app.confirmBoxEvent();
-        doc.docInfo.sendDoc();
     });
 </script>
 </body>

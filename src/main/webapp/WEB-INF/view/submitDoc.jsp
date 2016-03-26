@@ -15,13 +15,18 @@
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
             稿件中心 &gt; 我要投稿</h2>
-        <c:if test="${ empty osUser.name or empty osUser.mobilePhone or empty osUser.country or empty osUser.province or empty osUser.city or empty osUser.address or empty osUser.postcode}">
-            <c:out value="osuser has empty value"></c:out>
-        </c:if>
-        <%--todo 信息补全提示--%>
         <div class="frame_main_center">
             <form action="${home}/newDoc" method="post" enctype="multipart/form-data">
                 <table class="doc_table submitDoc_authorTable">
+                    <c:if test="${ empty osUser.name or empty osUser.mobilePhone or empty osUser.country or empty osUser.province or empty osUser.city or empty osUser.address or empty osUser.postcode}">
+                        <thead>
+                        <tr>
+                            <th class="doc_title" colspan="4">
+                                <a href="">您的个人信息不齐全，请到个人信息中完善</a>
+                            </th>
+                        </tr>
+                        </thead>
+                    </c:if>
                     <tbody class="submitDoc_authorBody">
                     <tr>
                         <td class="doc_title submitDoc_authorTable_title" colspan="4">
