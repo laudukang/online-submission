@@ -7,15 +7,18 @@ import me.laudukang.persistence.repository.DocRepository;
 import me.laudukang.persistence.service.IDocService;
 import me.laudukang.spring.domain.DocDomain;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,7 +34,6 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @Service("docService")
-@Transactional
 public class DocService extends CustomPageService<OsDoc> implements IDocService {
 
     @Autowired
@@ -43,51 +45,67 @@ public class DocService extends CustomPageService<OsDoc> implements IDocService 
     @Autowired
     private AuthorRepository authorRepository;
 
-
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void save(OsDoc osDoc) {
         docRepository.save(osDoc);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict(value = "doc-cache", key = "'doc'+#osDoc.id")
     @Override
     public void update(OsDoc osDoc, List<OsAuthor> osAuthorList) {
         authorRepository.delete(osAuthorList);
         docRepository.save(osDoc);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict(value = "doc-cache", key = "'doc'+#id")
     @Override
     public void deleteById(int id) {
         docRepository.delete(id);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-cache")
     @Override
     public Page<OsDoc> findAll(String zhTitle, Date fromTime, Date toTime, Pageable pageable) {
         return docRepository.findAll(getSpecification(zhTitle, fromTime, toTime), pageable);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-cache", key = "'doc'+#id")
     @Override
     public OsDoc findOne(int id) {
         return docRepository.findOne(id);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-cache")
     @Override
     public Page<OsDoc> findAllSuper(DocDomain docDomain) {
         return docRepository.findAll(getSuperSpecification(docDomain),
                 getPageRequest(docDomain.getPage(), docDomain.getPageSize(), docDomain.getSortCol(), docDomain.getSortDir()));
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-cache")
     @Override
     public Page<OsDoc> findAllByUserId(DocDomain docDomain) {
         return docRepository.findAll(getUserSpecification(docDomain),
                 getPageRequest(docDomain.getPage(), docDomain.getPageSize(), docDomain.getSortCol(), docDomain.getSortDir()));
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-cache")
     @Override
     public Page<OsDoc> findByAdminId(DocDomain docDomain) {
         return docRepository.findAll(getAdminSpecification(docDomain),
                 getPageRequest(docDomain.getPage(), docDomain.getPageSize(), docDomain.getSortCol(), docDomain.getSortDir()));
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-cache")
     @Override
     public Page<OsDoc> findDistributedDoc(DocDomain docDomain) {
         return docRepository.findAll(getDistributedDocSpecification(docDomain),

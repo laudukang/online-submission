@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,6 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @Service
-@Transactional
 public class RoleService extends CustomPageService<OsLog> implements IRoleService {
     @Autowired
     private RoleRepository roleRepository;
@@ -32,11 +32,13 @@ public class RoleService extends CustomPageService<OsLog> implements IRoleServic
     @Autowired
     private PermissionRepository permissionRepository;
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public OsRole findOne(int id) {
         return roleRepository.findOne(id);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void save(OsRole osRole, int[] osPermissions) {
         for (int id : osPermissions
@@ -51,11 +53,14 @@ public class RoleService extends CustomPageService<OsLog> implements IRoleServic
         roleRepository.save(osRole);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(int id) {
         roleRepository.delete(id);
     }
 
+
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void updateById(RoleDomain roleDomain, int[] osPermissions) {
         OsRole result = roleRepository.findOne(roleDomain.getId());
@@ -86,11 +91,13 @@ public class RoleService extends CustomPageService<OsLog> implements IRoleServic
         }
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public Page<OsRole> findAll(Pageable pageable) {
         return roleRepository.findAll(pageable);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public List<OsRole> findRoleByAdminId(int id) {
         return roleRepository.findRoleByAdminId(id);

@@ -87,8 +87,9 @@ public class MessageServiceTest {
         messageDomain.setPageSize(10);
         messageDomain.setSortCol("postTime");
         messageDomain.setSortDir("ASC");
-        List<MessageDomain> result = iMessageService.findAllByUserId(4);
-        printUtil.printListToConsole(result);
+        List<MessageDomain> result = iMessageService.findAllByUserId(1);
+        System.out.println(result.size());
+        //rintUtil.printListToConsole(result);
     }
 
     @Test
@@ -99,6 +100,7 @@ public class MessageServiceTest {
         messageDomain.setSortCol("postTime");
         messageDomain.setSortDir("ASC");
         List<MessageDomain> result = iMessageService.findAllByAdminId(1);
-        printUtil.printListToConsole(result);
+        System.out.println(result.size());
+        //printUtil.printListToConsole(result);
     }
 }

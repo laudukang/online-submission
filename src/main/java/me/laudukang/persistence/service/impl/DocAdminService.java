@@ -6,9 +6,12 @@ import me.laudukang.persistence.repository.DocAdminRepository;
 import me.laudukang.persistence.service.IDocAdminService;
 import me.laudukang.spring.domain.DocAdminDomain;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -18,21 +21,29 @@ import javax.transaction.Transactional;
  * <p>Version: 1.0
  */
 @Service
-@Transactional
 public class DocAdminService implements IDocAdminService {
     @Autowired
     private DocAdminRepository docAdminRepository;
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void save(List<OsDocAdmin> osDocAdminList) {
+        docAdminRepository.save(osDocAdminList);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void save(OsDocAdmin osDocAdmin) {
         docAdminRepository.save(osDocAdmin);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void deleteById(OsDocAdminPK osDocAdminPK) {
         docAdminRepository.delete(osDocAdminPK);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void update(OsDocAdmin osDocAdmin) {
         OsDocAdmin result = docAdminRepository.findOne(osDocAdmin.getId());
@@ -43,11 +54,14 @@ public class DocAdminService implements IDocAdminService {
         }
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "doc-admin-cache", key = "'doc-admin'+#id")
     @Override
     public DocAdminDomain findOneByDocId(int id) {
         return docAdminRepository.findOneByDocId(id);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public OsDocAdmin findOneByDocAdmin(int docid, int adminid) {
         return docAdminRepository.findOneByDocAdmin(docid, adminid);

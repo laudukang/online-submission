@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,15 +47,8 @@ public class DocAdminController implements ApplicationContextAware {
 
     @RequestMapping(value = "admin/distribute", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> saveDistribute(@RequestParam("docid") int docid, @RequestParam("reviewerid") int reviewerid,
+    public Map<String, Object> saveDistribute(@RequestParam("docid") int docid, @RequestParam("reviewerid[]") int[] reviewerid,
                                               HttpServletRequest request, HttpSession session) {
-        OsDocAdminPK osDocAdminPK = new OsDocAdminPK(docid, reviewerid);
-        OsDocAdmin osDocAdmin = new OsDocAdmin();
-        osDocAdmin.setId(osDocAdminPK);
-        osDocAdmin.setPropose(DOC_REVIEWING);
-        osDocAdmin.setReviewResult(DOC_REVIEWING);
-        iDocAdminService.save(osDocAdmin);
-
         //发送稿件分发邮件
         StringBuilder url = new StringBuilder(request.getScheme())
                 .append("://")
@@ -62,7 +57,19 @@ public class DocAdminController implements ApplicationContextAware {
                 .append(request.getServerPort())
                 .append(request.getContextPath());
         String account = null != session.getAttribute("name") ? String.valueOf(session.getAttribute("name")) : "ADMIN";
-        applicationContext.publishEvent(new DocEvent(this, docid, reviewerid, "", "", account, "distribute", url.toString()));
+
+        List<OsDocAdmin> osDocAdminList = new ArrayList<>(reviewerid.length);
+        for (int adminid : reviewerid) {
+            OsDocAdminPK osDocAdminPK = new OsDocAdminPK(docid, adminid);
+            OsDocAdmin osDocAdmin = new OsDocAdmin();
+            osDocAdmin.setId(osDocAdminPK);
+            osDocAdmin.setPropose(DOC_REVIEWING);
+            osDocAdmin.setReviewResult(DOC_REVIEWING);
+            osDocAdminList.add(osDocAdmin);
+
+            applicationContext.publishEvent(new DocEvent(this, docid, adminid, "", "", account, "distribute", url.toString()));
+        }
+        iDocAdminService.save(osDocAdminList);
         return MapUtil.getSaveMap();
     }
 

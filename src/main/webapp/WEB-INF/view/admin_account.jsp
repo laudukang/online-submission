@@ -21,7 +21,7 @@
         <h2 class="frame_main_content_path">
             个人中心 &gt; 账户信息</h2>
         <div class="frame_main_center">
-            <form action="${home}/admin/updateInfo" method="post">
+            <form action="${home}${adminid==adminDomain.id?'/admin/updateInfo':'/admin/updateOtherInfo'}" method="post">
                 <table class="doc_table account_table">
                     <tbody>
                     <tr>
@@ -36,6 +36,7 @@
                         <td class="doc_td_Active">
                             ${adminDomain.account}&nbsp;&nbsp;&nbsp;(账户名不允许修改)
                             <input name="id" value="${adminDomain.id}" hidden>
+                            <input name="account" value="${adminDomain.account}" hidden>
                         </td>
                     </tr>
                     <tr>
@@ -66,7 +67,7 @@
                     </tr>
                     <tr>
                         <td>
-                            出现日期：
+                            出生日期：
                         </td>
                         <td class="doc_td_Active">
                             <input type="date" class="doc_text " name="birth" value="${adminDomain.birth}"

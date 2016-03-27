@@ -59,7 +59,7 @@ public class AdminController implements ApplicationContextAware {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, HttpSession session, Model model) {
+    public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, HttpServletRequest request, HttpSession session, Model model) {
         if (bindingResult.hasFieldErrors()) {
             return "admin_login";
         }
@@ -75,12 +75,21 @@ public class AdminController implements ApplicationContextAware {
 //                return "redirect:docsSuper";//管理员页面
 //            }
 //        }
+        StringBuilder stringBuilder = new StringBuilder("管理员[").append(loginDomain.getAccount());
         try {
-            SecurityUtils.getSubject().login(new UsernamePasswordToken(loginDomain.getAccount(), loginDomain.getPassword()));
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginDomain.getAccount(), loginDomain.getPassword());
+            usernamePasswordToken.setRememberMe(false);
+            SecurityUtils.getSubject().login(usernamePasswordToken);
+
+            stringBuilder.append("]登录成功");
+            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
+
             if (Boolean.valueOf(String.valueOf(session.getAttribute("isReviewer"))))
                 return "redirect:/admin/review";
             else return "redirect:/admin/docs";
         } catch (AuthenticationException ex) {
+            stringBuilder.append("]登录失败，账号/密码不正确");
+            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
         }
         bindingResult.rejectValue("account", "", "账号或密码不正确");
         model.addAttribute("success", false);
@@ -118,21 +127,6 @@ public class AdminController implements ApplicationContextAware {
     }
 
 
-    @RequestMapping(value = "updateInfo", method = RequestMethod.POST)
-    public String updateAdminInfo(@ModelAttribute @Valid AdminDomain adminDomain, BindingResult
-            bindingResult, Model model, HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            return "";
-        }
-        int adminid = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
-        adminDomain.setId(adminid);
-        iAdminService.updateById(adminDomain);
-        model.addAttribute("success", true);
-        model.addAttribute("msg", "成功修改信息");
-        bindingResult.rejectValue("account", "", "成功修改信息");
-        return "redirect:/admin/info";
-    }
-
     @RequestMapping(value = "newAdmin", method = RequestMethod.GET)
     public String newAdminPage(Model model) {
         model.addAttribute("adminDomain", new AdminDomain());
@@ -141,7 +135,8 @@ public class AdminController implements ApplicationContextAware {
 
     @RequestMapping(value = "newAdmin", method = RequestMethod.POST)
     public String newAdmin(@ModelAttribute @Valid AdminDomain adminDomain, BindingResult bindingResult, HttpServletRequest request, HttpSession session, Model model) {
-        if (bindingResult.hasFieldErrors()) {
+        if (Strings.isNullOrEmpty(adminDomain.getAccount()) || Strings.isNullOrEmpty(adminDomain.getPassword())) {
+            bindingResult.rejectValue("account", "", "账号名/密码不能为空");
             return "";
         }
         if (iAdminService.existAccount(adminDomain.getAccount())) {
@@ -202,20 +197,34 @@ public class AdminController implements ApplicationContextAware {
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> delete(@PathVariable("id") int id) {
+    public Map<String, Object> delete(@PathVariable("id") int id, HttpServletRequest request, HttpSession session) {
         if (1 == id) {
             return MapUtil.getForbiddenOperationMap();
         }
+
+        String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
+        OsAdmin osAdmin = iAdminService.findOne(id);
+        StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]删除了用户[").append(osAdmin.getId()).append("_")
+                .append(!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()).append("]");
+        applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), user, request.getRemoteHost()));
+
         iAdminService.deleteById(id);
         return MapUtil.getDeleteMap();
     }
 
     @RequestMapping(value = "able", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> disable(@RequestParam("id") int id, @RequestParam("status") int status) {
+    public Map<String, Object> disable(@RequestParam("id") int id, @RequestParam("status") int status, HttpServletRequest request, HttpSession session) {
         if (1 == id) {
             return MapUtil.getForbiddenOperationMap();
         }
+
+        String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
+        OsAdmin osAdmin = iAdminService.findOne(id);
+        StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]").append(status == 1 ? "启用了用户[" : "禁用了用户[").append(osAdmin.getId()).append("_")
+                .append(!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()).append("]");
+        applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), user, request.getRemoteHost()));
+
         iAdminService.ableAdmin(id, status);
         return MapUtil.getAbleMap();
     }
@@ -227,8 +236,46 @@ public class AdminController implements ApplicationContextAware {
 //        return "";
 //    }
 
+    @RequestMapping(value = "updateInfo", method = RequestMethod.POST)
+    public String updateAdminInfo(@ModelAttribute @Valid AdminDomain adminDomain, BindingResult
+            bindingResult, Model model, HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            return "admin_account";
+        }
+        int adminid = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
+        adminDomain.setId(adminid);
+        iAdminService.updateById(adminDomain);
+        model.addAttribute("success", true);
+        model.addAttribute("msg", "成功修改信息");
+        bindingResult.rejectValue("account", "", "成功修改信息");
+        session.setAttribute("name", !Strings.isNullOrEmpty(adminDomain.getName()) ? adminDomain.getName() : String.valueOf(session.getAttribute("account")));
+        return "redirect:/admin/info";
+    }
+
+    //超级管理员更新其他管理员信息
+    @RequestMapping(value = "updateOtherInfo", method = RequestMethod.POST)
+    public String updateOtherAdminInfo(@ModelAttribute @Valid AdminDomain adminDomain, BindingResult
+            bindingResult, Model model, HttpSession session, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return "admin_account";
+        }
+        int adminid = Integer.valueOf(String.valueOf(session.getAttribute("otherAdminId")));
+        adminDomain.setId(adminid);
+        iAdminService.updateById(adminDomain);
+        model.addAttribute("success", true);
+        model.addAttribute("msg", "成功修改信息");
+        String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
+        StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]").append("更改了[").append(adminDomain.getAccount()).append("_")
+                .append(adminDomain.getName()).append("]的信息");
+        applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), user, request.getRemoteHost()));
+        bindingResult.rejectValue("account", "", "成功修改信息");
+        session.removeAttribute("otherAdminId");
+        return "redirect:/adminInfo/" + adminid;
+    }
+
+    //超级管理员查看其他管理员信息
     @RequestMapping(value = "adminInfo/{id}", method = RequestMethod.GET)
-    public String adminInfo(@PathVariable("id") int id, Model model) {
+    public String adminVisitInfo(@PathVariable("id") int id, Model model, HttpSession session) {
         OsAdmin osAdmin = iAdminService.findOne(id);
         if (null == osAdmin) {
             model.addAttribute("success", null != osAdmin);
@@ -249,6 +296,7 @@ public class AdminController implements ApplicationContextAware {
         adminDomain.setReviewer(osAdmin.getReviewer());
         adminDomain.setStatus(osAdmin.getStatus());
         model.addAttribute("adminDomain", adminDomain);
+        session.setAttribute("otherAdminId", osAdmin.getId());
         return "admin_account";
     }
 
@@ -265,7 +313,7 @@ public class AdminController implements ApplicationContextAware {
         adminDomain.setId(osAdmin.getId());
         adminDomain.setAccount(osAdmin.getAccount());
         adminDomain.setAddress(osAdmin.getAddress());
-        adminDomain.setSubject(adminDomain.getSubject());
+        adminDomain.setSubject(osAdmin.getSubject());
         adminDomain.setSex(osAdmin.getSex());
         adminDomain.setName(osAdmin.getName());
         adminDomain.setBirth(osAdmin.getBirth());
@@ -316,14 +364,13 @@ public class AdminController implements ApplicationContextAware {
     }
 
     @RequestMapping(value = "logout")
-    public String logout(HttpSession session) {
-        // session.invalidate();
+    public String logout() {
         SecurityUtils.getSubject().logout();
         return "redirect:/admin/login";
     }
 
     //获取审稿员下拉框
-    @RequestMapping(value = "reviewerList", method = RequestMethod.GET)
+    @RequestMapping(value = "reviewerList", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> reviewerList() {
         List<OsAdmin> osAdminList = iAdminService.listReviewer();

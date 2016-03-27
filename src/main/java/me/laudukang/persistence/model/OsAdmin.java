@@ -1,6 +1,7 @@
 package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,6 +42,7 @@ public class OsAdmin implements Serializable {
     @Column(name = "office_phone")
     private String officePhone;
 
+    @JsonIgnore
     @Column(columnDefinition = "char")
     private String password;
 

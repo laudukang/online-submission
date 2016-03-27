@@ -83,7 +83,7 @@ public class MessageController {
         return map;
     }
 
-    @RequestMapping(value = "adminMessages", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/adminMessages", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> findMessageByAdminId(Model model, HttpSession session) {
         Map<String, Object> map = new HashMap<>(2);

@@ -7,12 +7,15 @@ import me.laudukang.persistence.repository.PermissionRepository;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.spring.domain.AdminDomain;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -23,13 +26,14 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @Service("adminService")
-@Transactional
 public class AdminService extends CustomPageService<OsAdmin> implements IAdminService {
     @Autowired
     private AdminRepository adminRepository;
     @Autowired
     private PermissionRepository permissionRepository;
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Cacheable(value = "admin-cache", key = "'admin'+#adminDomain.id")
     @Override
     public void updateById(AdminDomain adminDomain) {
         OsAdmin osAdmin = adminRepository.findOne(adminDomain.getId());
@@ -49,17 +53,21 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public int updatePassword(int id, String password) {
         return adminRepository.updatePassword(id, password);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void save(OsAdmin osAdmin) {
         //adminRepository.saveAdminWithEM(osAdmin);
         adminRepository.save(osAdmin);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict(value = "admin-cache", key = "'admin'+#adminDomain.id")
     @Override
     public void deleteById(int id) {
         adminRepository.delete(id);
@@ -70,41 +78,53 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
 //        return adminRepository.findOne(account, password);
 //    }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public OsAdmin login(String account, String password) {
         return adminRepository.login(account, password);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public boolean existAccount(String account) {
-        return 1 == adminRepository.existAccount(account) ? true : false;
+        return 0 < adminRepository.existAccount(account) ? true : false;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "admin-cache", key = "'admin'+#adminDomain.id")
     @Override
     public OsAdmin findOne(int id) {
         return adminRepository.findOne(id);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "admin-cache")
     @Override
     public Page<OsAdmin> findAll(AdminDomain adminDomain) {
         return adminRepository.findAll(getSpecification(adminDomain.getAccount(), adminDomain.getName()), getPageRequest(adminDomain.getPage(), adminDomain.getPageSize(), adminDomain.getSortCol(), adminDomain.getSortDir()));
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "admin-cache")
     @Override
     public Page<OsAdmin> findAllReviewer(AdminDomain adminDomain) {
         return adminRepository.findAll(getReviewerSpecification(adminDomain.getAccount(), adminDomain.getName()), getPageRequest(adminDomain.getPage(), adminDomain.getPageSize(), adminDomain.getSortCol(), adminDomain.getSortDir()));
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable(value = "admin-cache")
     @Override
     public List<OsAdmin> listReviewer() {
         return adminRepository.listReviewer();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public int ableAdmin(int id, int status) {
         return adminRepository.ableAdmin(id, status);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
     public OsRole findReviewerRole() {
         return permissionRepository.findByDocReviewName().getOsRole();

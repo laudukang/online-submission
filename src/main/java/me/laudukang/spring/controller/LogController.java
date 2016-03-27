@@ -21,6 +21,7 @@ import java.util.Map;
  * <p>Version: 1.0
  */
 @Controller
+@RequestMapping("admin")
 public class LogController {
     @Autowired
     private ILogService iLogService;

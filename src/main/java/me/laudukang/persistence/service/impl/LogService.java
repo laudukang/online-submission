@@ -6,15 +6,18 @@ import me.laudukang.persistence.repository.LogRepository;
 import me.laudukang.persistence.service.ILogService;
 import me.laudukang.spring.domain.LogDomain;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
-import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +32,6 @@ import java.util.concurrent.Future;
  * <p>Version: 1.0
  */
 @Service
-@Transactional
 public class LogService extends CustomPageService<OsLog> implements ILogService {
 
     @Autowired
@@ -46,39 +48,52 @@ public class LogService extends CustomPageService<OsLog> implements ILogService 
     //    entityManager.flush();
     //}
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     @Async
     public void save(OsLog osLog) {
         logRepository.save(osLog);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable("log-cache")
     public Page<OsLog> findByContent(String content, Pageable pageable) {
         return logRepository.findByContentLike(content, pageable);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable("log-cache")
     @Override
     public Page<OsLog> findByUserOrAdminName(String userOrAdminName, Pageable pageable) {
         return logRepository.findByUserOrAdminNameLike(userOrAdminName, pageable);
 
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable("log-cache")
     @Override
     public Page<OsLog> findAll(Pageable pageable) {
         return logRepository.findAll(pageable);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Cacheable("log-cache")
     @Override
     public Page<OsLog> findAll(LogDomain logDomain) {
         return logRepository.findAll(getSpecification(logDomain),
                 getPageRequest(logDomain.getPage(), logDomain.getPageSize(), logDomain.getSortCol(), logDomain.getSortDir()));
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict
     @Async
     @Override
     public void deleteById(int id) {
         logRepository.delete(id);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    @CacheEvict
     @Async
     @Override
     public void deleteByEntity(OsLog osLog) {

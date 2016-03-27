@@ -22,7 +22,7 @@
                         <thead>
                         <tr>
                             <th class="doc_title" colspan="4">
-                                <a href="">您的个人信息不齐全，请到个人信息中完善</a>
+                                <a href="${home}/userInfo">您的个人信息不齐全，建议到【个人中心-账号信息】完善</a>
                             </th>
                         </tr>
                         </thead>

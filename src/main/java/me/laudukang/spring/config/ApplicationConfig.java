@@ -1,6 +1,7 @@
 package me.laudukang.spring.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -31,12 +32,14 @@ import java.util.Properties;
 @EnableSpringDataWebSupport
 @PropertySource({"classpath:system.properties"})
 @Import({AsyncConfig.class, ShiroConfig.class})
+@EnableCaching
 //@EnableWebMvc
 //@EnableTransactionManagement
 //@ComponentScan(basePackages = {"me.laudukang.spring.config"})
 public class ApplicationConfig {
     @Autowired
     private Environment environment;
+
 
     @Bean
     public JavaMailSender javaMailSender() {
@@ -48,11 +51,11 @@ public class ApplicationConfig {
         javaMailSender.setDefaultEncoding(environment.getProperty("mail.defaultEncoding"));
         javaMailSender.setProtocol(environment.getProperty("mail.protocol"));
         Properties properties = new Properties();
-        properties.put("mail.transport.protocol", environment.getProperty("mail.transport.protocol"));
-        properties.put("mail.smtp.auth", environment.getProperty("mail.smtp.auth"));
-        properties.put("mail.smtp.starttls.enable", environment.getProperty("mail.smtp.starttls.enable"));
-        properties.put("mail.debug", environment.getProperty("mail.debug"));
-        properties.put("mail.smtp.timeout", environment.getProperty("mail.smtp.timeout"));
+        properties.setProperty("mail.transport.protocol", environment.getProperty("mail.transport.protocol"));
+        properties.setProperty("mail.smtp.auth", environment.getProperty("mail.smtp.auth"));
+        properties.setProperty("mail.smtp.starttls.enable", environment.getProperty("mail.smtp.starttls.enable"));
+        properties.setProperty("mail.debug", environment.getProperty("mail.debug"));
+        properties.setProperty("mail.smtp.timeout", environment.getProperty("mail.smtp.timeout"));
         javaMailSender.setJavaMailProperties(properties);
         return javaMailSender;
     }

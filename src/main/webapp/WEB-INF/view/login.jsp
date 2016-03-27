@@ -19,6 +19,7 @@
         <ul class="user_content">
             <li class="login_item">
                 <h2 class="login_title">用户登录</h2>
+                <a class="register_item_rightBtn" href="${home}/admin/login">管理员登录</a>
             </li>
             <li class="login_item">
                 <input class="doc_text doc_text_Large" type="text" name="account" placeholder="请输入注册邮箱" required

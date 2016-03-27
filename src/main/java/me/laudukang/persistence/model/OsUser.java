@@ -1,6 +1,7 @@
 package me.laudukang.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -49,6 +50,7 @@ public class OsUser implements Serializable {
     private String officePhone;
 
     //@NotEmpty(message = "密码不能为空")
+    @JsonIgnore
     @Column(columnDefinition = "char")
     private String password;
 

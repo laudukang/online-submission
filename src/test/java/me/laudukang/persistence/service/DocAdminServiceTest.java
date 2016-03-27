@@ -19,7 +19,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -59,12 +61,14 @@ public class DocAdminServiceTest {
 
     @Test
     public void save() {
+        List<OsDocAdmin> osDocAdminList = new ArrayList<>();
         OsDocAdmin osDocAdmin = new OsDocAdmin();
         OsDocAdminPK osDocAdminPK = new OsDocAdminPK(1, 1);
         osDocAdmin.setId(osDocAdminPK);
-        osDocAdmin.setReviewResult("r_" + sdf.format(new Date()));
+        osDocAdmin.setReviewResult("很好");
         osDocAdmin.setPropose("拟采用");
-        iDocAdminService.save(osDocAdmin);
+        osDocAdminList.add(osDocAdmin);
+        iDocAdminService.save(osDocAdminList);
     }
 
     @Test

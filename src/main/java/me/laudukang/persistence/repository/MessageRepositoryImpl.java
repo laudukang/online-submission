@@ -22,7 +22,7 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom {
 
     @Override
     public List<MessageDomain> findAllByUserId(int id) {
-        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osUser.id=:id order by message.postTime DESC";
+        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,'') from OsMessage message where message.osUser.id=:id order by message.postTime DESC";
         TypedQuery<MessageDomain> query = entityManager.createQuery(queryStr, MessageDomain.class);
         query.setParameter("id", id);
 //        query.setFirstResult(messageDomain.getPage() * messageDomain.getPageSize());
@@ -32,7 +32,7 @@ public class MessageRepositoryImpl implements MessageRepositoryCustom {
 
     @Override
     public List<MessageDomain> findAllByAdminId(int id) {
-        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,message.osUser.account,message.osAdmin.account) from OsMessage message where message.osAdmin.id=:id order by message.postTime DESC";
+        String queryStr = "select new me.laudukang.spring.domain.MessageDomain(message.id,message.title,message.content,message.postTime,'',message.osAdmin.account) from OsMessage message where message.osAdmin.id=:id order by message.postTime DESC";
         TypedQuery<MessageDomain> query = entityManager.createQuery(queryStr, MessageDomain.class);
         query.setParameter("id", id);
 //        query.setFirstResult(messageDomain.getPage() * messageDomain.getPageSize());

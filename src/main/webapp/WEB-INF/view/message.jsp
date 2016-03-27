@@ -38,7 +38,7 @@
         doc.message.dataTable = $('#messageTable').dataTable({
             "bServerSide": false,  //启动服务端分页、排序，搜索等功能
             "paging": false,
-            "sAjaxSource": '${home}${loginType=='0'?'/userMessages':'/admin/userMessages'}',  //ajax请求路径
+            "sAjaxSource": '${home}${loginType=='0'?'/userMessages':'/admin/adminMessages'}',  //ajax请求路径
             //修改参数
             "fnServerParams": function (aoData) {
             },

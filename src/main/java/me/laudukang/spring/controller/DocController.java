@@ -13,6 +13,7 @@ import me.laudukang.util.MapUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -263,6 +264,7 @@ public class DocController {
         return "admin_sendedList";
     }
 
+    @Cacheable(value = "doc-cache")
     @RequestMapping(value = "admin/distributedDocs", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> distributedDocs(@ModelAttribute DocDomain docDomain, BindingResult bindingResult) {
@@ -294,7 +296,6 @@ public class DocController {
         map.put("iTotalDisplayRecords", osDocPage.getNumberOfElements());
         return map;
     }
-
     @RequestMapping(value = "admin/docs", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> docsSuper(@ModelAttribute DocDomain docDomain, BindingResult bindingResult, HttpSession session) {

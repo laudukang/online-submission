@@ -45,7 +45,7 @@ doc.docInfo.dataTableEvent = function () {
 //删除稿件
 doc.docInfo.deleteDoc = function (id) {
 	doc.tool.getJSON({
-		url: "deleteDoc/" + id,
+		url: "/deleteDoc/" + id,
 		success: function () {
 			doc.docInfo.dataTable.fnDraw(true);
 		},
@@ -62,7 +62,7 @@ doc.docInfo.sendDoc = function () {
 	doc.docInfo.dataTable.delegate('.icon-signout', 'click', function () {
 		docId = $(this).data('id');
 		doc.tool.getJSON({
-			url: "reviewer.json",
+			url: "/admin/reviewerList",
 			success: function (res) {
 				$('#docInfo_sendDocBox_cover').show();
 				var p = 0;
@@ -91,7 +91,7 @@ doc.docInfo.sendDoc = function () {
 			}
 		});
 		doc.tool.getJSON({
-			url: "admin/distribute",
+			url: "/admin/distribute",
 			data: {'docid': docId, "reviewerid": reviewerid},
 			success: function (res) {
 				$('#docInfo_sendDocBox_cover').hide().find('.docInfo_sendDocBox_right').html('');

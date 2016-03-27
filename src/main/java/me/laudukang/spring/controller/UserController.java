@@ -7,6 +7,7 @@ import me.laudukang.spring.domain.LoginDomain;
 import me.laudukang.spring.domain.PasswordDomain;
 import me.laudukang.spring.domain.UserDomain;
 import me.laudukang.spring.events.EmailEvent;
+import me.laudukang.spring.events.LogEvent;
 import me.laudukang.util.MapUtil;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
@@ -61,7 +62,7 @@ public class UserController implements ApplicationContextAware {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, Model model, HttpSession session) {
+    public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, Model model, HttpServletRequest request, HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "login";
         }
@@ -77,10 +78,17 @@ public class UserController implements ApplicationContextAware {
 //        model.addAttribute("msg", "账号或密码不正确");
 //        return "login";
 
+        StringBuilder stringBuilder = new StringBuilder("用户[").append(loginDomain.getAccount());
         try {
             SecurityUtils.getSubject().login(new UsernamePasswordToken(loginDomain.getAccount(), loginDomain.getPassword()));
+
+            stringBuilder.append("]登录成功");
+            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
+
             return "redirect:/docs";
         } catch (AuthenticationException ex) {
+            stringBuilder.append("]登录失败，密码不正确");
+            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
         }
 
         bindingResult.rejectValue("account", "", "账号或密码不正确");
@@ -118,8 +126,35 @@ public class UserController implements ApplicationContextAware {
         return "redirect:/updatePassword";
     }
 
+    @RequestMapping(value = "admin/userInfo/{id}", method = RequestMethod.GET)
+    public String adminVisitUserInfo(@PathVariable("id") int id, Model model, HttpSession session) {
+        OsUser osUser = iUserService.findOne(id);
+        if (null != osUser) {
+            session.setAttribute("userid", osUser.getId());//用于管理员更新评语用户信息
+            UserDomain userDomain = new UserDomain();
+            userDomain.setId(osUser.getId());
+            userDomain.setAccount(osUser.getAccount());
+            userDomain.setId(osUser.getId());
+            userDomain.setRemark(osUser.getRemark());
+            userDomain.setStatus(osUser.getStatus());
+            userDomain.setName(osUser.getName());
+            userDomain.setAddress(osUser.getAddress());
+            userDomain.setMobilePhone(osUser.getMobilePhone());
+            userDomain.setOfficePhone(osUser.getOfficePhone());
+            userDomain.setBirth(osUser.getBirth());
+            userDomain.setCountry(osUser.getCountry());
+            userDomain.setProvince(osUser.getProvince());
+            userDomain.setCity(osUser.getCity());
+            userDomain.setPostcode(osUser.getPostcode());
+            userDomain.setSex(osUser.getSex());
+            model.addAttribute("userDomain", userDomain);
+            return "account";
+        }
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "userInfo", method = RequestMethod.GET)
-    public String findOne(Model model, HttpSession session) {
+    public String loginUserInfo(Model model, HttpSession session) {
         String str;
         int id;
         if (null != session.getAttribute("userid") && !Strings.isNullOrEmpty(str = String.valueOf(session.getAttribute("userid"))) && NumberUtils.isNumber(str)) {
@@ -153,7 +188,7 @@ public class UserController implements ApplicationContextAware {
 //        return "";
 //    }
 
-    @RequestMapping(value = "userInfo", method = RequestMethod.POST)
+    @RequestMapping(value = {"userInfo", "admin/userInfo"}, method = RequestMethod.POST)
     public String updateUserInfo(@ModelAttribute @Valid UserDomain userDomain, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
             for (FieldError error : bindingResult.getFieldErrors()) {
@@ -174,9 +209,14 @@ public class UserController implements ApplicationContextAware {
             userDomain.setId(id);
             iUserService.updateById(userDomain);
             isUpdate = true;
+            if ("1".equals(session.getAttribute("loginType"))) {
+                session.removeAttribute("userid");
+            } else {
+                session.setAttribute("name", !Strings.isNullOrEmpty(userDomain.getName()) ? userDomain.getName() : String.valueOf(session.getAttribute("account")));
+            }
         }
         model.addAttribute("success", isUpdate);
-        model.addAttribute("msg", isUpdate ? "更新成功" : "更新失败,用户未登陆");
+        model.addAttribute("msg", isUpdate ? "更新成功" : "更新失败,用户未授权");
         return "redirect:/userInfo";
     }
 
@@ -251,12 +291,12 @@ public class UserController implements ApplicationContextAware {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "users", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/users", method = RequestMethod.GET)
     public String usersPage() {
         return "";
     }
 
-    @RequestMapping(value = "users", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/users", method = RequestMethod.POST)
     public Map<String, Object> users(@ModelAttribute UserDomain userDomain, BindingResult bindingResult) {
         Map<String, Object> map = new HashMap<>(5);
         Page<OsUser> osUserPage = iUserService.findAll(userDomain);
@@ -268,7 +308,7 @@ public class UserController implements ApplicationContextAware {
         return map;
     }
 
-    @RequestMapping(value = "deleteUser", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/deleteUser", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> delete(@RequestParam("id") int id) {
         iUserService.deleteById(id);
@@ -353,12 +393,11 @@ public class UserController implements ApplicationContextAware {
         return "resetPassword";
     }
 
-    @RequestMapping(value = "logout")
-    public String logout(HttpSession session) {
-        SecurityUtils.getSubject().logout();
-        //session.invalidate();
-        return "redirect:/login";
-    }
+//    @RequestMapping(value = "logout")
+//    public String logout() {
+//        SecurityUtils.getSubject().logout();
+//        return "redirect:/login";
+//    }
 
     @ExceptionHandler(RuntimeException.class)
     public void defaultErrorHandler(HttpServletRequest req, Exception ex) {

@@ -147,10 +147,10 @@ public class MvcConfig extends WebMvcConfigurationSupport {
 //        simpleMappingExceptionResolver.setDefaultErrorView("error");
 //        simpleMappingExceptionResolver.setExceptionAttribute("ex");
 //        Properties properties = new Properties();
-//        properties.put("org.springframework.web.multipart.MaxUploadSizeExceededException", "error");
-//        properties.put("java.lang.Exception", "error");
-//        properties.put("java.lang.RuntimeException", "error");
-//        properties.put("java.lang.Throwable", "error");
+//        properties.setProperty("org.springframework.web.multipart.MaxUploadSizeExceededException", "error");
+//        properties.setProperty("java.lang.Exception", "error");
+//        properties.setProperty("java.lang.RuntimeException", "error");
+//        properties.setProperty("java.lang.Throwable", "error");
 //        simpleMappingExceptionResolver.setExceptionMappings(properties);
 //        return simpleMappingExceptionResolver;
 //    }

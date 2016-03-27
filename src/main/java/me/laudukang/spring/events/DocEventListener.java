@@ -43,7 +43,6 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
 
     @Override
     public void onApplicationEvent(DocEvent event) {
-        System.out.println("in DocEventListener");
         OsDoc osDoc = iDocService.findOne(event.getDocid());
         OsUser osUser = osDoc.getOsUser();
         OsAdmin osAdmin = iAdminService.findOne(event.getAdminid());
@@ -111,7 +110,8 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
 
             OsMessage osMessage = new OsMessage();
             osMessage.setTitle("稿件[" + osDoc.getZhTitle() + "]有了新的动态");
-            osMessage.setContent("审稿员[" + (!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()) + "]的审阅结果为:" + event.getPropose());
+            osMessage.setContent("审稿员[" + (!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount())
+                    + "]的审阅结果为:" + event.getPropose() + "," + event.getReviewResult());
             osMessage.setOsUser(osUser);
             iMessageService.save(osMessage);
 

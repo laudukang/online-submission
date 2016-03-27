@@ -4,6 +4,8 @@ import me.laudukang.persistence.model.OsDocAdmin;
 import me.laudukang.persistence.model.OsDocAdminPK;
 import me.laudukang.spring.domain.DocAdminDomain;
 
+import java.util.List;
+
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -12,6 +14,8 @@ import me.laudukang.spring.domain.DocAdminDomain;
  * <p>Version: 1.0
  */
 public interface IDocAdminService {
+    void save(List<OsDocAdmin> osDocAdminList);
+
     void save(OsDocAdmin osDocAdmin);
 
     void deleteById(OsDocAdminPK osDocAdminPK);
