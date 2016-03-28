@@ -37,6 +37,7 @@ public class AdminShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         int adminid = Integer.valueOf(String.valueOf(super.getAvailablePrincipal(principals)));
         List<OsRole> osRoleList = iRoleService.findRoleByAdminId(adminid);
+        simpleAuthorizationInfo.addRole("MYADMININFO");//默认允许查看个人中心
         StringBuilder stringBuilder = new StringBuilder();
         if (osRoleList.size() > 0) {
             for (OsRole osRole : osRoleList) {

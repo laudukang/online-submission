@@ -383,6 +383,22 @@ public class AdminController implements ApplicationContextAware {
         return map;
     }
 
+    //指定admin role
+    @RequestMapping(value = "updateAdminRole", method = RequestMethod.GET)
+    public String updateAdminRole(@RequestParam("int[] role") int[] role, @RequestParam("id") int id) {
+        OsAdmin osAdmin = iAdminService.findOne(id);
+        osAdmin.setOsRoles(null);
+        iAdminService.save(osAdmin);
+
+        List<OsRole> osRoleList = new ArrayList<>(role.length);
+        for (int roleid : role) {
+            OsRole osRole = new OsRole(roleid);
+            osRoleList.add(osRole);
+        }
+        osAdmin.setOsRoles(osRoleList);
+        return "";
+    }
+
     private List<AdminDomain> mapOsAdminWithRoleName(List<OsAdmin> tmp) {
         List<AdminDomain> osAdminList = new ArrayList<>(tmp.size());
         for (OsAdmin osAdmin : tmp) {

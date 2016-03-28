@@ -1,7 +1,5 @@
 package me.laudukang.spring.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -12,12 +10,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class RoleDomain {
     private int id;
 
-    @NotEmpty
     private String name;
 
     private String remark;
 
     private int[] osPermissions;
+
+    private int page;
+    private int pageSize;
+    private String sortDir;
+    private String sortCol;
 
     public int getId() {
         return id;
@@ -49,5 +51,37 @@ public class RoleDomain {
 
     public void setOsPermissions(int[] osPermissions) {
         this.osPermissions = osPermissions;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getSortDir() {
+        return sortDir;
+    }
+
+    public void setSortDir(String sortDir) {
+        this.sortDir = sortDir;
+    }
+
+    public String getSortCol() {
+        return sortCol;
+    }
+
+    public void setSortCol(String sortCol) {
+        this.sortCol = sortCol;
     }
 }
