@@ -2,6 +2,7 @@ package me.laudukang.spring.controller;
 
 import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.spring.domain.AdminDomain;
@@ -336,9 +337,10 @@ public class AdminController implements ApplicationContextAware {
     public Map<String, Object> findAllAdmin(@ModelAttribute AdminDomain adminDomain) {
         Map<String, Object> map = new HashMap<>(5);
         Page<OsAdmin> tmp = iAdminService.findAll(adminDomain);
+        List<AdminDomain> osAdminList = mapOsAdminWithRoleName(tmp.getContent());
         map.put("success", true);
         map.put("msg", !tmp.getContent().isEmpty() ? "" : "记录不存在");
-        map.put("data", tmp.getContent());
+        map.put("data", osAdminList);
         map.put("iTotalRecords", tmp.getTotalElements());
         map.put("iTotalDisplayRecords", tmp.getNumberOfElements());
         return map;
@@ -354,10 +356,11 @@ public class AdminController implements ApplicationContextAware {
     @RequestMapping(value = "reviewers", method = RequestMethod.POST)
     public Map<String, Object> findAllReviewer(@ModelAttribute AdminDomain adminDomain) {
         Page<OsAdmin> tmp = iAdminService.findAllReviewer(adminDomain);
+        List<AdminDomain> osAdminList = mapOsAdminWithRoleName(tmp.getContent());
         Map<String, Object> map = new HashMap<>(5);
         map.put("success", true);
         map.put("msg", !tmp.getContent().isEmpty() ? "" : "记录不存在");
-        map.put("data", tmp.getContent());
+        map.put("data", osAdminList);
         map.put("iTotalRecords", tmp.getTotalElements());
         map.put("iTotalDisplayRecords", tmp.getNumberOfElements());
         return map;
@@ -378,5 +381,33 @@ public class AdminController implements ApplicationContextAware {
         map.put("success", true);
         map.put("data", osAdminList);
         return map;
+    }
+
+    private List<AdminDomain> mapOsAdminWithRoleName(List<OsAdmin> tmp) {
+        List<AdminDomain> osAdminList = new ArrayList<>(tmp.size());
+        for (OsAdmin osAdmin : tmp) {
+            AdminDomain adminDomain = new AdminDomain();
+            adminDomain.setId(osAdmin.getId());
+            adminDomain.setName(osAdmin.getName());
+            adminDomain.setStatus(osAdmin.getStatus());
+            adminDomain.setAccount(osAdmin.getAccount());
+            adminDomain.setOfficePhone(osAdmin.getOfficePhone());
+            adminDomain.setSex(osAdmin.getSex());
+            adminDomain.setReviewer(osAdmin.getReviewer());
+            StringBuilder stringBuilder = new StringBuilder();
+            for (OsRole osRole : osAdmin.getOsRoles()) {
+                for (OsPermission osPermission : osRole.getOsPermissions()) {
+                    stringBuilder.append(osPermission.getName()).append(";");
+                }
+            }
+            int index = stringBuilder.lastIndexOf(";");
+            if (-1 != index) {
+                adminDomain.setRole(stringBuilder.substring(0, index));
+            } else {
+                adminDomain.setRole("暂无权限,请先指定");
+            }
+            osAdminList.add(adminDomain);
+        }
+        return osAdminList;
     }
 }

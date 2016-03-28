@@ -35,6 +35,7 @@ public class AdminDomain {
     private int pageSize;
     private String sortDir;
     private String sortCol;
+    private String role;
 
     public int getId() {
         return id;
@@ -186,6 +187,14 @@ public class AdminDomain {
 
     public void setSortCol(String sortCol) {
         this.sortCol = sortCol;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
