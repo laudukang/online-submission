@@ -65,48 +65,50 @@
         <h2 class="frame_main_content_path">
             系统中心 &gt; 管理员管理 &gt; ${account}账号下的角色管理</h2>
         <div class="frame_main_center">
-            <table class="doc_table doc_table_WidthMarginBottom doc_system_roleTable">
-                <thead>
-                <th class="doc_title" colspan="4" style="text-align: left;">角色管理</th>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="doc_sec_title" style="width: 30px;text-align: center;">操作</td>
-                    <td class="doc_sec_title" style="width: 80px;">编号</td>
-                    <td class="doc_sec_title" style="width: 120px;">角色名</td>
-                    <td class="doc_sec_title">拥有权限</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>1</td>
-                    <td>${name}</td>
-                    <td>${permissionName}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>2</td>
-                    <td>${name}</td>
-                    <td>${permissionName}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>3</td>
-                    <td>${name}</td>
-                    <td>${permissionName}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>4</td>
-                    <td>${name}</td>
-                    <td>${permissionName}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="border-bottom: 4px solid #C4D8ED;">
-                        <a id="doc_system_roleTable_submitBtn" class="doc_btn" style="margin: 5px 50px;">保存角色</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <form action="#" method="post">
+                <table class="doc_table doc_table_WidthMarginBottom doc_system_roleTable">
+                    <thead>
+                    <th class="doc_title" colspan="4" style="text-align: left;">角色管理</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="doc_sec_title" style="width: 30px;text-align: center;">操作</td>
+                        <td class="doc_sec_title" style="width: 80px;">编号</td>
+                        <td class="doc_sec_title" style="width: 120px;">角色名</td>
+                        <td class="doc_sec_title">拥有权限</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" value="${id}" name="role"/></td>
+                        <td>1</td>
+                        <td>${name}</td>
+                        <td>${permissionName}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" value="${id}" name="role"/></td>
+                        <td>2</td>
+                        <td>${name}</td>
+                        <td>${permissionName}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" value="${id}" name="role"/></td>
+                        <td>3</td>
+                        <td>${name}</td>
+                        <td>${permissionName}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" value="${id}" name="role"/></td>
+                        <td>4</td>
+                        <td>${name}</td>
+                        <td>${permissionName}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="border-bottom: 4px solid #C4D8ED;">
+                            <input type="submit" id="doc_system_roleTable_submitBtn" class="doc_btn"
+                                   style="margin: 5px 50px;" value="保存角色"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 </div>
@@ -115,24 +117,24 @@
 <script src="js/main.js"></script>
 <script>
     $(function () {
-        $('#doc_system_roleTable_submitBtn').on('click', function () {
-            var roleArr = [];
-            $('.doc_system_roleTable').find('input[type="checkbox"]:checked').each(function () {
-                roleArr.push($(this).val());
-            });
-            doc.tool.getJSON({
-                url: "data.json",
-                data: {'id': "${id}", 'role': roleArr},
-                success: function () {
-                    $.remindBox({
-                        remind: "保存角色成功！"
-                    });
-                },
-                error: {
-                    remind: "保存角色出错"
-                }
-            });
-        });
+//        $('#doc_system_roleTable_submitBtn').on('click',function(){
+//            var roleArr = [];
+//            $('.doc_system_roleTable').find('input[type="checkbox"]:checked').each(function(){
+//                roleArr.push($(this).val());
+//            });
+//            doc.tool.getJSON({
+//                url:"data.json",
+//                data:{'id':"${id}",'role':roleArr},
+//                success:function(){
+//                    $.remindBox({
+//                        remind:"保存角色成功！"
+//                    });
+//                },
+//                error:{
+//                    remind:"保存角色出错"
+//                }
+//            });
+//        });
 
         $('.doc_system_roleTable').delegate('tr', 'click', function () {
             var checkbox = $(this).find('input[type="checkbox"]');
@@ -142,8 +144,6 @@
                 checkbox.prop('checked', false);
             }
         });
-
-        doc.app.remindBoxEvent();
     });
 </script>
 </body>

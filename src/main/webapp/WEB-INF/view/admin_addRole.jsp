@@ -65,80 +65,82 @@
         <h2 class="frame_main_content_path">
             系统中心 &gt; 角色管理 &gt; ${新增角色/修改角色}</h2>
         <div class="frame_main_center">
-            <table class="doc_table doc_table_WidthMarginBottom doc_system_permissionTable">
-                <tbody>
-                <tr>
-                    <td class="doc_title" colspan="4" style="text-align: left;">基本</td>
-                </tr>
-                <tr>
-                    <td style="width:100px">
-                        角色名称：
-                    </td>
-                    <td colspan="3">
-                        <input type="text" name="name" id="roleName" class="doc_text" value="${name}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        备注：
-                    </td>
-                    <td colspan="3">
-                        <textarea name="remark" id="roleRemark" class="doc_select"
-                                  style="width: 450px;height: 80px;">${remark}</textarea>
-                    </td>
-                </tr>
-                </tbody>
-                <tbody>
-                <tr>
-                    <td class="doc_title" colspan="4" style="text-align: left;">权限信息</td>
-                </tr>
-                <tr>
-                    <td class="doc_sec_title" style="width: 30px;text-align: center;">操作</td>
-                    <td class="doc_sec_title" style="width: 80px;">编号</td>
-                    <td class="doc_sec_title" style="width: 120px;">权限名</td>
-                    <td class="doc_sec_title">权限备注</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center" colspan="4"><span class="doc_remind_Red">暂无权限可以分配</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>1</td>
-                    <td>${name}</td>
-                    <td>${remark}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>2</td>
-                    <td>${name}</td>
-                    <td>${remark}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>3</td>
-                    <td>${name}</td>
-                    <td>${remark}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>4</td>
-                    <td>${name}</td>
-                    <td>${remark}</td>
-                </tr>
-                <tr>
-                    <td style="text-align: center"><input type="checkbox" value="${id}"/></td>
-                    <td>5</td>
-                    <td>${name}</td>
-                    <td>${remark}</td>
-                </tr>
-                <tr>
-                    <td colspan="4" style="border-bottom: 4px solid #C4D8ED;">
-                        <a id="doc_system_permissionTable_submitBtn" class="doc_btn"
-                           style="margin: 5px 50px;">保存角色信息</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <form action="#" method="post">
+                <table class="doc_table doc_table_WidthMarginBottom doc_system_permissionTable">
+                    <tbody>
+                    <tr>
+                        <td class="doc_title" colspan="4" style="text-align: left;">基本</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px">
+                            角色名称：
+                        </td>
+                        <td colspan="3">
+                            <input type="text" name="name" id="roleName" class="doc_text" value="${name}" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            备注：
+                        </td>
+                        <td colspan="3">
+                            <textarea name="remark" id="roleRemark" class="doc_select"
+                                      style="width: 450px;height: 80px;">${remark}</textarea>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr>
+                        <td class="doc_title" colspan="4" style="text-align: left;">权限信息</td>
+                    </tr>
+                    <tr>
+                        <td class="doc_sec_title" style="width: 30px;text-align: center;">操作</td>
+                        <td class="doc_sec_title" style="width: 80px;">编号</td>
+                        <td class="doc_sec_title" style="width: 120px;">权限名</td>
+                        <td class="doc_sec_title">权限备注</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center" colspan="4"><span class="doc_remind_Red">暂无权限可以分配</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
+                        <td>1</td>
+                        <td>${name}</td>
+                        <td>${remark}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
+                        <td>2</td>
+                        <td>${name}</td>
+                        <td>${remark}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
+                        <td>3</td>
+                        <td>${name}</td>
+                        <td>${remark}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
+                        <td>4</td>
+                        <td>${name}</td>
+                        <td>${remark}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
+                        <td>5</td>
+                        <td>${name}</td>
+                        <td>${remark}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="border-bottom: 4px solid #C4D8ED;">
+                            <input type="submit" id="doc_system_permissionTable_submitBtn" class="doc_btn"
+                                   style="margin: 5px 50px;" value="保存角色信息">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 </div>
@@ -147,29 +149,24 @@
 <script src="js/main.js"></script>
 <script>
     $(function () {
-        $('#doc_system_permissionTable_submitBtn').on('click', function () {
-            var permissionArr = [];
-            $('.doc_system_permissionTable').find('input[type="checkbox"]:checked').each(function () {
-                permissionArr.push($(this).val());
-            });
-            doc.tool.getJSON({
-                url: "data.json",
-                data: {
-                    'id': "${id}",
-                    'osPermission': permissionArr,
-                    'name': $('#roleName').val(),
-                    'remark': $('#roleRemark').val()
-                },
-                success: function () {
-                    $.remindBox({
-                        remind: "保存权限成功！"
-                    });
-                },
-                error: {
-                    remind: "保存权限出错"
-                }
-            });
-        });
+//        $('#doc_system_permissionTable_submitBtn').on('click',function(){
+//            var permissionArr = [];
+//            $('.doc_system_permissionTable').find('input[type="checkbox"]:checked').each(function(){
+//                permissionArr.push($(this).val());
+//            });
+//            doc.tool.getJSON({
+//                url:"data.json",
+//                data:{'id':"${id}",'osPermission':permissionArr,'name':$('#roleName').val(),'remark':$('#roleRemark').val()},
+//                success:function(){
+//                    $.remindBox({
+//                        remind:"保存权限成功！"
+//                    });
+//                },
+//                error:{
+//                    remind:"保存权限出错"
+//                }
+//            });
+//        });
 
         $('.doc_system_permissionTable').delegate('tr', 'click', function () {
             var checkbox = $(this).find('input[type="checkbox"]');
@@ -179,7 +176,7 @@
                 checkbox.prop('checked', false);
             }
         });
-        doc.app.remindBoxEvent();
+
     });
 </script>
 </body>
