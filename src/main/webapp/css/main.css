@@ -156,7 +156,7 @@ li {
   position: absolute;
   left: 50%;
   top: 120px;
-  width: 440px;
+  width: 400px;
   margin-left: -200px;
   z-index: 1000;
   background-color: #FFF;
@@ -573,7 +573,7 @@ li {
   margin-bottom: 5px;
 }
 
-.submitDoc_submitBtn, .account_submitBtn {
+.submitDoc_submitBtn, .account_submitBtn, .addAdmin_submitBtn {
   margin: 10px 0 10px 230px;
   width: 120px;
 }
@@ -654,6 +654,15 @@ li {
   display: inline-block;
   line-height: 26px;
   margin-right: 8px;
+}
+
+.doc_system_permissionTable tr:hover, .doc_system_roleTable tr:hover {
+  cursor: pointer;
+  background-color: #fdf9d2;
+}
+
+.doc_system_permissionTable tr:hover td, .doc_system_roleTable tr:hover td {
+  background-color: transparent;
 }
 
 .user_header {

@@ -281,7 +281,180 @@ doc.user.register = function () {
 /*------------------------------系统消息模块-----------------------------*/
 doc.message = {} //用户命名空间
 
+/*------------------------------系统管理模块-----------------------------*/
+doc.system = {} //系统管理命名空间
 
+doc.system.userDataTableEvent = function () {
+	$('#userList_table_searchBtn').on('click', search);
+	$(document).on('keyup', function (ev) {
+		if (ev.keyCode == '13') {
+			search();
+		}
+	});
+
+	function search() {
+		doc.system.userDataTable.fnDraw(true);
+	}
+
+	doc.system.userDataTable.delegate('.icon-trash', 'click', function () {
+		var id = $(this).data('id');
+		$.confirmBox({
+			id: "userList_deleteUser",
+			title: "删除用户",
+			confirm: "确定要删除该用户吗？"
+		}).data('userId', id);
+	});
+};
+
+//删除用户
+doc.system.deleteUser = function (id) {
+	doc.tool.getJSON({
+		url: "data.json",
+		data: {'id': id},
+		success: function () {
+			doc.system.userDataTable.fnDraw(true);
+		},
+		error: {
+			remind: "删除用户出错"
+		}
+	});
+};
+
+
+doc.system.adminDataTableEvent = function () {
+	$('#adminList_table_searchBtn').on('click', search);
+	$(document).on('keyup', function (ev) {
+		if (ev.keyCode == '13') {
+			search();
+		}
+	});
+
+	function search() {
+		doc.system.adminDataTable.fnDraw(true);
+	}
+
+	doc.system.adminDataTable.delegate('.icon-trash', 'click', function () {
+		var id = $(this).data('id');
+		$.confirmBox({
+			id: "adminList_deleteAdmin",
+			title: "删除管理员/审稿员",
+			confirm: "确定要删除该管理员/审稿员吗？"
+		}).data('adminId', id);
+	});
+
+	doc.system.adminDataTable.delegate('.icon-lock', 'click', function () {
+		var id = $(this).data('id');
+		$.confirmBox({
+			id: "adminList_lockAdmin",
+			title: "禁用管理员/审稿员",
+			confirm: "确定要禁用该管理员/审稿员吗？"
+		}).data('adminId', id);
+	});
+
+	doc.system.adminDataTable.delegate('.icon-unlock', 'click', function () {
+		var id = $(this).data('id');
+		$.confirmBox({
+			id: "adminList_unlockAdmin",
+			title: "解除禁用",
+			confirm: "确定对该管理员/审稿员解除禁用吗？"
+		}).data('adminId', id);
+	});
+};
+
+//删除管理员或审稿员
+doc.system.deleteAdmin = function (id) {
+	doc.tool.getJSON({
+		url: "data.json",
+		data: {'id': id},
+		success: function () {
+			doc.system.adminDataTable.fnDraw(true);
+		},
+		error: {
+			remind: "删除管理员/审稿员出错"
+		}
+	});
+};
+
+//禁用管理员或审稿员
+doc.system.lockAdmin = function (id) {
+	doc.tool.getJSON({
+		url: "data.json",
+		data: {'id': id, 'status': 0},
+		success: function () {
+			doc.system.adminDataTable.fnDraw(true);
+		},
+		error: {
+			remind: "禁用管理员/审稿员出错"
+		}
+	});
+};
+
+//解除禁用管理员或审稿员
+doc.system.unlockAdmin = function (id) {
+	doc.tool.getJSON({
+		url: "data.json",
+		data: {'id': id, 'status': 1},
+		success: function () {
+			doc.system.adminDataTable.fnDraw(true);
+		},
+		error: {
+			remind: "解除禁用出错"
+		}
+	});
+};
+
+doc.system.logDataTableEvent = function () {
+	$('#logList_table_searchBtn').on('click', search);
+	$(document).on('keyup', function (ev) {
+		if (ev.keyCode == '13') {
+			search();
+		}
+	});
+
+	function search() {
+		var fromTime = $('#docLog_fromTime').val(),
+			toTime = $('#docLog_toTime').val();
+		if (!fromTime && !toTime || fromTime && toTime) {
+			if (toTime < fromTime) {
+				$.remindBox({
+					remind: "请确保结束时间大于开始时间"
+				});
+			} else {
+				doc.system.logDataTable.fnDraw(true);
+			}
+		} else {
+			$.remindBox({
+				remind: "不能只填写开始时间或结束时间"
+			});
+		}
+	}
+};
+
+doc.system.roleDataTableEvent = function () {
+
+	doc.system.roleDataTable.delegate('.icon-trash', 'click', function () {
+		var id = $(this).data('id');
+		$.confirmBox({
+			id: "roleList_deleteRole",
+			title: "删除角色",
+			confirm: "确定要删除该角色吗？"
+		}).data('roleId', id);
+	});
+};
+
+//删除角色
+doc.system.deleteRole = function (id) {
+	doc.tool.getJSON({
+		url: "data.json",
+		data: {'id': id},
+		success: function () {
+			doc.system.roleDataTable.fnDraw(true);
+		},
+		error: {
+			remind: "删除角色出错"
+		}
+	});
+};
 
 
 

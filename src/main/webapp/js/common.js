@@ -243,12 +243,6 @@ doc.app.confirmBoxEvent = function () {
 	/*为确认框绑定关闭事件*/
 	$(document).delegate('.confirmBox_cancelBtn, .confirmBox_closeBtn', 'click', function () {
 		switch ($('.doc_confirmBox').attr('id')) {
-			//case 'dep-delete-confirmBox':
-			//	$('.icon-trash').removeClass('com-active-icon');
-			//	break;
-			//case 'job-delete-confirmBox':
-			//	$('.icon-trash').removeClass('com-active-icon');
-			//	break;
 		}
 		$('.confirmBox_cover').remove();
 	});
@@ -260,6 +254,21 @@ doc.app.confirmBoxEvent = function () {
 		switch (id) {
 			case 'docList_deleteDoc':
 				doc.docInfo.deleteDoc($('.confirmBox_cover').data('docId'));
+				break;
+			case 'userList_deleteUser':
+				doc.system.deleteUser($('.confirmBox_cover').data('userId'));
+				break;
+			case 'adminList_deleteAdmin':
+				doc.system.deleteAdmin($('.confirmBox_cover').data('adminId'));
+				break;
+			case 'adminList_lockAdmin':
+				doc.system.lockAdmin($('.confirmBox_cover').data('adminId'));
+				break;
+			case 'adminList_unlockAdmin':
+				doc.system.unlockAdmin($('.confirmBox_cover').data('adminId'));
+				break;
+			case 'roleList_deleteRole':
+				doc.system.deleteRole($('.confirmBox_cover').data('roleId'));
 				break;
 		}
 		$('.confirmBox_cover').remove();
