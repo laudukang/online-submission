@@ -5,8 +5,6 @@ import me.laudukang.spring.domain.LogDomain;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.concurrent.Future;
-
 /**
  * <p>Created with IDEA
  * <p>Author: laudukang
@@ -31,7 +29,7 @@ public interface ILogService {
 
     void deleteByEntity(OsLog osLog);
 
-    void asyncMethodWithVoidReturnType();
-
-    Future<String> asyncMethodWithReturnType();
+//    void asyncMethodWithVoidReturnType();
+//
+//    Future<String> asyncMethodWithReturnType();
 }

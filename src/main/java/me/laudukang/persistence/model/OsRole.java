@@ -50,6 +50,10 @@ public class OsRole implements Serializable {
     public OsRole() {
     }
 
+    public OsRole(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return this.id;
     }

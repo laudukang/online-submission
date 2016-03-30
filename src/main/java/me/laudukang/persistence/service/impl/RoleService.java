@@ -28,7 +28,6 @@ import java.util.List;
 public class RoleService extends CustomPageService<OsLog> implements IRoleService {
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private PermissionRepository permissionRepository;
 
@@ -41,15 +40,14 @@ public class RoleService extends CustomPageService<OsLog> implements IRoleServic
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public void save(OsRole osRole, int[] osPermissions) {
-        for (int id : osPermissions
-                ) {
-            OsPermission osPermission = permissionRepository.findOne(id);
-            if (null != osPermission) {
-                osRole.addOsPermission(osPermission);
-            } else {
-                System.out.println("id=" + id + " permission is not exit");
+        if (null != osPermissions && osPermissions.length > 0)
+            for (int id : osPermissions
+                    ) {
+                OsPermission osPermission = permissionRepository.findOne(id);
+                if (null != osPermission) {
+                    osRole.addOsPermission(osPermission);
+                }
             }
-        }
         roleRepository.save(osRole);
     }
 
@@ -101,5 +99,21 @@ public class RoleService extends CustomPageService<OsLog> implements IRoleServic
     @Override
     public List<OsRole> findRoleByAdminId(int id) {
         return roleRepository.findRoleByAdminId(id);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    @Override
+    public List<OsPermission> findUnAssignPermission() {
+        return roleRepository.findUnAssignPermission();
+    }
+
+    @Override
+    public List<OsRole> findAll() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public List<OsPermission> findAllPermission() {
+        return permissionRepository.findAll();
     }
 }

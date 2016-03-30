@@ -77,7 +77,6 @@ public class ApplicationConfig {
             mimeMessage.setText(environment.getProperty("mail.default.text"));
             mimeMessage.setFrom(new InternetAddress(environment.getProperty("mail.from")));
         } catch (MessagingException e) {
-            e.printStackTrace();
         }
         return mimeMessage;
     }

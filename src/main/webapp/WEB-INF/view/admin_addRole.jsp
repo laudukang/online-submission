@@ -6,66 +6,25 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>在线投稿系统</title>
-    <link rel="stylesheet" href="css/font-awesome.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <title>网络投稿系统</title>
+    <link rel="stylesheet" href="${home}/css/font-awesome.css"/>
+    <link rel="stylesheet" href="${home}/css/main.css"/>
 </head>
 <body>
-<div class="frame_header">
-    <div class="frame_header_banner">
-        <a class="frame_header_logo" href="index.html">
-            <img src="images/online/logo.png" alt="在线投稿系统">
-            <h2 class="frame_header_title">在线投稿系统</h2>
-        </a>
-        <div class="frame_header_account">
-            <span>用户名：欢迎你！</span>
-            <a href="message.html">系统信息</a>
-            <a href="updatePassword.html">修改密码</a>
-            <a href="#">安全退出</a>
-        </div>
-    </div>
-</div>
+<%@include file="header.jsp" %>
 <div class="frame_main">
-    <div class="frame_main_nav_wrap" id="docNav">
-        <div class="frame_main_nav">
-            <div class="frame_main_nav_title">
-                <strong>稿件中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_docList.html">稿件查询</a></li>
-                <li><a href="">已派发稿件</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>系统信息</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="">管理员管理</a></li>
-                <li><a href="">审稿员管理</a></li>
-                <li><a href="">用户管理</a></li>
-                <li><a href="">角色管理</a></li>
-                <li><a href="">系统日志</a></li>
-            </ul>
-            <div class="frame_main_nav_title">
-                <strong>个人中心</strong>
-                <div class="frame_main_nav_title_Bg"></div>
-            </div>
-            <ul class="frame_main_nav_list">
-                <li><a href="admin_account.html">账号信息</a></li>
-                <li><a href="admin_updatePassword.html">修改密码</a></li>
-            </ul>
-        </div>
-    </div>
+    <%@include file="nav.jsp" %>
     <div class="frame_main_content">
         <h2 class="frame_main_content_path">
-            系统中心 &gt; 角色管理 &gt; ${新增角色/修改角色}</h2>
+            系统中心 &gt; 角色管理 &gt; ${msg}</h2>
         <div class="frame_main_center">
-            <form action="#" method="post">
+            <form action="${home}${type=="save"?"/admin/saveRole":"/admin/updateRole"}" method="post">
                 <table class="doc_table doc_table_WidthMarginBottom doc_system_permissionTable">
                     <tbody>
                     <tr>
@@ -76,7 +35,9 @@
                             角色名称：
                         </td>
                         <td colspan="3">
-                            <input type="text" name="name" id="roleName" class="doc_text" value="${name}" required/>
+                            <input type="text" name="name" id="roleName" class="doc_text" value="${osRole.name}"
+                                   required/>
+                            <input type="text" name="id" value="${osRole.id}" hidden>
                         </td>
                     </tr>
                     <tr>
@@ -85,7 +46,7 @@
                         </td>
                         <td colspan="3">
                             <textarea name="remark" id="roleRemark" class="doc_select"
-                                      style="width: 450px;height: 80px;">${remark}</textarea>
+                                      style="width: 450px;height: 80px;">${osRole.remark}</textarea>
                         </td>
                     </tr>
                     </tbody>
@@ -99,39 +60,37 @@
                         <td class="doc_sec_title" style="width: 120px;">权限名</td>
                         <td class="doc_sec_title">权限备注</td>
                     </tr>
-                    <tr>
-                        <td style="text-align: center" colspan="4"><span class="doc_remind_Red">暂无权限可以分配</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
-                        <td>1</td>
-                        <td>${name}</td>
-                        <td>${remark}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
-                        <td>2</td>
-                        <td>${name}</td>
-                        <td>${remark}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
-                        <td>3</td>
-                        <td>${name}</td>
-                        <td>${remark}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
-                        <td>4</td>
-                        <td>${name}</td>
-                        <td>${remark}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center"><input type="checkbox" name="osPermissions" value="${id}"/></td>
-                        <td>5</td>
-                        <td>${name}</td>
-                        <td>${remark}</td>
-                    </tr>
+                    <c:if test="${not empty osRole.osPermissions}">
+                        <c:forEach items="${osRole.osPermissions}" var="permission" varStatus="obj">
+                            <tr>
+                                <td style="text-align: center"><input type="checkbox" name="osPermissions"
+                                                                      onclick="stop(event)"
+                                                                      checked value="${permission.id}"/></td>
+                                <td>${obj.count}</td>
+                                <td>${permission.name}</td>
+                                <td>${permission.remark}</td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${not empty osPermissionList}">
+                        <c:forEach items="${osPermissionList}" var="permission" varStatus="obj">
+                            <c:set var="checked" value="${';'}${permission.id}${';'}"></c:set>
+                            <tr>
+                                <td style="text-align: center"><input type="checkbox" name="osPermissions"
+                                                                      onclick="stop(event)"
+                                    ${fn:contains(hasPermission,checked)?"checked":""} value="${permission.id}"/></td>
+                                <td>${fn:length(osRole.osPermissions)+obj.count}</td>
+                                <td>${permission.name}</td>
+                                <td>${permission.remark}</td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test="${empty osPermissionList}">
+                        <tr>
+                            <td style="text-align: center" colspan="4"><span class="doc_remind_Red">没有更多权限可分配了</span>
+                            </td>
+                        </tr>
+                    </c:if>
                     <tr>
                         <td colspan="4" style="border-bottom: 4px solid #C4D8ED;">
                             <input type="submit" id="doc_system_permissionTable_submitBtn" class="doc_btn"
@@ -144,9 +103,9 @@
         </div>
     </div>
 </div>
-<script src="js/jquery.js"></script>
-<script src="js/common.js"></script>
-<script src="js/main.js"></script>
+<script src="${home}/js/jquery.js"></script>
+<script src="${home}/js/common.js"></script>
+<script src="${home}/js/main.js"></script>
 <script>
     $(function () {
 //        $('#doc_system_permissionTable_submitBtn').on('click',function(){
@@ -156,7 +115,7 @@
 //            });
 //            doc.tool.getJSON({
 //                url:"data.json",
-//                data:{'id':"${id}",'osPermission':permissionArr,'name':$('#roleName').val(),'remark':$('#roleRemark').val()},
+//                data:{'id':"",'osPermission':permissionArr,'name':$('#roleName').val(),'remark':$('#roleRemark').val()},
 //                success:function(){
 //                    $.remindBox({
 //                        remind:"保存权限成功！"
@@ -178,6 +137,10 @@
         });
 
     });
+
+    function stop(ev) {
+        ev.stopPropagation();
+    }
 </script>
 </body>
 </html>

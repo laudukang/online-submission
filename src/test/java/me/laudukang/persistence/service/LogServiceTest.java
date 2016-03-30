@@ -18,8 +18,6 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * <p>Created with IDEA
@@ -94,29 +92,29 @@ public class LogServiceTest {
         iLogService.deleteByEntity(osLog);
     }
 
-    @Test
-    public void asyncMethodWithReturnType() {
-        Future<String> future = iLogService.asyncMethodWithReturnType();
-        while (true) {  ///这里使用了循环判断，等待获取结果信息
-            if (future.isDone()) {  //判断是否执行完毕
-                try {
-                    System.out.println("Result from asynchronous process - " + future.get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                break;
-            }
-            System.out.println("Continue doing something else. ");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("async done");
-    }
+//    @Test
+//    public void asyncMethodWithReturnType() {
+//        Future<String> future = iLogService.asyncMethodWithReturnType();
+//        while (true) {  ///这里使用了循环判断，等待获取结果信息
+//            if (future.isDone()) {  //判断是否执行完毕
+//                try {
+//                    System.out.println("Result from asynchronous process - " + future.get());
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            }
+//            System.out.println("Continue doing something else. ");
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        System.out.println("async done");
+//    }
 
     //@Test
     //public void saveWithEM() {

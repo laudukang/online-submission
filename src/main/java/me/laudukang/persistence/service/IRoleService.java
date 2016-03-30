@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service;
 
+import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.spring.domain.RoleDomain;
 import org.springframework.data.domain.Page;
@@ -26,5 +27,11 @@ public interface IRoleService {
 
     Page<OsRole> findAll(Pageable pageable);
 
+    List<OsRole> findAll();
+
+    List<OsPermission> findAllPermission();
+
     List<OsRole> findRoleByAdminId(int id);
+
+    List<OsPermission> findUnAssignPermission();
 }

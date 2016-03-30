@@ -2,7 +2,6 @@ package me.laudukang.spring.controller;
 
 import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAdmin;
-import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.service.IAdminService;
 import me.laudukang.spring.domain.AdminDomain;
@@ -39,7 +38,7 @@ import java.util.*;
  * <p>Version: 1.0
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class AdminController implements ApplicationContextAware {
     @Autowired
     private IAdminService iAdminService;
@@ -85,9 +84,10 @@ public class AdminController implements ApplicationContextAware {
             stringBuilder.append("]登录成功");
             applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
 
-            if (Boolean.valueOf(String.valueOf(session.getAttribute("isReviewer"))))
-                return "redirect:/admin/review";
-            else return "redirect:/admin/docs";
+//            if (Boolean.valueOf(String.valueOf(session.getAttribute("isReviewer"))))
+//                return "redirect:/admin/review";
+//            else return "redirect:/admin/docs";
+            return "welcome";
         } catch (AuthenticationException ex) {
             stringBuilder.append("]登录失败，账号/密码不正确");
             applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
@@ -129,20 +129,22 @@ public class AdminController implements ApplicationContextAware {
 
 
     @RequestMapping(value = "newAdmin", method = RequestMethod.GET)
-    public String newAdminPage(Model model) {
-        model.addAttribute("adminDomain", new AdminDomain());
-        return "";
+    public String newAdminPage(@RequestParam("reviewer") String reviewer, Model model) {
+        AdminDomain adminDomain = new AdminDomain();
+        adminDomain.setReviewer(reviewer);
+        model.addAttribute("adminDomain", adminDomain);
+        return "admin_addAdmin";
     }
 
     @RequestMapping(value = "newAdmin", method = RequestMethod.POST)
     public String newAdmin(@ModelAttribute @Valid AdminDomain adminDomain, BindingResult bindingResult, HttpServletRequest request, HttpSession session, Model model) {
         if (Strings.isNullOrEmpty(adminDomain.getAccount()) || Strings.isNullOrEmpty(adminDomain.getPassword())) {
             bindingResult.rejectValue("account", "", "账号名/密码不能为空");
-            return "";
+            return "admin_addAdmin";
         }
         if (iAdminService.existAccount(adminDomain.getAccount())) {
             bindingResult.rejectValue("account", "", "账号已存在");
-            return "";
+            return "admin_addAdmin";
         }
         OsAdmin osAdmin = new OsAdmin();
         osAdmin.setAccount(adminDomain.getAccount());
@@ -193,7 +195,9 @@ public class AdminController implements ApplicationContextAware {
                 .append(!Strings.isNullOrEmpty(adminDomain.getName()) ? adminDomain.getName() : adminDomain.getAccount()).append("]");
         applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), user, request.getRemoteHost()));
         applicationContext.publishEvent(new EmailEvent(this, adminDomain.getAccount(), "注册成功-网络投稿系统服务邮件", sb.toString()));
-        return "redirect:";//管理员列表页面
+        if ("1".equals(adminDomain.getReviewer()))
+            return "redirect:/admin/reviewers";//审稿员列表页面
+        return "redirect:/admin/admins";//管理员列表页面
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
@@ -202,7 +206,6 @@ public class AdminController implements ApplicationContextAware {
         if (1 == id) {
             return MapUtil.getForbiddenOperationMap();
         }
-
         String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
         OsAdmin osAdmin = iAdminService.findOne(id);
         StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]删除了用户[").append(osAdmin.getId()).append("_")
@@ -219,7 +222,6 @@ public class AdminController implements ApplicationContextAware {
         if (1 == id) {
             return MapUtil.getForbiddenOperationMap();
         }
-
         String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
         OsAdmin osAdmin = iAdminService.findOne(id);
         StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]").append(status == 1 ? "启用了用户[" : "禁用了用户[").append(osAdmin.getId()).append("_")
@@ -330,11 +332,12 @@ public class AdminController implements ApplicationContextAware {
 
     @RequestMapping(value = "admins", method = RequestMethod.GET)
     public String findAllPage() {
-        return "";
+        return "admin_adminList";
     }
 
     @RequestMapping(value = "admins", method = RequestMethod.POST)
-    public Map<String, Object> findAllAdmin(@ModelAttribute AdminDomain adminDomain) {
+    @ResponseBody
+    public Map<String, Object> findAllAdmin(@ModelAttribute AdminDomain adminDomain, BindingResult bindingResult) {
         Map<String, Object> map = new HashMap<>(5);
         Page<OsAdmin> tmp = iAdminService.findAll(adminDomain);
         List<AdminDomain> osAdminList = mapOsAdminWithRoleName(tmp.getContent());
@@ -342,19 +345,20 @@ public class AdminController implements ApplicationContextAware {
         map.put("msg", !tmp.getContent().isEmpty() ? "" : "记录不存在");
         map.put("data", osAdminList);
         map.put("iTotalRecords", tmp.getTotalElements());
-        map.put("iTotalDisplayRecords", tmp.getNumberOfElements());
+        map.put("iTotalDisplayRecords", tmp.getTotalElements());
         return map;
     }
 
     //审稿员页面
     @RequestMapping(value = "reviewers", method = RequestMethod.GET)
     public String findAllReviewerPage() {
-        return "";
+        return "admin_reviewerList";
     }
 
     //审稿员列表
     @RequestMapping(value = "reviewers", method = RequestMethod.POST)
-    public Map<String, Object> findAllReviewer(@ModelAttribute AdminDomain adminDomain) {
+    @ResponseBody
+    public Map<String, Object> findAllReviewer(@ModelAttribute AdminDomain adminDomain, BindingResult bindingResult) {
         Page<OsAdmin> tmp = iAdminService.findAllReviewer(adminDomain);
         List<AdminDomain> osAdminList = mapOsAdminWithRoleName(tmp.getContent());
         Map<String, Object> map = new HashMap<>(5);
@@ -362,7 +366,7 @@ public class AdminController implements ApplicationContextAware {
         map.put("msg", !tmp.getContent().isEmpty() ? "" : "记录不存在");
         map.put("data", osAdminList);
         map.put("iTotalRecords", tmp.getTotalElements());
-        map.put("iTotalDisplayRecords", tmp.getNumberOfElements());
+        map.put("iTotalDisplayRecords", tmp.getTotalElements());
         return map;
     }
 
@@ -383,9 +387,10 @@ public class AdminController implements ApplicationContextAware {
         return map;
     }
 
+
     //指定admin role
-    @RequestMapping(value = "updateAdminRole", method = RequestMethod.GET)
-    public String updateAdminRole(@RequestParam("int[] role") int[] role, @RequestParam("id") int id) {
+    @RequestMapping(value = "updateAdminRole", method = RequestMethod.POST)
+    public String updateAdminRole(@RequestParam("role") int[] role, @RequestParam("id") int id) {
         OsAdmin osAdmin = iAdminService.findOne(id);
         osAdmin.setOsRoles(null);
         iAdminService.save(osAdmin);
@@ -396,7 +401,8 @@ public class AdminController implements ApplicationContextAware {
             osRoleList.add(osRole);
         }
         osAdmin.setOsRoles(osRoleList);
-        return "";
+        iAdminService.save(osAdmin);
+        return "redirect:/admin/adminRoleInfo/" + id + "?account=" + osAdmin.getAccount();
     }
 
     private List<AdminDomain> mapOsAdminWithRoleName(List<OsAdmin> tmp) {
@@ -412,9 +418,7 @@ public class AdminController implements ApplicationContextAware {
             adminDomain.setReviewer(osAdmin.getReviewer());
             StringBuilder stringBuilder = new StringBuilder();
             for (OsRole osRole : osAdmin.getOsRoles()) {
-                for (OsPermission osPermission : osRole.getOsPermissions()) {
-                    stringBuilder.append(osPermission.getName()).append(";");
-                }
+                stringBuilder.append(osRole.getName()).append("; ");
             }
             int index = stringBuilder.lastIndexOf(";");
             if (-1 != index) {

@@ -35,7 +35,7 @@ public class LogController {
 
     @RequestMapping(value = "logs", method = RequestMethod.GET)
     public String logsPage() {
-        return "";
+        return "admin_logList";
     }
 
     @RequestMapping(value = "logs", method = RequestMethod.POST)
@@ -47,7 +47,7 @@ public class LogController {
         map.put("msg", !osLogPage.getContent().isEmpty() ? "" : "记录不存在");
         map.put("data", osLogPage.getContent());
         map.put("iTotalRecords", osLogPage.getTotalElements());
-        map.put("iTotalDisplayRecords", osLogPage.getNumberOfElements());
+        map.put("iTotalDisplayRecords", osLogPage.getTotalElements());
         return map;
     }
 

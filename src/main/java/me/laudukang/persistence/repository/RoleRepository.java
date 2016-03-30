@@ -1,5 +1,6 @@
 package me.laudukang.persistence.repository;
 
+import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -21,4 +22,7 @@ public interface RoleRepository extends JpaRepository<OsRole, Integer>, JpaSpeci
 
     @Query("select role from OsRole role left join role.osAdmins admin where admin.id=:id")
     List<OsRole> findRoleByAdminId(@Param("id") int id);
+
+    @Query("select permission from  OsPermission permission where permission.osRole is null ")
+    List<OsPermission> findUnAssignPermission();
 }

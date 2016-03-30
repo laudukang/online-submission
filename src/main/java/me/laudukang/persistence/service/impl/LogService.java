@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Future;
 
 /**
  * <p>Created with IDEA
@@ -117,26 +115,26 @@ public class LogService extends CustomPageService<OsLog> implements ILogService 
         };
     }
 
-    @Override
-    @Async
-    public void asyncMethodWithVoidReturnType() {
-        System.out.println("in asyncMethodWithVoidReturnType");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    @Async
-    public Future<String> asyncMethodWithReturnType() {
-        System.out.println("in asyncMethodWithReturnType");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return new AsyncResult<String>("hello world");
-    }
+//    @Override
+//    @Async
+//    public void asyncMethodWithVoidReturnType() {
+//        System.out.println("in asyncMethodWithVoidReturnType");
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    @Async
+//    public Future<String> asyncMethodWithReturnType() {
+//        System.out.println("in asyncMethodWithReturnType");
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        return new AsyncResult<String>("hello world");
+//    }
 }

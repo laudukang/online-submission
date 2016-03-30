@@ -1,6 +1,7 @@
 package me.laudukang.spring.config;
 
 import me.laudukang.util.CleanupContextListener;
+import me.laudukang.util.MySessionListener;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -30,6 +31,7 @@ public class WebInitializer implements WebApplicationInitializer {
         rootContext.register(ApplicationConfig.class);
         //rootContext.scan("me.laudukang.spring.config");
         servletContext.addListener(IntrospectorCleanupListener.class);
+        servletContext.addListener(new MySessionListener());
         servletContext.addListener(new ContextLoaderListener(rootContext));
         servletContext.addListener(new CleanupContextListener());
 

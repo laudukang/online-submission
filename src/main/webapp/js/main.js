@@ -309,7 +309,7 @@ doc.system.userDataTableEvent = function () {
 //删除用户
 doc.system.deleteUser = function (id) {
 	doc.tool.getJSON({
-		url: "data.json",
+		url: "/admin/deleteUser",
 		data: {'id': id},
 		success: function () {
 			doc.system.userDataTable.fnDraw(true);
@@ -364,8 +364,7 @@ doc.system.adminDataTableEvent = function () {
 //删除管理员或审稿员
 doc.system.deleteAdmin = function (id) {
 	doc.tool.getJSON({
-		url: "data.json",
-		data: {'id': id},
+		url: "/admin/delete/" + id,
 		success: function () {
 			doc.system.adminDataTable.fnDraw(true);
 		},
@@ -378,7 +377,7 @@ doc.system.deleteAdmin = function (id) {
 //禁用管理员或审稿员
 doc.system.lockAdmin = function (id) {
 	doc.tool.getJSON({
-		url: "data.json",
+		url: "/admin/able",
 		data: {'id': id, 'status': 0},
 		success: function () {
 			doc.system.adminDataTable.fnDraw(true);
@@ -392,7 +391,7 @@ doc.system.lockAdmin = function (id) {
 //解除禁用管理员或审稿员
 doc.system.unlockAdmin = function (id) {
 	doc.tool.getJSON({
-		url: "data.json",
+		url: "/admin/able",
 		data: {'id': id, 'status': 1},
 		success: function () {
 			doc.system.adminDataTable.fnDraw(true);
@@ -445,8 +444,7 @@ doc.system.roleDataTableEvent = function () {
 //删除角色
 doc.system.deleteRole = function (id) {
 	doc.tool.getJSON({
-		url: "data.json",
-		data: {'id': id},
+		url: "/admin/deleteRole/" + id,
 		success: function () {
 			doc.system.roleDataTable.fnDraw(true);
 		},

@@ -70,7 +70,7 @@ public class OsAdmin implements Serializable {
 
     //bi-directional many-to-many association to OsRole
     @JsonBackReference
-    @ManyToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "os_admin_role"
             , joinColumns = {

@@ -85,7 +85,7 @@ public class UserController implements ApplicationContextAware {
             stringBuilder.append("]登录成功");
             applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
 
-            return "redirect:/docs";
+            return "welcome";
         } catch (AuthenticationException ex) {
             stringBuilder.append("]登录失败，密码不正确");
             applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
@@ -261,7 +261,7 @@ public class UserController implements ApplicationContextAware {
         osUser.setRemark("");
         osUser.setOfficePhone("");
         osUser.setMobilePhone("");
-        osUser.setStatus("normal");
+        osUser.setStatus("正常");
         System.out.println("in here");
         iUserService.save(osUser);
         model.addAttribute("success", true);
@@ -293,10 +293,11 @@ public class UserController implements ApplicationContextAware {
 
     @RequestMapping(value = "admin/users", method = RequestMethod.GET)
     public String usersPage() {
-        return "";
+        return "admin_userList";
     }
 
     @RequestMapping(value = "admin/users", method = RequestMethod.POST)
+    @ResponseBody
     public Map<String, Object> users(@ModelAttribute UserDomain userDomain, BindingResult bindingResult) {
         Map<String, Object> map = new HashMap<>(5);
         Page<OsUser> osUserPage = iUserService.findAll(userDomain);
@@ -326,7 +327,7 @@ public class UserController implements ApplicationContextAware {
         String account = userDomain.getAccount();
         OsUser osUser = iUserService.findByAccount(account);
         if (null != osUser) {
-            osUser.setStatus("resetting");
+            osUser.setStatus("密码重置申请中resetting");
             iUserService.save(osUser);
             StringBuilder sb = new StringBuilder(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
@@ -378,9 +379,9 @@ public class UserController implements ApplicationContextAware {
         String account = null != session.getAttribute("accountTmp") ? String.valueOf(session.getAttribute("accountTmp")) : "";
         if (!Strings.isNullOrEmpty(account)) {
             OsUser osUser = iUserService.findByAccount(account);
-            if (null != osUser && "resetting".equals(osUser.getStatus())) {
+            if (null != osUser && "密码重置申请中".equals(osUser.getStatus())) {
                 osUser.setPassword(password);
-                osUser.setStatus("normal");
+                osUser.setStatus("密码重置申请中");
                 iUserService.save(osUser);
                 model.addAttribute("success", true);
                 model.addAttribute("msg", "成功重置密码");

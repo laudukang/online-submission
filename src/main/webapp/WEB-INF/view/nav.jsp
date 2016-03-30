@@ -30,17 +30,18 @@
                 <li><a href="${home}/admin/review">我的审稿</a></li>
             </ul>
         </shiro:hasRole>
+        <%--<shiro:hasPermission name="USER:QUERY,USER:UPDATE,USER:DELETE,ADMIN:NEW,ADMIN:DELETE,ADMIN:QUERY,ADMIN:UPDATELOG:QUERY,ROLE:QUERY,ROLE:UPDATE">--%>
         <shiro:hasRole name="Administrator">
         <div class="frame_main_nav_title">
             <strong>系统信息</strong>
             <div class="frame_main_nav_title_Bg"></div>
         </div>
             <ul class="frame_main_nav_list">
-                <li><a href="">管理员管理</a></li>
-                <li><a href="">审稿员管理</a></li>
-                <li><a href="">用户管理</a></li>
-                <li><a href="">角色管理</a></li>
-                <li><a href="">系统日志</a></li>
+                <li><a href="${home}/admin/admins">管理员管理</a></li>
+                <li><a href="${home}/admin/reviewers">审稿员管理</a></li>
+                <li><a href="${home}/admin/users">用户管理</a></li>
+                <li><a href="${home}/admin/roles">角色管理</a></li>
+                <li><a href="${home}/admin/logs">系统日志</a></li>
             </ul>
         </shiro:hasRole>
         <div class="frame_main_nav_title">
@@ -53,12 +54,12 @@
                 <li><a href="${home}/updatePassword">修改密码</a></li>
             </ul>
         </shiro:hasRole>
-        <shiro:hasAnyRoles name="Administrator,Reviewer">
+        <shiro:hasRole name="MYADMININFO">
             <ul class="frame_main_nav_list">
                 <li><a href="${home}/admin/info">账号信息</a></li>
                 <li><a href="${home}/admin/updatePassword">修改密码</a></li>
             </ul>
-        </shiro:hasAnyRoles>
+        </shiro:hasRole>
         <div class="frame_main_nav_title">
             <strong>系统中心</strong>
             <div class="frame_main_nav_title_Bg"></div>
@@ -68,7 +69,7 @@
                 <li><a href="${home}/messages">系统信息</a></li>
             </ul>
         </shiro:hasRole>
-        <shiro:hasRole name="Reviewer">
+        <shiro:hasRole name="MYADMININFO">
             <ul class="frame_main_nav_list">
                 <li><a href="${home}/admin/messages">系统信息</a></li>
             </ul>

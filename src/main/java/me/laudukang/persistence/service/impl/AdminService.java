@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service.impl;
 
+import com.google.common.base.Strings;
 import me.laudukang.persistence.model.OsAdmin;
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.repository.AdminRepository;
@@ -133,8 +134,10 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     private Specification<OsAdmin> getReviewerSpecification(final String account, final String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            predicate.getExpressions().add(cb.like(root.get("account").as(String.class), account));
-            predicate.getExpressions().add(cb.like(root.get("name").as(String.class), name));
+            if (!Strings.isNullOrEmpty(account))
+                predicate.getExpressions().add(cb.like(root.get("account").as(String.class), "%" + account + "%"));
+            if (!Strings.isNullOrEmpty(name))
+                predicate.getExpressions().add(cb.like(root.get("name").as(String.class), "%" + name + "%"));
             predicate.getExpressions().add(cb.equal(root.get("reviewer").as(String.class), "1"));
             return predicate;
         };
@@ -144,8 +147,10 @@ public class AdminService extends CustomPageService<OsAdmin> implements IAdminSe
     public Specification<OsAdmin> getSpecification(String account, String name) {
         return (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            predicate.getExpressions().add(cb.like(root.get("account").as(String.class), account));
-            predicate.getExpressions().add(cb.like(root.get("name").as(String.class), name));
+            if (!Strings.isNullOrEmpty(account))
+                predicate.getExpressions().add(cb.like(root.get("account").as(String.class), "%" + account + "%"));
+            if (!Strings.isNullOrEmpty(name))
+                predicate.getExpressions().add(cb.like(root.get("name").as(String.class), "%" + name + "%"));
             predicate.getExpressions().add(cb.equal(root.get("reviewer").as(String.class), "0"));
             return predicate;
         };
