@@ -37,7 +37,6 @@ import java.util.TimeZone;
  * <p>Date: 2016/1/22
  * <p>Time: 16:25
  * <p>Version: 1.0
- * Todo: spring cache see D:\Git\spring4-showcase\spring-cache
  */
 @Configuration
 @ComponentScan(basePackages = "me.laudukang.spring.controller", useDefaultFilters = false, includeFilters = {
