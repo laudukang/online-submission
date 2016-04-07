@@ -1,7 +1,6 @@
 package me.laudukang.spring.config;
 
 import me.laudukang.util.CleanupContextListener;
-import me.laudukang.util.MySessionListener;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
@@ -31,7 +30,7 @@ public class WebInitializer implements WebApplicationInitializer {
         rootContext.register(ApplicationConfig.class);
         //rootContext.scan("me.laudukang.spring.config");
         servletContext.addListener(IntrospectorCleanupListener.class);
-        servletContext.addListener(new MySessionListener());
+        //servletContext.addListener(new MySessionListener());
         servletContext.addListener(new ContextLoaderListener(rootContext));
         servletContext.addListener(new CleanupContextListener());
 
@@ -59,6 +58,7 @@ public class WebInitializer implements WebApplicationInitializer {
         FilterRegistration filterRegistrationOpenEntityManagerInViewFilter =
                 servletContext.addFilter("openEntityManagerInViewFilter", openEntityManagerInViewFilter);
         //filterRegistrationOpenEntityManagerInViewFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        filterRegistrationOpenEntityManagerInViewFilter.setInitParameter("entityManagerFactoryBeanName", "entityManagerFactory");
         filterRegistrationOpenEntityManagerInViewFilter.addMappingForUrlPatterns(null, false, "/*");
 
         //Spring MVC
@@ -72,8 +72,6 @@ public class WebInitializer implements WebApplicationInitializer {
         ServletRegistration.Dynamic dynamic = servletContext.addServlet("dispatcherServlet", dispatcherServlet);
         dynamic.setLoadOnStartup(1);
         dynamic.addMapping("/");
-
-
     }
 
 }

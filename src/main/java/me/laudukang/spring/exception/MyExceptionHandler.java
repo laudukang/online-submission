@@ -17,15 +17,6 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request,
                                          HttpServletResponse response, Object handler, Exception exception) {
-        System.out.println("Exception Message:" + exception.getMessage());
-        //if (request.getServletPath().toLowerCase().startsWith("/admin")) {
-        //    // exception.printStackTrace();
-        //    Map<String, Object> model = new HashMap<String, Object>();
-        //    model.put("ex", exception);
-        //    return new ModelAndView("b_page/error", model);
-        //} else {
-        //    return new ModelAndView("f_page/500");
-        //}
-        return null;
+        return new ModelAndView("404");
     }
 }

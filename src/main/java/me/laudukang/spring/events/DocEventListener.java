@@ -9,6 +9,7 @@ import me.laudukang.persistence.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.List;
  * <p>Version: 1.0
  */
 @Component
+@Transactional
 public class DocEventListener implements ApplicationListener<DocEvent> {
     @Autowired
     private ICustomEmailService iCustomEmailService;
@@ -46,7 +48,6 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
         OsDoc osDoc = iDocService.findOne(event.getDocid());
         OsUser osUser = osDoc.getOsUser();
         OsAdmin osAdmin = iAdminService.findOne(event.getAdminid());
-
         if (event.getMailType().equalsIgnoreCase("distribute")) {
             StringBuilder suject = new StringBuilder("管理员[")
                     .append(event.getAccount())
@@ -111,7 +112,7 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
             OsMessage osMessage = new OsMessage();
             osMessage.setTitle("稿件[" + osDoc.getZhTitle() + "]有了新的动态");
             osMessage.setContent("审稿员[" + (!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount())
-                    + "]的审阅结果为:" + event.getPropose() + "," + event.getReviewResult());
+                    + "]的审阅结果为[" + event.getPropose() + "-" + event.getReviewResult() + "]");
             osMessage.setOsUser(osUser);
             iMessageService.save(osMessage);
 

@@ -144,7 +144,8 @@
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
                         该稿件于<fmt:formatDate value="${osDoc.postTime}"
-                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态
+                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功,状态于
+                        <fmt:formatDate value="${osDoc.statusTime}" pattern="yyyy-MM-dd hh:MM:ss"/>变更为【${osDoc.status}】
                     </td>
                 </tr>
                 <tr>

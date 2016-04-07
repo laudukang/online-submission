@@ -155,7 +155,7 @@
             ],
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
-                $('td:eq(2)', nRow).html('<a href="${home}/admin/reviewDocInfo/' + oData.id + '" data-id="' + oData.id + '">' + oData.zhTitle + '</a>');
+                $('td:eq(2)', nRow).html('<a href="${home}/admin/docInfo/' + oData.id + '" data-id="' + oData.id + '">' + oData.zhTitle + '</a>');
                 switch (oData.status) {
                     case "审阅中":
                         $('td:eq(6)', nRow).html('<span class="docList_status2">审阅中</span>');

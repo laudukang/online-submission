@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,13 +76,12 @@ public class DocAdminController implements ApplicationContextAware {
 
     @RequestMapping(value = "admin/saveReview", method = RequestMethod.POST)
     public String saveReview(@RequestParam("id") int docid, @RequestParam("reviewResult") String reviewResult,
-                             @RequestParam("propose") String propose, HttpSession session, HttpServletRequest request) {
+                             @RequestParam("propose") String propose, HttpSession session, HttpServletRequest request, Model model) {
         int adminid = Integer.valueOf(String.valueOf(session.getAttribute("adminid")));
         OsDocAdmin osDocAdmin = iDocAdminService.findOneByDocAdmin(docid, adminid);
         osDocAdmin.setReviewResult(reviewResult);
         osDocAdmin.setPropose(propose);
         iDocAdminService.save(osDocAdmin);
-
         //发送审阅结果邮件到用户
         StringBuilder url = new StringBuilder(request.getScheme())
                 .append("://")
@@ -91,7 +91,6 @@ public class DocAdminController implements ApplicationContextAware {
                 .append(request.getContextPath());
         String account = null != session.getAttribute("name") ? String.valueOf(session.getAttribute("name")) : "ADMIN";
         applicationContext.publishEvent(new DocEvent(this, docid, adminid, propose, reviewResult, account, "reviewResult", url.toString()));
-
         return "redirect:/admin/reviewDocInfo/" + docid;
     }
 }

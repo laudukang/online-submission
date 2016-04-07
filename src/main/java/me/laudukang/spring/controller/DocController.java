@@ -26,7 +26,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
@@ -222,7 +221,7 @@ public class DocController {
         osDoc.setOsAuthors(osAuthorList);
 
         iDocService.update(osDoc, authorDeleteList);
-        return "redirect:/docs";
+        return "redirect:/docInfo/" + docDomain.getId();
     }
 
     @RequestMapping(value = "deleteDoc/{id}", method = RequestMethod.POST)
@@ -416,12 +415,5 @@ public class DocController {
             }
         }
         return newFileName.toString();
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public void defaultErrorHandler(HttpServletRequest req, Exception ex) {
-        System.out.println("req.getMethod()=" + req.getMethod());
-        System.out.println("Exception Message=" + ex.getMessage());
-        ex.printStackTrace();
     }
 }

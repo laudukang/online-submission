@@ -128,7 +128,8 @@
                     </td>
                     <td class="doc_title doc_td_Active doc_remind_Blue">
                         该稿件于<fmt:formatDate value="${osDoc.postTime}"
-                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功，目前处于【${osDoc.status}】状态，状态变更会有邮件通知
+                                            pattern="yyyy-MM-dd hh:MM:ss"/>投递成功,状态于
+                        <fmt:formatDate value="${osDoc.statusTime}" pattern="yyyy-MM-dd hh:MM:ss"/>变更为【${osDoc.status}】,状态变更会有邮件通知
                         <c:if test="${osDoc.status=='待审阅' && loginType=='0'}">
                             <a class="doc_btn" href="${home}/updateDoc?id=${osDoc.id}"
                                style="float:right;margin-right: 10px">修改</a>

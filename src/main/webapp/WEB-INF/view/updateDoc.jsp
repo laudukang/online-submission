@@ -59,7 +59,7 @@
                                 电子邮箱：
                             </td>
                             <td class="doc_td_Active">
-                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].account"
+                                <input type="text" class="doc_text" name="authorDomainList[${obj.count-1}].mail"
                                        value="${osAuthor.mail}" required
                                        pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"><span
                                     class="doc_table_tip">*</span>

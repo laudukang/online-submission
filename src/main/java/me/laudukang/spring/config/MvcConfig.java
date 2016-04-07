@@ -3,8 +3,6 @@ package me.laudukang.spring.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import me.laudukang.spring.interceptor.LoginInterceptor;
-import me.laudukang.spring.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -13,6 +11,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -20,14 +19,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.TimeZone;
 
 /**
@@ -39,7 +36,7 @@ import java.util.TimeZone;
  */
 @Configuration
 @ComponentScan(basePackages = "me.laudukang.spring.controller", useDefaultFilters = false, includeFilters = {
-        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class})
+        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class, ControllerAdvice.class})
 })
 @EnableAspectJAutoProxy
 public class MvcConfig extends WebMvcConfigurationSupport {
@@ -130,30 +127,16 @@ public class MvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         //registry.addInterceptor(new DocUploadInterceptor()).addPathPatterns("/upload");//文件上传拦截器
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
-        registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
+        //registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
+        //registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/403").setViewName("403");
-    }
-
-    @Bean
-    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
-        SimpleMappingExceptionResolver simpleMappingExceptionResolver = new SimpleMappingExceptionResolver();
-        simpleMappingExceptionResolver.setDefaultErrorView("error");
-        simpleMappingExceptionResolver.setExceptionAttribute("ex");
-        Properties properties = new Properties();
-        properties.setProperty("org.apache.shiro.authz.UnauthorizedException", "403");
-        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException", "403");
-        properties.setProperty("org.springframework.web.multipart.MaxUploadSizeExceededException", "error");
-        properties.setProperty("java.lang.Exception", "error");
-        properties.setProperty("java.lang.RuntimeException", "error");
-        properties.setProperty("java.lang.Throwable", "error");
-        simpleMappingExceptionResolver.setExceptionMappings(properties);
-        return simpleMappingExceptionResolver;
+        registry.addViewController("/404").setViewName("404");
+        registry.addViewController("/error").setViewName("error");
     }
 
 }

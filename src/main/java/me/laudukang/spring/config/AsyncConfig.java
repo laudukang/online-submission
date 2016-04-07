@@ -27,7 +27,11 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Bean
     public Executor simpleAsyncTaskExecutor() {
-        return new SimpleAsyncTaskExecutor();
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        simpleAsyncTaskExecutor.setDaemon(true);
+        simpleAsyncTaskExecutor.setConcurrencyLimit(10);
+        simpleAsyncTaskExecutor.setThreadNamePrefix("simpleAsyncTaskExecutor-");
+        return simpleAsyncTaskExecutor;
     }
 
     @Bean
@@ -39,11 +43,8 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Override
     public Executor getAsyncExecutor() {
-        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
-        simpleAsyncTaskExecutor.setDaemon(true);
-        simpleAsyncTaskExecutor.setConcurrencyLimit(10);
-        simpleAsyncTaskExecutor.setThreadNamePrefix("simpleAsyncTaskExecutor");
-        return simpleAsyncTaskExecutor;
+        Executor executor = this.simpleAsyncTaskExecutor();
+        return executor;
     }
 
     @Override

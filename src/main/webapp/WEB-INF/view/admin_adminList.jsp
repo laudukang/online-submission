@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -35,9 +36,11 @@
                 <div class="doc_filter_item">
                     <a href="javascript:;" class="doc_btn" id="adminList_table_searchBtn">查询</a>
                 </div>
-                <div class="doc_filter_item">
-                    <a href="${home}/admin/newAdmin?reviewer=1" class="doc_btn">新增管理员</a>
-                </div>
+                <shiro:hasPermission name="ADMIN:NEW">
+                    <div class="doc_filter_item">
+                        <a href="${home}/admin/newAdmin?reviewer=1" class="doc_btn">新增管理员</a>
+                    </div>
+                </shiro:hasPermission>
             </div>
             <table id="adminTable" class="display com-dataTableInit" cellspacing="0" style="display: none;">
                 <thead>

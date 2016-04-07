@@ -200,7 +200,7 @@ public class ShiroConfig {
         filterChainDefinitionMapping.put("/admin/distributedDocs", "authc,roles[Administrator]");
         filterChainDefinitionMapping.put("/admin/messages", "roles[MYADMININFO]");
         filterChainDefinitionMapping.put("/admin/adminMessages", "authc,roles[MYADMININFO]");
-        filterChainDefinitionMapping.put("/admin/saveReview", "authc,roles[Administrator,Reviewer]");
+        filterChainDefinitionMapping.put("/admin/saveReview", "authc,roles[Reviewer]");
         filterChainDefinitionMapping.put("/admin/distribute", "authc,perms[DOC:DISTRIBUTE]");
         filterChainDefinitionMapping.put("/admin/roles", "authc,perms[ROLE:QUERY]");
         filterChainDefinitionMapping.put("/admin/adminRoleInfo/*", "perms[ROLE:QUERY]");

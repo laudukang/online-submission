@@ -63,18 +63,6 @@ public class AdminController implements ApplicationContextAware {
         if (bindingResult.hasFieldErrors()) {
             return "admin_login";
         }
-//        OsAdmin osAdmin = iAdminService.login(loginDomain.getAccount(), loginDomain.getPassword());
-//        if (null != osAdmin) {
-//            session.setAttribute("adminid", osAdmin.getId());
-//            session.setAttribute("account", osAdmin.getAccount());
-//            session.setAttribute("name", null != osAdmin.getName() ? osAdmin.getName() : osAdmin.getAccount());
-//            if (osAdmin.getReviewer().equals("1")) {
-//                return "redirect:docsReview";//审稿员页面
-//
-//            } else {
-//                return "redirect:docsSuper";//管理员页面
-//            }
-//        }
         StringBuilder stringBuilder = new StringBuilder("管理员[").append(loginDomain.getAccount());
         try {
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginDomain.getAccount(), loginDomain.getPassword());
@@ -82,12 +70,10 @@ public class AdminController implements ApplicationContextAware {
             SecurityUtils.getSubject().login(usernamePasswordToken);
 
             stringBuilder.append("]登录成功");
-            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
+            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(),
+                    String.valueOf(SecurityUtils.getSubject().getSession().getAttribute("name")), request.getRemoteHost()));
 
-//            if (Boolean.valueOf(String.valueOf(session.getAttribute("isReviewer"))))
-//                return "redirect:/admin/review";
-//            else return "redirect:/admin/docs";
-            return "welcome";
+            return "redirect:/admin/home";
         } catch (AuthenticationException ex) {
             stringBuilder.append("]登录失败，账号/密码不正确");
             applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
@@ -377,6 +363,8 @@ public class AdminController implements ApplicationContextAware {
     }
 
     //获取审稿员下拉框
+    //@RequiresPermissions(value = "{ADMIN:QUERY}",logical = Logical.OR)
+    //@RequiresRoles(value = "Administrator",logical = Logical.OR)
     @RequestMapping(value = "reviewerList", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> reviewerList() {

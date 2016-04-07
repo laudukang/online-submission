@@ -409,6 +409,7 @@ li {
   overflow: hidden;
   font-size: 24px;
   color: #fff;
+  float: left;
 }
 
 .frame_header_account {

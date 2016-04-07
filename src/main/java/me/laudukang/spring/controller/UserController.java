@@ -61,31 +61,24 @@ public class UserController implements ApplicationContextAware {
         return "login";
     }
 
+    @RequestMapping(value = {"home", "admin/home"}, method = RequestMethod.GET)
+    public String welcomePage() {
+        return "welcome";
+    }
+
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(@ModelAttribute @Valid LoginDomain loginDomain, BindingResult bindingResult, Model model, HttpServletRequest request, HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "login";
         }
-//        OsUser tmp = iUserService.login(loginDomain.getAccount(), loginDomain.getPassword());
-//        if (null != tmp) {
-//            session.setAttribute("userid", tmp.getId()); //user.id,user.account,user.name
-//            session.setAttribute("account", tmp.getAccount());
-//            session.setAttribute("name", null != tmp.getName() ? tmp.getName() : tmp.getAccount());
-//            return "redirect:docs";
-//        }
-//        bindingResult.rejectValue("account", "", "账号或密码不正确");
-//        model.addAttribute("success", false);
-//        model.addAttribute("msg", "账号或密码不正确");
-//        return "login";
-
         StringBuilder stringBuilder = new StringBuilder("用户[").append(loginDomain.getAccount());
         try {
             SecurityUtils.getSubject().login(new UsernamePasswordToken(loginDomain.getAccount(), loginDomain.getPassword()));
 
             stringBuilder.append("]登录成功");
-            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
-
-            return "welcome";
+            applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(),
+                    String.valueOf(SecurityUtils.getSubject().getSession().getAttribute("name")), request.getRemoteHost()));
+            return "redirect:/home";
         } catch (AuthenticationException ex) {
             stringBuilder.append("]登录失败，密码不正确");
             applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), loginDomain.getAccount(), request.getRemoteHost()));
@@ -95,7 +88,6 @@ public class UserController implements ApplicationContextAware {
         model.addAttribute("success", false);
         model.addAttribute("msg", "账号或密码不正确");
         return "login";
-
     }
 
     @RequestMapping(value = "updatePassword", method = RequestMethod.GET)
@@ -227,7 +219,7 @@ public class UserController implements ApplicationContextAware {
     }
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String newUser(@ModelAttribute @Valid UserDomain userDomain, BindingResult bindingResult, Model model, HttpServletRequest request, HttpSession session) {
+    public String registerUser(@ModelAttribute @Valid UserDomain userDomain, BindingResult bindingResult, Model model, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "register";
         }
@@ -262,7 +254,6 @@ public class UserController implements ApplicationContextAware {
         osUser.setOfficePhone("");
         osUser.setMobilePhone("");
         osUser.setStatus("正常");
-        System.out.println("in here");
         iUserService.save(osUser);
         model.addAttribute("success", true);
         model.addAttribute("msg", "保存成功");
@@ -327,7 +318,7 @@ public class UserController implements ApplicationContextAware {
         String account = userDomain.getAccount();
         OsUser osUser = iUserService.findByAccount(account);
         if (null != osUser) {
-            osUser.setStatus("密码重置申请中resetting");
+            osUser.setStatus("密码重置申请中");
             iUserService.save(osUser);
             StringBuilder sb = new StringBuilder(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
@@ -381,7 +372,7 @@ public class UserController implements ApplicationContextAware {
             OsUser osUser = iUserService.findByAccount(account);
             if (null != osUser && "密码重置申请中".equals(osUser.getStatus())) {
                 osUser.setPassword(password);
-                osUser.setStatus("密码重置申请中");
+                osUser.setStatus("正常");
                 iUserService.save(osUser);
                 model.addAttribute("success", true);
                 model.addAttribute("msg", "成功重置密码");
@@ -399,13 +390,6 @@ public class UserController implements ApplicationContextAware {
 //        SecurityUtils.getSubject().logout();
 //        return "redirect:/login";
 //    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public void defaultErrorHandler(HttpServletRequest req, Exception ex) {
-        System.out.println("req.getMethod()=" + req.getMethod());
-        System.out.println("Exception Message=" + ex.getMessage());
-        ex.printStackTrace();
-    }
 
     // email规则
     private static final String EMAIL = "^[a-zA-Z0-9]+([_.]?[a-zA-Z0-9])*@([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]{2,3}$";

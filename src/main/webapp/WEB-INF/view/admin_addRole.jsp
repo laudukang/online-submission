@@ -36,7 +36,7 @@
                         </td>
                         <td colspan="3">
                             <input type="text" name="name" id="roleName" class="doc_text" value="${osRole.name}"
-                                   required/>
+                            ${osRole.name=='Administrator'or osRole.name=='Reviewer'?'disabled':''} required/>
                             <input type="text" name="id" value="${osRole.id}" hidden>
                         </td>
                     </tr>

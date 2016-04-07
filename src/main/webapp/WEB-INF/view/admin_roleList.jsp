@@ -64,7 +64,11 @@
             ],
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
-                $('td:eq(3)', nRow).html('<a href="${home}/admin/roleInfo/' + oData.id + '"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash"  data-id="' + oData.id + '"></i>');
+                $('td:eq(1)', nRow).html('<a href="${home}/admin/roleInfo/' + oData.id + '">' + oData.name + '</a>');
+                if (oData.name != 'Administrator' && oData.name != 'Reviewer')
+                    $('td:eq(3)', nRow).html('<a href="${home}/admin/roleInfo/' + oData.id + '"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a><i class="doc_icon icon-trash"  data-id="' + oData.id + '"></i>');
+                else
+                    $('td:eq(3)', nRow).html('<a href="${home}/admin/roleInfo/' + oData.id + '"><i class="doc_icon icon-edit" style="margin-right:0" data-id="' + oData.id + '"></i></a>');
                 return nRow;
             }
         }).show();
