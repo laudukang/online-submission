@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class LogEventListener implements ApplicationListener<LogEvent> {
 
     @Autowired
-    private ILogService logService;
+    private ILogService iLogService;
 
 
     @Override
@@ -26,6 +26,6 @@ public class LogEventListener implements ApplicationListener<LogEvent> {
         osLog.setContent(event.getContent());
         osLog.setUserOrAdminName(event.getUserOrAdminName());
         osLog.setIp(event.getIp());
-        logService.save(osLog);
+        iLogService.save(osLog);
     }
 }

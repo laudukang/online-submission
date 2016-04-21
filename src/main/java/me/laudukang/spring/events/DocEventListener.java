@@ -2,10 +2,7 @@ package me.laudukang.spring.events;
 
 import com.google.common.base.Strings;
 import me.laudukang.persistence.model.*;
-import me.laudukang.persistence.service.IAdminService;
-import me.laudukang.persistence.service.ICustomEmailService;
-import me.laudukang.persistence.service.IDocService;
-import me.laudukang.persistence.service.IMessageService;
+import me.laudukang.persistence.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -35,6 +32,8 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
     private IMessageService iMessageService;
     @Autowired
     private SimpleDateFormat simpleDateFormat;
+    @Autowired
+    private ILogService iLogService;
 
     private final String DOC_NEW_PUBLISH = "待审阅";
     private final String DOC_REVIEWING = "审阅中";
@@ -85,6 +84,17 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
             osDoc.setStatus(DOC_REVIEWING);
             iDocService.save(osDoc);
 
+            StringBuilder logContent = new StringBuilder("管理员[");
+            logContent.append(event.getAccount())
+                    .append("]派发了稿件[")
+                    .append(osDoc.getZhTitle())
+                    .append("]");
+            OsLog osLog = new OsLog();
+            osLog.setContent(logContent.toString());
+            osLog.setUserOrAdminName(event.getAccount());
+            osLog.setIp(event.getIp());
+            iLogService.save(osLog);
+
         } else if (event.getMailType().equalsIgnoreCase("reviewResult")) {
             StringBuilder subject = new StringBuilder("稿件[")
                     .append(osDoc.getZhTitle())
@@ -134,6 +144,17 @@ public class DocEventListener implements ApplicationListener<DocEvent> {
                 osDoc.setStatus(DOC_REVIEW_RETURN);
                 iDocService.save(osDoc);
             }
+
+            StringBuilder logContent = new StringBuilder("审稿员[");
+            logContent.append((!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()))
+                    .append("]审阅了稿件[")
+                    .append(osDoc.getZhTitle())
+                    .append("]");
+            OsLog osLog = new OsLog();
+            osLog.setContent(logContent.toString());
+            osLog.setUserOrAdminName(event.getAccount());
+            osLog.setIp(event.getIp());
+            iLogService.save(osLog);
         }
     }
 }

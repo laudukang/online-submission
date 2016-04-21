@@ -17,13 +17,14 @@ public class DocEvent extends ApplicationEvent {
     String account;
     String mailType;
     String url;
+    String ip;
 
     public DocEvent(Object source) {
         super(source);
     }
 
     public DocEvent(Object source, int docid, int adminid, String propose, String reviewResult,
-                    String account, String mailType, String url) {
+                    String account, String mailType, String url, String ip) {
         super(source);
         this.docid = docid;
         this.adminid = adminid;
@@ -32,6 +33,7 @@ public class DocEvent extends ApplicationEvent {
         this.account = account;
         this.mailType = mailType;
         this.url = url;
+        this.ip = ip;
     }
 
     public int getDocid() {
@@ -88,5 +90,13 @@ public class DocEvent extends ApplicationEvent {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }

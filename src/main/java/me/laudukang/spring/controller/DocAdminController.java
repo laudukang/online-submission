@@ -68,7 +68,7 @@ public class DocAdminController implements ApplicationContextAware {
             osDocAdmin.setReviewResult(DOC_REVIEWING);
             osDocAdminList.add(osDocAdmin);
 
-            applicationContext.publishEvent(new DocEvent(this, docid, adminid, "", "", account, "distribute", url.toString()));
+            applicationContext.publishEvent(new DocEvent(this, docid, adminid, "", "", account, "distribute", url.toString(), request.getRemoteHost()));
         }
         iDocAdminService.save(osDocAdminList);
         return MapUtil.getSaveMap();
@@ -90,7 +90,7 @@ public class DocAdminController implements ApplicationContextAware {
                 .append(request.getServerPort())
                 .append(request.getContextPath());
         String account = null != session.getAttribute("name") ? String.valueOf(session.getAttribute("name")) : "ADMIN";
-        applicationContext.publishEvent(new DocEvent(this, docid, adminid, propose, reviewResult, account, "reviewResult", url.toString()));
+        applicationContext.publishEvent(new DocEvent(this, docid, adminid, propose, reviewResult, account, "reviewResult", url.toString(), request.getRemoteHost()));
         return "redirect:/admin/reviewDocInfo/" + docid;
     }
 }
