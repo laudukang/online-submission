@@ -15,7 +15,7 @@
         </div>
         <shiro:hasRole name="user">
             <ul class="frame_main_nav_list">
-                <li><a href="${home}/docs">稿件查询</a></li>
+                <li><a href="${home}/docs">我的投稿</a></li>
                 <li><a href="${home}/newDoc">我要投稿</a></li>
             </ul>
         </shiro:hasRole>
@@ -33,7 +33,7 @@
         <%--<shiro:hasPermission name="USER:QUERY,USER:UPDATE,USER:DELETE,ADMIN:NEW,ADMIN:DELETE,ADMIN:QUERY,ADMIN:UPDATELOG:QUERY,ROLE:QUERY,ROLE:UPDATE">--%>
         <shiro:hasRole name="Administrator">
         <div class="frame_main_nav_title">
-            <strong>系统信息</strong>
+            <strong>系统中心</strong>
             <div class="frame_main_nav_title_Bg"></div>
         </div>
             <ul class="frame_main_nav_list">
@@ -61,7 +61,7 @@
             </ul>
         </shiro:hasRole>
         <div class="frame_main_nav_title">
-            <strong>系统中心</strong>
+            <strong>系统信息</strong>
             <div class="frame_main_nav_title_Bg"></div>
         </div>
         <shiro:hasRole name="user">

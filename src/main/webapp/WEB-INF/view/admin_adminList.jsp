@@ -89,19 +89,15 @@
             "fnRowCallback": function (nRow, oData, iDisplayIndex, iDisplayIndexFull) {
                 $('td:eq(0)', nRow).html(iDisplayIndex + 1);
                 $('td:eq(1)', nRow).html('<a href="${home}/admin/adminInfo/' + oData.id + '">' + oData.account + '</a>');
-                $('td:eq(7)', nRow).html('<i class="doc_icon icon-lock" title="禁用" data-id="' + oData.id + '"></i><i class="doc_icon icon-trash" title="删除" data-id="' + oData.id + '"></i>');
-                if (!oData.role) {
-                    $('td:eq(5)', nRow).html('<a href="${home}/admin/adminRoleInfo/' + oData.id + '?account=' + oData.account + '">暂无角色,点击添加</a> ');
-                } else {
-                    $('td:eq(5)', nRow).html('<a href="${home}/admin/adminRoleInfo/' + oData.id + '?account=' + oData.account + '">' + oData.role + '</a>');
-                }
+                $('td:eq(5)', nRow).html('<a href="${home}/admin/adminRoleInfo/' + oData.id + '?account=' + oData.account + '">' + oData.role + '</a>');
                 switch (oData.status) {
-                    case '0':
+                    case 0:
                         $('td:eq(6)', nRow).html('<span class="doc_remind_Red">禁用</span>');
                         $('td:eq(7)', nRow).html('<i class="doc_icon icon-unlock" title="解禁" data-id="' + oData.id + '"></i><i class="doc_icon icon-trash" title="删除" data-id="' + oData.id + '"></i>');
                         break;
-                    case '1':
+                    case 1:
                         $('td:eq(6)', nRow).html('正常');
+                        $('td:eq(7)', nRow).html('<i class="doc_icon icon-lock" title="禁用" data-id="' + oData.id + '"></i><i class="doc_icon icon-trash" title="删除" data-id="' + oData.id + '"></i>');
                         break;
                 }
                 return nRow;

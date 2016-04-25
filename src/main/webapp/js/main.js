@@ -386,6 +386,7 @@ doc.system.lockAdmin = function (id) {
 			remind: "禁用管理员/审稿员出错"
 		}
 	});
+	location.href = document.URL;
 };
 
 //解除禁用管理员或审稿员
@@ -400,6 +401,7 @@ doc.system.unlockAdmin = function (id) {
 			remind: "解除禁用出错"
 		}
 	});
+	location.href = document.URL;
 };
 
 doc.system.logDataTableEvent = function () {

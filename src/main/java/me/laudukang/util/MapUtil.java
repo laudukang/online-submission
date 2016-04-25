@@ -71,7 +71,7 @@ public class MapUtil {
 
     public static Map<String, Object> getAbleMap() {
         if (ableMap.isEmpty()) {
-            ableMap.put("success", false);
+            ableMap.put("success", true);
             ableMap.put("msg", "操作成功");
         }
         return ableMap;

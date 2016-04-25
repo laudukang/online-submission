@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 
 /**
  * <p>Created with IDEA
@@ -32,6 +33,7 @@ public class CustomEmailService implements ICustomEmailService {
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
             mimeMessageHelper.setTo(toAddress);
+            mimeMessageHelper.setSentDate(new Date());
             if (!Strings.isNullOrEmpty(subject))
                 mimeMessageHelper.setSubject(subject);
             if (!Strings.isNullOrEmpty(content))

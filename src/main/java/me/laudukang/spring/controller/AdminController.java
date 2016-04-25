@@ -204,17 +204,19 @@ public class AdminController implements ApplicationContextAware {
 
     @RequestMapping(value = "able", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> disable(@RequestParam("id") int id, @RequestParam("status") int status, HttpServletRequest request, HttpSession session) {
+    public Map<String, Object> ableAdmin(@RequestParam("id") int id, @RequestParam("status") int status, HttpServletRequest request, HttpSession session) {
         if (1 == id) {
             return MapUtil.getForbiddenOperationMap();
         }
-        String user = null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "admin";
+        String user = null != session.getAttribute("name") ? String.valueOf(session.getAttribute("name")) :
+                (null != session.getAttribute("account") ? String.valueOf(session.getAttribute("account")) : "Admin");
         OsAdmin osAdmin = iAdminService.findOne(id);
         StringBuilder stringBuilder = new StringBuilder("管理员[").append(user).append("]").append(status == 1 ? "启用了用户[" : "禁用了用户[").append(osAdmin.getId()).append("_")
                 .append(!Strings.isNullOrEmpty(osAdmin.getName()) ? osAdmin.getName() : osAdmin.getAccount()).append("]");
         applicationContext.publishEvent(new LogEvent(this, stringBuilder.toString(), user, request.getRemoteHost()));
-
-        iAdminService.ableAdmin(id, status);
+        osAdmin.setStatus(status);
+        iAdminService.save(osAdmin);
+        //iAdminService.ableAdmin(id, status);
         return MapUtil.getAbleMap();
     }
 
@@ -412,7 +414,7 @@ public class AdminController implements ApplicationContextAware {
             if (-1 != index) {
                 adminDomain.setRole(stringBuilder.substring(0, index));
             } else {
-                adminDomain.setRole("暂无权限,请先指定");
+                adminDomain.setRole("暂无角色,请先指定");
             }
             osAdminList.add(adminDomain);
         }

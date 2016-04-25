@@ -1,0 +1,7 @@
+# robots.txt
+User-agent: *
+Allow:/
+Disallow: /upload
+Disallow: /js
+Disallow: /css
+Disallow: /images

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +48,8 @@ public class UserController implements ApplicationContextAware {
     private IUserService iUserService;
     @Autowired
     SimpleDateFormat simpleDateFormat;
+    @Autowired
+    DateFormat dateFormat;
     private ApplicationContext applicationContext;
 
 
@@ -262,7 +265,7 @@ public class UserController implements ApplicationContextAware {
         StringBuilder sb = new StringBuilder(
                 "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
                 .append(userDomain.getAccount())
-                .append(",您好<br>感谢使用网络投稿系统<br>")
+                .append(",您好<br><br>感谢使用网络投稿系统，")
                 .append("<a href=\"")
                 .append(request.getScheme())
                 .append("://")
@@ -273,9 +276,9 @@ public class UserController implements ApplicationContextAware {
                 .append("/?time=")
                 .append(new Date().getTime())
                 .append("\">")
-                .append("点击这里登录系统</a><br>")
-                .append(simpleDateFormat.format(new Date()))
-                .append("<br>系统自动发送邮件，请勿回复</body></html>");
+                .append("点击这里登录系统</a><br><br>")
+                .append(dateFormat.format(new Date()))
+                .append("<br>------------------------------<br>系统自动发送邮件，请勿回复</body></html>");
         EmailEvent emailEvent = new EmailEvent(this, userDomain.getAccount(), "注册成功-网络投稿系统服务邮件", sb.toString());
         applicationContext.publishEvent(emailEvent);
 
@@ -323,7 +326,9 @@ public class UserController implements ApplicationContextAware {
             StringBuilder sb = new StringBuilder(
                     "<html><head><meta http-equiv='content-type' content='text/html; charset=GBK'></head><body>尊敬的")
                     .append(!Strings.isNullOrEmpty(osUser.getName()) ? osUser.getName() : osUser.getAccount())
-                    .append(",您好<br><b>温馨提示</b>：重置密码链接只能使用一次，24小时内有效<br>")
+                    .append(",您好<br><br>您于")
+                    .append(simpleDateFormat.format(new Date()))
+                    .append("提交了密码重置申请,如非本人操作请忽略该邮件,")
                     .append("<a href=\"")
                     .append(request.getScheme())
                     .append("://")
@@ -337,9 +342,10 @@ public class UserController implements ApplicationContextAware {
                     .append("&time=")
                     .append(new Date().getTime())
                     .append("\">")
-                    .append("点击这里进入重置密码页面,如非本人操作请忽略</a><br>")
-                    .append(simpleDateFormat.format(new Date()))
-                    .append("<br>系统自动发送邮件，请勿回复</body></html>");
+                    .append("点击这里进入重置密码页面</a><br>")
+                    .append("<br><b>温馨提示</b>：重置密码链接只能使用一次，24小时内有效<br><br>")
+                    .append(dateFormat.format(new Date()))
+                    .append("<br><br>------------------------------<br>系统自动发送邮件，请勿回复</body></html>");
 
             EmailEvent emailEvent = new EmailEvent(this, account, "重置密码申请-网络投稿系统服务邮件", sb.toString());
             applicationContext.publishEvent(emailEvent);

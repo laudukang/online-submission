@@ -27,7 +27,7 @@
                        placeholder="请确认新密码" required pattern="[\w]{6,16}"/>
             </li>
             <li class="resetPassword_item">
-                <input type="submit" class="doc_btn doc_btn_Blue" value="重置"/>
+                <input type="submit" class="doc_btn doc_btn_Blue" value="重置密码"/>
                 <span class="user_remind remind">${msg}</span>
             </li>
         </ul>
