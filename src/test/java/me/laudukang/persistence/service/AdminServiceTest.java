@@ -1,6 +1,7 @@
 package me.laudukang.persistence.service;
 
 import me.laudukang.persistence.model.OsAdmin;
+import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
 import me.laudukang.spring.domain.AdminDomain;
@@ -20,7 +21,9 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -63,6 +66,11 @@ public class AdminServiceTest {
         OsAdmin osAdmin = new OsAdmin();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         osAdmin.setAccount("lau_" + sdf.format(new Date()));
+
+        OsRole osRole = iAdminService.findReviewerRole();
+        List<OsRole> osRoleList = new ArrayList<>(1);
+        osRoleList.add(osRole);
+        osAdmin.setOsRoles(osRoleList);
         iAdminService.save(osAdmin);
     }
 
@@ -129,5 +137,17 @@ public class AdminServiceTest {
         Page<OsAdmin> osAdminPage = iAdminService.findAllReviewer(adminDomain);
         int size = osAdminPage.getContent().size();
         System.out.println(size);
+    }
+
+    @Test
+    public void updateAdminRole() {
+        OsAdmin osAdmin = iAdminService.findOne(2);
+        osAdmin.setOsRoles(null);
+        iAdminService.save(osAdmin);
+        OsRole osRole = iAdminService.findReviewerRole();
+        List<OsRole> osRoleList = new ArrayList<>(1);
+        osRoleList.add(osRole);
+        osAdmin.setOsRoles(osRoleList);
+        iAdminService.save(osAdmin);
     }
 }

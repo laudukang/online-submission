@@ -144,4 +144,21 @@ public class DocServiceTest {
         Page<OsDoc> tmp = iDocService.findByAdminId(docDomain);
         System.out.println(tmp.getContent().size());
     }
+
+    @Test
+    public void findDistributedDoc() {
+        DocDomain docDomain = new DocDomain();
+        docDomain.setId(1);
+        docDomain.setSortCol("id");
+        docDomain.setSortDir("ASC");
+        docDomain.setPage(1);
+        docDomain.setPageSize(10);
+        docDomain.setAdminid(1);
+        docDomain.setUserid(1);
+        docDomain.setPageSize(10);
+        docDomain.setName("杜");
+        docDomain.setZhTitle("gg");
+        Page<OsDoc> tmp = iDocService.findDistributedDoc(docDomain);
+        System.out.println(tmp.getContent().size());
+    }
 }

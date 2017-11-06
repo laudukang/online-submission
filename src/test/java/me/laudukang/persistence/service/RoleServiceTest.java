@@ -1,5 +1,6 @@
 package me.laudukang.persistence.service;
 
+import me.laudukang.persistence.model.OsPermission;
 import me.laudukang.persistence.model.OsRole;
 import me.laudukang.persistence.util.PrintUtil;
 import me.laudukang.spring.config.ApplicationConfig;
@@ -79,12 +80,19 @@ public class RoleServiceTest {
         int[] osPermissions = {2, 3};
         iRoleService.updateById(roleDomain, osPermissions);
     }
+
     @Test
-    public void findRoleByAdminId(){
-        List<OsRole> osRoleList=iRoleService.findRoleByAdminId(1);
-        if(null!=osRoleList)
-        System.out.println(osRoleList.size());
-        System.out.println(isNull);
+    public void findRoleByAdminId() {
+        List<OsRole> osRoleList = iRoleService.findRoleByAdminId(1);
+        if (null != osRoleList)
+            System.out.println(osRoleList.size());
+    }
+
+    @Test
+    public void findUnAssignPermission() {
+        List<OsPermission> osPermissionList = iRoleService.findUnAssignPermission();
+        System.out.println(osPermissionList.size());
+
     }
 
 }
