@@ -23,3 +23,8 @@
 - 信息检索
 - 系统日志
 - 在线支付（未实现）
+
+## 配置
+- src\main\resources\system.properties
+- src\main\resources\ehcache.xml
+- src\main\resources\persistence-mysql.properties, and config `hibernate.hbm2ddl.auto=update` in `persistence-mysql.properties` to init table
