@@ -14,5 +14,6 @@
 *.jar
 *.war
 *.ear
+.idea/**
 
-persistence-mysql.properties
+#persistence-mysql.properties
