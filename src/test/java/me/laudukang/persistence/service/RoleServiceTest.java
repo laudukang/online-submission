@@ -20,6 +20,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Created with IDEA
@@ -78,4 +79,12 @@ public class RoleServiceTest {
         int[] osPermissions = {2, 3};
         iRoleService.updateById(roleDomain, osPermissions);
     }
+    @Test
+    public void findRoleByAdminId(){
+        List<OsRole> osRoleList=iRoleService.findRoleByAdminId(1);
+        if(null!=osRoleList)
+        System.out.println(osRoleList.size());
+        System.out.println(isNull);
+    }
+
 }

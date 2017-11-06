@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false">
+
+    <diskStore path="D:\apache\online_submission\cache"/>
+
+    <defaultCache eternal="false" maxElementsInMemory="1000" maxEntriesLocalDisk="10000"
+                  overflowToDisk="true" diskPersistent="false" timeToIdleSeconds="300"
+                  timeToLiveSeconds="600" memoryStoreEvictionPolicy="LFU"/>
+
+    <cache name="shiro-activeSessionCache"
+           maxEntriesLocalHeap="1000"
+           maxElementsInMemory="1000"
+           overflowToDisk="false"
+           eternal="false"
+           diskPersistent="false"
+           timeToLiveSeconds="300"
+           timeToIdleSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           statistics="true"/>
+
+    <cache name="doc-cache"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="1000"
+           maxElementsInMemory="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="60" timeToLiveSeconds="120"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+
+    <cache name="doc-admin-cache"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="1000"
+           maxElementsInMemory="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="60" timeToLiveSeconds="120"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="admin-cache"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="1000"
+           maxElementsInMemory="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="user-cache"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="1000"
+           maxElementsInMemory="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+    <cache name="message-cache"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="1000"
+           maxElementsInMemory="1000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+
+    <cache name="log-cache"
+           maxEntriesLocalHeap="1000"
+           maxEntriesLocalDisk="1000"
+           maxElementsInMemory="5000"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="300" timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off">
+    </cache>
+
+</ehcache>
