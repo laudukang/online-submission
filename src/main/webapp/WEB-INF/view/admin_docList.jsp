@@ -180,7 +180,6 @@
                         break;
                     case "审阅中":
                         $('td:eq(6)', nRow).html('<span class="docList_status2">审阅中</span>');
-                        $('td:eq(7)', nRow).html('<i class="doc_icon icon-signout" title="派发" data-id="' + oData.id + '"></i>');
                         break;
                     case "退修稿":
                         $('td:eq(6)', nRow).html('<span class="docList_status3">退修稿</span>');

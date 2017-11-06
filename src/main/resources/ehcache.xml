@@ -4,6 +4,7 @@
          updateCheck="false">
 
     <diskStore path="D:\apache\online_submission\cache"/>
+    <!--<diskStore path="/work/onlinesubmission/cache"/>-->
 
     <defaultCache eternal="false" maxElementsInMemory="1000" maxEntriesLocalDisk="10000"
                   overflowToDisk="true" diskPersistent="false" timeToIdleSeconds="300"

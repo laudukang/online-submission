@@ -21,7 +21,7 @@ public class PrintUtil<T> {
         System.out.println("getNumberOfElements= " + result.getNumberOfElements());//当前切片大小
         System.out.println("   getTotalElements= " + result.getTotalElements());//查询结果总数
         System.out.println("      getTotalPages= " + result.getTotalPages());//总页数
-        System.out.println("            getSize= " + result.getSize());//pageSzie
+        System.out.println("            getSize= " + result.getSize());//pageSize
         System.out.println("================= info ==================\n");
         //for (T entity : result.getContent()) {
         //    System.out.println(entity);
