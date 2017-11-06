@@ -16,4 +16,5 @@
 *.ear
 .idea/**
 
+*.iml
 #persistence-mysql.properties
