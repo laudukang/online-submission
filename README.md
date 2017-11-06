@@ -13,6 +13,7 @@
 - JDK 1.7+
 - Maven
 - Tomcat 8
+- MySQL 5.7
 
 ## 功能列表
 - 多用户
